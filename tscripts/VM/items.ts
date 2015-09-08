@@ -10,11 +10,16 @@ module Kanai {
             Armor: KnockoutObservableArray<KnockoutObservable<Equipment>>;
             hideCubed: KnockoutObservable<boolean>;
 
+            ArmorCubedCount: KnockoutComputed<number>;
+            WeaponCubedCount: KnockoutComputed<number>;
+            JeweleryCubedCount: KnockoutComputed<number>;
+
             AllWeapons: Equipment[];
             AllJewelery: Equipment[];
             AllArmor: Equipment[];
 
             constructor() {
+                var self = this;
                 this.Weapons = ko.observableArray<KnockoutObservable<Equipment>>();
                 this.Jewelery = ko.observableArray<KnockoutObservable<Equipment>>();
                 this.Armor = ko.observableArray<KnockoutObservable<Equipment>>();
@@ -22,6 +27,24 @@ module Kanai {
                 this.AllWeapons = new Array<Equipment>();
                 this.AllJewelery = new Array<Equipment>();
                 this.AllArmor = new Array<Equipment>();
+
+                this.ArmorCubedCount = ko.computed(() => {
+                    return ko.utils.arrayFilter(self.Armor(), function (item:Equipment) {
+                        return item.isCubedSeason() == true;
+                    }).length;
+                });
+
+                this.WeaponCubedCount = ko.computed(() => {
+                    return ko.utils.arrayFilter(self.Weapons(), function (item: Equipment) {
+                        return item.isCubedSeason() == true;
+                    }).length;
+                });
+
+                this.JeweleryCubedCount = ko.computed(() => {
+                    return ko.utils.arrayFilter(self.Jewelery(), function (item: Equipment) {
+                        return item.isCubedSeason() == true;
+                    }).length;
+                });
             }
             clear() {
                 this.Weapons([]);

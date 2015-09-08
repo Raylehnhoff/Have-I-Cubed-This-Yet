@@ -36,6 +36,15 @@
                     <input type="checkbox" data-bind="bootstrapSwitchOn: hideCubed" />
                     <span id="refreshGrid" class="pull-right cursor-finger" title="Refresh"><i class="glyphicon glyphicon-refresh"></i> Refresh from Site</span>
                 </div>
+                <div>
+                    <h4>Seasonal Stats:</h4>
+                    <ul>
+                        <li data-bind="text:'Armor: ' + ArmorCubedCount()"></li>
+                        <li data-bind="text:'Weapon: ' + WeaponCubedCount()"></li>
+                        <li data-bind="text:'Jewelery: ' + JeweleryCubedCount()"></li>
+                        <li data-bind="text:'Total: ' + (JeweleryCubedCount() + WeaponCubedCount() + ArmorCubedCount())"></li>
+                    </ul>
+                </div>
                 <div class="tabbable" id="tabs-377221">
                     <ul class="nav nav-tabs">
                         <li class="active">

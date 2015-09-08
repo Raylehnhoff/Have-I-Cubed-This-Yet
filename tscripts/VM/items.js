@@ -8,6 +8,7 @@ var Kanai;
     (function (VM) {
         var Site = (function () {
             function Site() {
+                var self = this;
                 this.Weapons = ko.observableArray();
                 this.Jewelery = ko.observableArray();
                 this.Armor = ko.observableArray();
@@ -15,6 +16,21 @@ var Kanai;
                 this.AllWeapons = new Array();
                 this.AllJewelery = new Array();
                 this.AllArmor = new Array();
+                this.ArmorCubedCount = ko.computed(function () {
+                    return ko.utils.arrayFilter(self.Armor(), function (item) {
+                        return item.isCubedSeason() == true;
+                    }).length;
+                });
+                this.WeaponCubedCount = ko.computed(function () {
+                    return ko.utils.arrayFilter(self.Weapons(), function (item) {
+                        return item.isCubedSeason() == true;
+                    }).length;
+                });
+                this.JeweleryCubedCount = ko.computed(function () {
+                    return ko.utils.arrayFilter(self.Jewelery(), function (item) {
+                        return item.isCubedSeason() == true;
+                    }).length;
+                });
             }
             Site.prototype.clear = function () {
                 this.Weapons([]);
