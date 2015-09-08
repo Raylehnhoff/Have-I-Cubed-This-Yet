@@ -55,7 +55,7 @@ module Kanai {
                         elem().isCubedNonSeason.subscribe((newValue) => {
                             self.saveToLocalStorage();
                         });
-                        elem().isStached.subscribe((newValue) => {
+                        elem().isStashed.subscribe((newValue) => {
                             self.saveToLocalStorage();
                         });
                     });
@@ -67,7 +67,7 @@ module Kanai {
                         elem().isCubedNonSeason.subscribe((newValue) => {
                             self.saveToLocalStorage();
                         });
-                        elem().isStached.subscribe((newValue) => {
+                        elem().isStashed.subscribe((newValue) => {
                             self.saveToLocalStorage();
                         });
                     });
@@ -79,7 +79,7 @@ module Kanai {
                         elem().isCubedNonSeason.subscribe((newValue) => {
                             self.saveToLocalStorage();
                         });
-                        elem().isStached.subscribe((newValue) => {
+                        elem().isStashed.subscribe((newValue) => {
                             self.saveToLocalStorage();
                         });
                     });
@@ -93,7 +93,7 @@ module Kanai {
                         elem.isCubedNonSeason.subscribe((newValue) => {
                             self.saveToLocalStorage();
                         });
-                        elem.isStached.subscribe((newValue) => {
+                        elem.isStashed.subscribe((newValue) => {
                             self.saveToLocalStorage();
                         });
                     });
@@ -105,7 +105,7 @@ module Kanai {
                         elem.isCubedNonSeason.subscribe((newValue) => {
                             self.saveToLocalStorage();
                         });
-                        elem.isStached.subscribe((newValue) => {
+                        elem.isStashed.subscribe((newValue) => {
                             self.saveToLocalStorage();
                         });
                     });
@@ -117,7 +117,7 @@ module Kanai {
                         elem.isCubedNonSeason.subscribe((newValue) => {
                             self.saveToLocalStorage();
                         });
-                        elem.isStached.subscribe((newValue) => {
+                        elem.isStashed.subscribe((newValue) => {
                             self.saveToLocalStorage();
                         });
                     });

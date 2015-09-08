@@ -5,7 +5,7 @@ module Kanai {
         restriction: Kanai.Enums.Restrictions[];
         isCubedSeason: KnockoutObservable<boolean>;
         isCubedNonSeason: KnockoutObservable<boolean>;
-        isStached: KnockoutObservable<boolean>;
+        isStashed: KnockoutObservable<boolean>;
         slot: Kanai.Enums.Slots;
         affix: string;
         constructor(itemName:string, affix:string) {
@@ -13,7 +13,7 @@ module Kanai {
             this.affix = affix;
             this.isCubedSeason = ko.observable(false);
             this.isCubedNonSeason = ko.observable(false);
-            this.isStached = ko.observable(false);
+            this.isStashed = ko.observable(false);
         }
     }
 }

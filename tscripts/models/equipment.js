@@ -7,7 +7,7 @@ var Kanai;
             this.affix = affix;
             this.isCubedSeason = ko.observable(false);
             this.isCubedNonSeason = ko.observable(false);
-            this.isStached = ko.observable(false);
+            this.isStashed = ko.observable(false);
         }
         return Equipment;
     })();

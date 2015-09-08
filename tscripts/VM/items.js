@@ -46,7 +46,7 @@ var Kanai;
                         elem().isCubedNonSeason.subscribe(function (newValue) {
                             self.saveToLocalStorage();
                         });
-                        elem().isStached.subscribe(function (newValue) {
+                        elem().isStashed.subscribe(function (newValue) {
                             self.saveToLocalStorage();
                         });
                     });
@@ -57,7 +57,7 @@ var Kanai;
                         elem().isCubedNonSeason.subscribe(function (newValue) {
                             self.saveToLocalStorage();
                         });
-                        elem().isStached.subscribe(function (newValue) {
+                        elem().isStashed.subscribe(function (newValue) {
                             self.saveToLocalStorage();
                         });
                     });
@@ -68,7 +68,7 @@ var Kanai;
                         elem().isCubedNonSeason.subscribe(function (newValue) {
                             self.saveToLocalStorage();
                         });
-                        elem().isStached.subscribe(function (newValue) {
+                        elem().isStashed.subscribe(function (newValue) {
                             self.saveToLocalStorage();
                         });
                     });
@@ -83,7 +83,7 @@ var Kanai;
                         elem.isCubedNonSeason.subscribe(function (newValue) {
                             self.saveToLocalStorage();
                         });
-                        elem.isStached.subscribe(function (newValue) {
+                        elem.isStashed.subscribe(function (newValue) {
                             self.saveToLocalStorage();
                         });
                     });
@@ -94,7 +94,7 @@ var Kanai;
                         elem.isCubedNonSeason.subscribe(function (newValue) {
                             self.saveToLocalStorage();
                         });
-                        elem.isStached.subscribe(function (newValue) {
+                        elem.isStashed.subscribe(function (newValue) {
                             self.saveToLocalStorage();
                         });
                     });
@@ -105,7 +105,7 @@ var Kanai;
                         elem.isCubedNonSeason.subscribe(function (newValue) {
                             self.saveToLocalStorage();
                         });
-                        elem.isStached.subscribe(function (newValue) {
+                        elem.isStashed.subscribe(function (newValue) {
                             self.saveToLocalStorage();
                         });
                     });
