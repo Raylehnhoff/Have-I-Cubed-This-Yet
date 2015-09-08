@@ -1,0 +1,171 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Have I Cubed This Yet?</title>
+    <script type="text/javascript" src="scripts/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="scripts/knockout-3.3.0.js"></script>
+    <script type="text/javascript" src="scripts/knockout.mapping-latest.js"></script>
+    <script type="text/javascript" src="scripts/knockout.persist.js"></script>
+    <script type="text/javascript" src="scripts/bootstrap/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="scripts/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/2.0.0/css/bootstrap-switch.min.css" />
+    <script type="text/javascript" src="tscripts/models/equipment.js"></script>
+    <script type="text/javascript" src="tscripts/models/restrictions.js"></script>
+    <script type="text/javascript" src="tscripts/models/slots.js"></script>
+    <script type="text/javascript" src="tscripts/VM/items.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/2.0.0/js/bootstrap-switch.min.js"></script>
+    <style>
+        .cursor-finger {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12" id="page">
+                <div>
+                    <p>
+                        <strong>Please read:</strong> This site makes use of <a href="http://www.html5rocks.com/en/features/storage">HTML5 localstorage</a> to store your information. This information is never sent to a server, and will only
+                        persist on the device that you set this up on.
+                    </p>
+                    <p>
+                        If you notice a problem with this site, please reach out to <a href="http://www.reddit.com/message/compose/?to=smdaegan">/u/smdaegan</a> on reddit
+                    </p>
+                    Hide cubed:
+                    <input type="checkbox" data-bind="bootstrapSwitchOn: hideCubed" />
+                    <span id="refreshGrid" class="pull-right cursor-finger" title="Refresh"><i class="glyphicon glyphicon-refresh"></i> Refresh from Site</span>
+                </div>
+                <div class="tabbable" id="tabs-377221">
+                    <ul class="nav nav-tabs">
+                        <li class="active">
+                            <a href="#panel-armor" data-toggle="tab">Armor</a>
+                        </li>
+                        <li>
+                            <a href="#panel-weapons" data-toggle="tab">Weapons</a>
+                        </li>
+                        <li>
+                            <a href="#panel-jewelery" data-toggle="tab">Jewelery</a>
+                        </li>
+
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="panel-armor">
+                            <table class="table table-responsive">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Cubed - Seasonal</th>
+                                        <th>Cubed - Non-Seasonal</th>
+                                        <th>Stached</th>
+                                        <th>Affix</th>
+                                    </tr>
+                                </thead>
+                                <tbody data-bind="template: {name: 'item-template', foreach:Armor}"></tbody>
+                            </table>
+
+                        </div>
+                        <div class="tab-pane" id="panel-weapons">
+                            <table class="table table-responsive">
+                                <thead>
+                                    <tr>
+                                        <td>Name</td>
+                                        <th>Cubed - Seasonal</th>
+                                        <th>Cubed - Non-Seasonal</th>
+                                        <td>Stached</td>
+                                        <td>Affix</td>
+                                    </tr>
+                                </thead>
+                                <tbody data-bind="template: {name: 'item-template', foreach:Weapons}"></tbody>
+                            </table>
+
+                        </div>
+                        <div class="tab-pane" id="panel-jewelery">
+                            <table class="table table-responsive">
+                                <thead>
+                                    <tr>
+                                        <td>Name</td>
+                                        <td>Cubed - Seasonal</td>
+                                        <td>Cubed - Non-Seasonal</td>
+                                        <td>Stached</td>
+                                        <td>Affix</td>
+                                    </tr>
+                                </thead>
+                                <tbody data-bind="template: {name: 'item-template', foreach:Jewelery}"></tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/html" id="item-template">
+        <tr data-bind="css: {hidden: pageViewModel.hideCubed() && isCubed()}">
+            <td>
+                <span data-bind="text:itemName"></span>
+            </td>
+            <td>
+                <input type="checkbox" data-bind="checked:isCubedSeason" />
+            </td>
+            <td>
+                <input type="checkbox" data-bind="checked:isCubedNonSeason" />
+            </td>
+            <td>
+                <input type="checkbox" data-bind="checked:isStached" />
+            </td>
+            <td>
+                <span data-bind="text:affix"></span>
+            </td>
+        </tr>
+    </script>
+    <script type="text/javascript">
+        var pageViewModel;
+
+        /**
+ * Knockout binding handler for bootstrapSwitch indicating the status
+ * of the switch (on/off): https://github.com/nostalgiaz/bootstrap-switch
+ */
+        ko.bindingHandlers.bootstrapSwitchOn = {
+            init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
+                $elem = $(element);
+                $(element).bootstrapSwitch();
+                $(element).bootstrapSwitch('setState', ko.utils.unwrapObservable(valueAccessor())); // Set intial state
+                $elem.on('switch-change', function (e, data) {
+                    valueAccessor()(data.value);
+                }); // Update the model when changed.
+            },
+            update: function (element, valueAccessor, allBindingsAccessor, viewModel) {
+                var vStatus = $(element).bootstrapSwitch('state');
+                var vmStatus = ko.utils.unwrapObservable(valueAccessor());
+                if (vStatus != vmStatus) {
+                    $(element).bootstrapSwitch('setState', vmStatus);
+                }
+            }
+        };
+
+        $(document).ready(function () {
+            pageViewModel = new Kanai.VM.Site();
+            pageViewModel.init();
+            ko.applyBindings(pageViewModel, $("#page")[0]);
+            $("#refreshGrid").on('click', function() {
+                if (confirm("This option will remove all data in local storage (including your selections) and refresh the grid. Are you sure you want to do this?")) {
+                    localStorage.removeItem("kanai_cube");
+                    pageViewModel.clear();
+                    pageViewModel.init();
+                }
+            });
+        });
+        <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-67298813-1', 'auto');
+        ga('send', 'pageview');
+
+        </script>
+    </script>
+</body>
+</html>
