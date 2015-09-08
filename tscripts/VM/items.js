@@ -344,6 +344,8 @@ var Kanai;
                 target.push(ko.observable(new Kanai.Equipment("Meticulous Bolts", "Elemental Arrow - Ball Lightning now travels at 40% speed.")));
                 target.push(ko.observable(new Kanai.Equipment("Spines of Seething Hatred", "Chakram now generates 4 Hatred.")));
                 target.push(ko.observable(new Kanai.Equipment("The Ninth Cirri Satchel", "Hungering Arrow has 25% additional chance to pierce.")));
+                target.push(ko.observable(new Kanai.Equipment("SuWong Diviner", "Acid Cloud gains the effect of the Lob Blob Bomb rune.")));
+                target.push(ko.observable(new Kanai.Equipment("Scrimshaw", "Reduces the Mana cost of Zombie Charger by 50%.")));
             };
             Site.prototype.loadJewelery = function (target) {
                 target.push(ko.observable(new Kanai.Equipment("Countess Julia's Cameo", "Prevent all Arcane damage taken and heal yourself for 25% of the amount prevented.")));
