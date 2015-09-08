@@ -8,6 +8,7 @@ var Kanai;
     (function (VM) {
         var Site = (function () {
             function Site() {
+                var self = this;
                 this.Weapons = ko.observableArray();
                 this.Jewelery = ko.observableArray();
                 this.Armor = ko.observableArray();
@@ -110,6 +111,30 @@ var Kanai;
                         });
                     });
                 }
+                this.ArmorCubedCount = ko.computed(function () {
+                    if (self.Armor().length > 0) {
+                        return ko.utils.arrayFilter(self.Armor(), function (item) {
+                            var elem = ko.unwrap(item);
+                            return elem.isCubedSeason();
+                        }).length;
+                    }
+                });
+                this.WeaponCubedCount = ko.computed(function () {
+                    if (self.Weapons().length > 0) {
+                        return ko.utils.arrayFilter(self.Weapons(), function (item) {
+                            var elem = ko.unwrap(item);
+                            return elem.isCubedSeason();
+                        }).length;
+                    }
+                });
+                this.JeweleryCubedCount = ko.computed(function () {
+                    if (self.Jewelery().length > 0) {
+                        return ko.utils.arrayFilter(self.Jewelery(), function (item) {
+                            var elem = ko.unwrap(item);
+                            return elem.isCubedSeason();
+                        }).length;
+                    }
+                });
             };
             Site.prototype.saveToLocalStorage = function () {
                 localStorage.setItem("kanai_cube", ko.mapping.toJSON(this));

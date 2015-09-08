@@ -10,11 +10,16 @@ module Kanai {
             Armor: KnockoutObservableArray<KnockoutObservable<Equipment>>;
             hideCubed: KnockoutObservable<boolean>;
 
+            ArmorCubedCount: KnockoutComputed<number>;
+            WeaponCubedCount: KnockoutComputed<number>;
+            JeweleryCubedCount: KnockoutComputed<number>;
+
             AllWeapons: Equipment[];
             AllJewelery: Equipment[];
             AllArmor: Equipment[];
 
             constructor() {
+                var self = this;
                 this.Weapons = ko.observableArray<KnockoutObservable<Equipment>>();
                 this.Jewelery = ko.observableArray<KnockoutObservable<Equipment>>();
                 this.Armor = ko.observableArray<KnockoutObservable<Equipment>>();
@@ -22,6 +27,7 @@ module Kanai {
                 this.AllWeapons = new Array<Equipment>();
                 this.AllJewelery = new Array<Equipment>();
                 this.AllArmor = new Array<Equipment>();
+
             }
             clear() {
                 this.Weapons([]);
@@ -124,6 +130,32 @@ module Kanai {
                 }
                 
 
+                this.ArmorCubedCount = ko.computed(() => {
+                    if (self.Armor().length > 0) {
+                        return ko.utils.arrayFilter(self.Armor(), function (item: Equipment) {
+                            var elem = ko.unwrap(item);
+                            return elem.isCubedSeason();
+                        }).length;
+                    }
+                });
+
+                this.WeaponCubedCount = ko.computed(() => {
+                    if (self.Weapons().length > 0) {
+                        return ko.utils.arrayFilter(self.Weapons(), function (item: Equipment) {
+                            var elem = ko.unwrap(item);
+                            return elem.isCubedSeason();
+                        }).length;
+                    }
+                });
+
+                this.JeweleryCubedCount = ko.computed(() => {
+                    if (self.Jewelery().length > 0) {
+                        return ko.utils.arrayFilter(self.Jewelery(), function (item: Equipment) {
+                            var elem = ko.unwrap(item);
+                            return elem.isCubedSeason();
+                        }).length;
+                    }
+                });
             }
 
             saveToLocalStorage() {

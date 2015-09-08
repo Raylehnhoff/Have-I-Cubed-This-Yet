@@ -36,6 +36,21 @@
                     <input type="checkbox" data-bind="bootstrapSwitchOn: hideCubed" />
                     <span id="refreshGrid" class="pull-right cursor-finger" title="Refresh"><i class="glyphicon glyphicon-refresh"></i> Refresh from Site</span>
                 </div>
+                <div>
+                    <h4>Seasonal Stats:</h4>
+                    <ul>
+                        <li>
+                            <span>Armor: </span><span data-bind="text: ArmorCubedCount()"></span>
+                        </li>
+                        <li>
+                            <span>Weapon: </span><span data-bind="text: WeaponCubedCount()"></span>
+                        </li>
+                        <li>
+                            <span>Jewelery: </span><span data-bind="text: JeweleryCubedCount()"></span>
+                        </li>
+                        <li data-bind="text:'Total: ' + (JeweleryCubedCount() + WeaponCubedCount() + ArmorCubedCount())"></li>
+                    </ul>
+                </div>
                 <div class="tabbable" id="tabs-377221">
                     <ul class="nav nav-tabs">
                         <li class="active">
@@ -148,7 +163,7 @@
             pageViewModel = new Kanai.VM.Site();
             pageViewModel.init();
             ko.applyBindings(pageViewModel, $("#page")[0]);
-            $("#refreshGrid").on('click', function() {
+            $("#refreshGrid").on('click', function () {
                 if (confirm("This option will remove all data in local storage (including your selections) and refresh the grid. Are you sure you want to do this?")) {
                     localStorage.removeItem("kanai_cube");
                     pageViewModel.clear();
@@ -156,18 +171,18 @@
                 }
             });
         });
-       
+
     </script>
     <script>
-    (function (i, s, o, g, r, a, m) {
-        i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
-            (i[r].q = i[r].q || []).push(arguments)
-        }, i[r].l = 1 * new Date(); a = s.createElement(o),
-        m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
-    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date(); a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
 
-    ga('create', 'UA-67298813-1', 'auto');
-    ga('send', 'pageview');
+        ga('create', 'UA-67298813-1', 'auto');
+        ga('send', 'pageview');
 
     </script>
 </body>
