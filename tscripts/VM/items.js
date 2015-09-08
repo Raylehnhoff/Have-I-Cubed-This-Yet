@@ -13,6 +13,7 @@ var Kanai;
                 this.Jewelery = ko.observableArray();
                 this.Armor = ko.observableArray();
                 this.hideCubed = ko.observable(false);
+                this.hideCubedNonSeason = ko.observable(false);
                 this.AllWeapons = new Array();
                 this.AllJewelery = new Array();
                 this.AllArmor = new Array();
@@ -147,55 +148,52 @@ var Kanai;
                 this.loadWeapons(this.AllWeapons);
                 this.loadJewelery(this.AllJewelery);
                 this.loadArmor(this.AllArmor);
-                if ((this.AllWeapons.length != this.Weapons().length)
-                    || (this.AllArmor.length != this.Armor().length)
-                    || (this.AllJewelery.length != this.Jewelery().length)) {
-                    if (this.AllArmor.length != this.Armor().length) {
-                        for (var i = 0; i < self.AllArmor.length; i++) {
-                            var searchName = self.AllArmor[i]().itemName();
-                            var find = ko.utils.arrayFirst(self.Armor(), function (item) {
-                                return item.itemName() === searchName;
-                            });
-                            if (find == null) {
-                                self.Armor.push(ko.mapping.fromJS(self.AllArmor[i])());
-                            }
-                            self.Armor.sort(function (left, right) {
-                                return left.itemName() == right.itemName() ? 0 : (left.itemName() < right.itemName() ? -1 : 1);
-                            });
-                            self.saveToLocalStorage();
-                        }
+                for (var i = 0; i < self.AllArmor.length; i++) {
+                    var searchName = self.AllArmor[i]().itemName();
+                    var find = ko.utils.arrayFirst(self.Armor(), function (item) {
+                        return item.itemName() === searchName;
+                    });
+                    if (find == null) {
+                        self.Armor.push(ko.mapping.fromJS(self.AllArmor[i])());
                     }
-                    if (this.AllWeapons.length != this.Weapons().length) {
-                        for (var i = 0; i < self.AllWeapons.length; i++) {
-                            var searchName = self.AllWeapons[i]().itemName();
-                            var find = ko.utils.arrayFirst(self.Weapons(), function (item) {
-                                return item.itemName() === searchName;
-                            });
-                            if (find == null) {
-                                self.Weapons.push(ko.mapping.fromJS(self.AllWeapons[i])());
-                            }
-                            self.Weapons.sort(function (left, right) {
-                                return left.itemName() == right.itemName() ? 0 : (left.itemName() < right.itemName() ? -1 : 1);
-                            });
-                            self.saveToLocalStorage();
-                        }
+                    else {
+                        find.affix = self.AllArmor[i]().affix;
                     }
-                    if (this.AllJewelery.length != this.Jewelery().length) {
-                        for (var i = 0; i < self.AllJewelery.length; i++) {
-                            var searchName = self.AllJewelery[i]().itemName();
-                            var find = ko.utils.arrayFirst(self.Jewelery(), function (item) {
-                                return item.itemName() === searchName;
-                            });
-                            if (find == null) {
-                                self.Jewelery.push(ko.mapping.fromJS(self.AllJewelery[i])());
-                            }
-                            self.Jewelery.sort(function (left, right) {
-                                return left.itemName() == right.itemName() ? 0 : (left.itemName() < right.itemName() ? -1 : 1);
-                            });
-                            self.saveToLocalStorage();
-                        }
-                    }
+                    self.Armor.sort(function (left, right) {
+                        return left.itemName() == right.itemName() ? 0 : (left.itemName() < right.itemName() ? -1 : 1);
+                    });
                 }
+                for (var i = 0; i < self.AllWeapons.length; i++) {
+                    var searchName = self.AllWeapons[i]().itemName();
+                    var find = ko.utils.arrayFirst(self.Weapons(), function (item) {
+                        return item.itemName() === searchName;
+                    });
+                    if (find == null) {
+                        self.Weapons.push(ko.mapping.fromJS(self.AllWeapons[i])());
+                    }
+                    else {
+                        find.affix = self.AllWeapons[i]().affix;
+                    }
+                    self.Weapons.sort(function (left, right) {
+                        return left.itemName() == right.itemName() ? 0 : (left.itemName() < right.itemName() ? -1 : 1);
+                    });
+                }
+                for (var i = 0; i < self.AllJewelery.length; i++) {
+                    var searchName = self.AllJewelery[i]().itemName();
+                    var find = ko.utils.arrayFirst(self.Jewelery(), function (item) {
+                        return item.itemName() === searchName;
+                    });
+                    if (find == null) {
+                        self.Jewelery.push(ko.mapping.fromJS(self.AllJewelery[i])());
+                    }
+                    else {
+                        find.affix = self.AllJewelery[i]().affix;
+                    }
+                    self.Jewelery.sort(function (left, right) {
+                        return left.itemName() == right.itemName() ? 0 : (left.itemName() < right.itemName() ? -1 : 1);
+                    });
+                }
+                self.saveToLocalStorage();
             };
             Site.prototype.loadFromLocalStorage = function (vm) {
                 this.Armor = vm.Armor;
@@ -431,7 +429,7 @@ var Kanai;
                 target.push(ko.observable(new Kanai.Equipment("The Cloak of the Garwulf", "Companion - Wolf Companion now summons 3 wolves.")));
                 target.push(ko.observable(new Kanai.Equipment("Ancient Parthan Defenders", "Each stunned enemy within 25 yards reduces your damage taken by 12%.")));
                 target.push(ko.observable(new Kanai.Equipment("Bracers of Destruction", "Seismic Slam deals 400% increased damage to the first two enemies it hits.")));
-                target.push(ko.observable(new Kanai.Equipment("Bracers of the First Men", "When Hammer of the Ancients hits an enemy, gain 100% increased Attack Speed for 4second")));
+                target.push(ko.observable(new Kanai.Equipment("Bracers of the First Men", "Hammer of the Ancients attacks 50% faster and deals 200% increased damage.")));
                 target.push(ko.observable(new Kanai.Equipment("Coils of the First Spider", "While channeling Firebats, gain 80,000 Life per Hit.")));
                 target.push(ko.observable(new Kanai.Equipment("Custerian Wristguards", "Picking up gold grants experience.")));
                 target.push(ko.observable(new Kanai.Equipment("Drakon's Lesson", "When your Shield Bash hits 3 or less enemies, its damage is increased by 200% and 25% of its Wrath Cost is refunded.")));
@@ -493,6 +491,7 @@ var Kanai;
                 target.push(ko.observable(new Kanai.Equipment("Lut Socks", "Leap can be cast again within 2 seconds before the cooldown begins.")));
                 target.push(ko.observable(new Kanai.Equipment("Nilfur's Boast", "Increase the damage of Meteor by 100%. When your Meteor hits 3 or less enemies, the damage is increased by 200%.")));
                 target.push(ko.observable(new Kanai.Equipment("The Crudest Boots", "Mystic Ally summons two Mystic Allies that fight by your side.")));
+                target.push(ko.observable(new Kanai.Equipment("Dread Iron", "Ground Stomp causes an Avalanche.")));
             };
             return Site;
         })();
