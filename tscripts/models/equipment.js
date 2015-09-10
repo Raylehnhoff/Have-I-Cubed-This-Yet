@@ -1,4 +1,6 @@
 /// <reference path="../knockout.d.ts"/>
+/// <reference path="../models/slots.ts"/>
+/// <reference path="restrictions.ts"/>
 var Kanai;
 (function (Kanai) {
     var Equipment = (function () {

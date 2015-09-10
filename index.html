@@ -18,6 +18,22 @@
         .cursor-finger {
             cursor: pointer;
         }
+        dl {
+            clear: both;
+            display: inline-block;
+        }
+        dt {
+            width: 200px;
+            float: left;
+            clear: left;
+        }
+        dd {
+            float: left;
+            clear: right;
+        }
+        .progress-bar {
+            min-width: 2em;
+        }
     </style>
 </head>
 <body>
@@ -32,23 +48,36 @@
                     <p>
                         If you notice a problem with this site, please reach out to <a href="http://www.reddit.com/message/compose/?to=smdaegan">/u/smdaegan</a> on reddit
                     </p>
-                    Hide Cubed (seasonal):
-                    <input type="checkbox" data-bind="bootstrapSwitchOn: hideCubed" />
+                    <dl>
+                        <dt>
+                            Hide Cubed (seasonal):
+                        </dt>
+                        <dd>
+                            <input type="checkbox" data-bind="bootstrapSwitchOn: hideCubed" />
+                        </dd>
+                        <dt>
+                            Hide Cubed (non-seasonal):
+                        </dt>
+                        <dd>
+                            <input type="checkbox" data-bind="bootstrapSwitchOn: hideCubedNonSeason" />
+                        </dd>
+                    </dl>
+
                     <span id="refreshGrid" class="pull-right cursor-finger" title="Refresh"><i class="glyphicon glyphicon-refresh"></i> Refresh from Site</span>
                 </div>
-                <div>
-                    <h4>Seasonal Stats:</h4>
+                <div class="clearfix">
+                    <h4>Seasonal Progress</h4>
                     <ul>
                         <li>
-                            <span>Armor: </span><span data-bind="text: ArmorCubedCount()"></span>
+                            <span>Armor: </span><span data-bind="text: ArmorCubedCount() + ' (of ' + AllArmor.length +')'"></span>
                         </li>
                         <li>
-                            <span>Weapon: </span><span data-bind="text: WeaponCubedCount()"></span>
+                            <span>Weapon: </span><span data-bind="text: WeaponCubedCount() + ' (of ' + AllWeapons.length + ')'"></span>
                         </li>
                         <li>
-                            <span>Jewelery: </span><span data-bind="text: JeweleryCubedCount()"></span>
+                            <span>Jewelery: </span><span data-bind="text: JeweleryCubedCount() + ' (of ' + AllJewelery.length + ')'"></span>
                         </li>
-                        <li data-bind="text:'Total: ' + (JeweleryCubedCount() + WeaponCubedCount() + ArmorCubedCount())"></li>
+                        <li data-bind="text:'Total: ' + (JeweleryCubedCount() + WeaponCubedCount() + ArmorCubedCount()) + ' (of ' + (AllArmor.length + AllWeapons.length + AllJewelery.length) +')'"></li>
                     </ul>
                 </div>
                 <div class="tabbable" id="tabs-377221">
@@ -66,6 +95,20 @@
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane active" id="panel-armor">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="progress">
+                                                <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100"
+                                                     data-bind="style: {width: ((ArmorCubedCount() / AllArmor.length) * 100).toFixed(2) + '%'}">
+                                                    <span data-bind="text: parseInt(((ArmorCubedCount() / AllArmor.length) * 100),10) + '%'"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <table class="table table-responsive">
                                 <thead>
                                     <tr>
@@ -81,6 +124,20 @@
 
                         </div>
                         <div class="tab-pane" id="panel-weapons">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="progress">
+                                                <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100"
+                                                     data-bind="style: {width: ((WeaponCubedCount() / AllWeapons.length) * 100).toFixed(2) + '%'}">
+                                                    <span data-bind="text: parseInt(((WeaponCubedCount() / AllWeapons.length) * 100),10) + '%'"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <table class="table table-responsive">
                                 <thead>
                                     <tr>
@@ -96,6 +153,20 @@
 
                         </div>
                         <div class="tab-pane" id="panel-jewelery">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="progress">
+                                                <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100"
+                                                     data-bind="style: {width: ((JeweleryCubedCount() / AllJewelery.length) * 100).toFixed(2) + '%'}">
+                                                    <span data-bind="text: parseInt(((JeweleryCubedCount() / AllJewelery.length) * 100), 10) + '%'"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <table class="table table-responsive">
                                 <thead>
                                     <tr>
@@ -116,12 +187,14 @@
         </div>
     </div>
     <script type="text/html" id="item-template">
-        <tr data-bind="css: {hidden: pageViewModel.hideCubed() && isCubedSeason()}">
+        <tr data-bind="css: {hidden: ((pageViewModel.hideCubed() && isCubedSeason()) || pageViewModel.hideCubedNonSeason() && isCubedNonSeason())}">
             <td>
                 <span data-bind="text:itemName"></span>
             </td>
             <td>
-                <input type="checkbox" data-bind="checked:isCubedSeason" />
+                <div class="checkbox">
+                    <input type="checkbox" data-bind="checked:isCubedSeason" />
+                </div>
             </td>
             <td>
                 <input type="checkbox" data-bind="checked:isCubedNonSeason" />

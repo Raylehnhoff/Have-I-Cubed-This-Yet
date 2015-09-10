@@ -1,4 +1,6 @@
 ﻿/// <reference path="../knockout.d.ts"/>
+/// <reference path="../models/slots.ts"/>
+/// <reference path="restrictions.ts"/>
 module Kanai {
     export class Equipment {
         itemName: KnockoutObservable<string>;
