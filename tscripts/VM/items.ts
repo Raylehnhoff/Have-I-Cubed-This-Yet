@@ -6,34 +6,37 @@ module Kanai {
     export module VM {
         export class Site {
             Weapons: KnockoutObservableArray<KnockoutObservable<Equipment>>;
-            Jewelery: KnockoutObservableArray<KnockoutObservable<Equipment>>;
+            Jewelry: KnockoutObservableArray<KnockoutObservable<Equipment>>;
             Armor: KnockoutObservableArray<KnockoutObservable<Equipment>>;
             hideCubed: KnockoutObservable<boolean>;
             hideCubedNonSeason: KnockoutObservable<boolean>;
 
             ArmorCubedCount: KnockoutComputed<number>;
             WeaponCubedCount: KnockoutComputed<number>;
-            JeweleryCubedCount: KnockoutComputed<number>;
+            JewelryCubedCount: KnockoutComputed<number>;
+            ArmorStashedCount: KnockoutComputed<number>;
+            WeaponStashedCount: KnockoutComputed<number>;
+            JewelryStashedCount: KnockoutComputed<number>;
+            StashedCount: KnockoutComputed<number>;
 
             AllWeapons: Equipment[];
-            AllJewelery: Equipment[];
+            AllJewelry: Equipment[];
             AllArmor: Equipment[];
 
             constructor() {
                 var self = this;
                 this.Weapons = ko.observableArray<KnockoutObservable<Equipment>>();
-                this.Jewelery = ko.observableArray<KnockoutObservable<Equipment>>();
+                this.Jewelry = ko.observableArray<KnockoutObservable<Equipment>>();
                 this.Armor = ko.observableArray<KnockoutObservable<Equipment>>();
                 this.hideCubed = ko.observable(false);
                 this.hideCubedNonSeason = ko.observable(false);
                 this.AllWeapons = new Array<Equipment>();
-                this.AllJewelery = new Array<Equipment>();
+                this.AllJewelry = new Array<Equipment>();
                 this.AllArmor = new Array<Equipment>();
-
             }
             clear() {
                 this.Weapons([]);
-                this.Jewelery([]);
+                this.Jewelry([]);
                 this.Armor([]);
             }
             init() {
@@ -42,7 +45,7 @@ module Kanai {
                 if (!vm) {
                     console.log("Loading from site");
                     this.loadWeapons(self.Weapons);
-                    this.loadJewelery(self.Jewelery);
+                    this.loadJewelry(self.Jewelry);
                     this.loadArmor(self.Armor);
                     this.Weapons.sort(function (left, right) {
                         return left().itemName() == right().itemName() ? 0 : (left().itemName() < right().itemName() ? -1 : 1);
@@ -52,7 +55,7 @@ module Kanai {
                         return left().itemName() == right().itemName() ? 0 : (left().itemName() < right().itemName() ? -1 : 1);
                     });
 
-                    this.Jewelery.sort(function (left, right) {
+                    this.Jewelry.sort(function (left, right) {
                         return left().itemName() == right().itemName() ? 0 : (left().itemName() < right().itemName() ? -1 : 1);
                     });
                     localStorage.setItem("kanai_cube", ko.mapping.toJSON(this));
@@ -80,7 +83,7 @@ module Kanai {
                         });
                     });
 
-                    $.each(self.Jewelery(), function (i, elem: KnockoutObservable<Equipment>) {
+                    $.each(self.Jewelry(), function (i, elem: KnockoutObservable<Equipment>) {
                         elem().isCubedSeason.subscribe((newValue) => {
                             self.saveToLocalStorage();
                         });
@@ -118,7 +121,7 @@ module Kanai {
                         });
                     });
 
-                    $.each(self.Jewelery(), function (i, elem: Equipment) {
+                    $.each(self.Jewelry(), function (i, elem: Equipment) {
                         elem.isCubedSeason.subscribe((newValue) => {
                             self.saveToLocalStorage();
                         });
@@ -150,81 +153,93 @@ module Kanai {
                     }
                 });
 
-                this.JeweleryCubedCount = ko.computed(() => {
-                    if (self.Jewelery().length > 0) {
-                        return ko.utils.arrayFilter(self.Jewelery(), function (item: Equipment) {
+                this.JewelryCubedCount = ko.computed(() => {
+                    if (self.Jewelry().length > 0) {
+                        return ko.utils.arrayFilter(self.Jewelry(), function (item: Equipment) {
                             var elem = ko.unwrap(item);
                             return elem.isCubedSeason();
                         }).length;
                     }
+                });
+
+                this.ArmorStashedCount = ko.computed(() => {
+                    return ko.utils.arrayFilter(self.Armor(), function (item: Equipment) {
+                        var elem = ko.unwrap(item);
+                        return elem.isStashed() && !(elem.isCubedNonSeason() || elem.isCubedSeason());
+                    }).length;
+                });
+
+                this.WeaponStashedCount = ko.computed(() => {
+                    return ko.utils.arrayFilter(self.Weapons(), function (item: Equipment) {
+                        var elem = ko.unwrap(item);
+                        return elem.isStashed() && !(elem.isCubedNonSeason() || elem.isCubedSeason());
+                    }).length;
+
+                });
+
+                this.JewelryStashedCount = ko.computed(() => {
+                    return ko.utils.arrayFilter(self.Jewelry(), function (item: Equipment) {
+                        var elem = ko.unwrap(item);
+                        return elem.isStashed() && !(elem.isCubedNonSeason() || elem.isCubedSeason());
+                    }).length;
+                });
+
+                this.StashedCount = ko.computed(() => {
+                    return this.JewelryStashedCount() + this.WeaponStashedCount() + this.ArmorStashedCount();
                 });
             }
 
             saveToLocalStorage() {
                 localStorage.setItem("kanai_cube", ko.mapping.toJSON(this));
             }
+            
+            // This function will return correct spelling of words that I typoed at some time without destroying user data or duplicating records
+            spellcheckCorrect(searchName: string) {
+                switch (searchName) {
+                    case "Gundo Gear":
+                        return { oldName: "Gundo Gear", newName: "Gungdo Gear" };
+                    case "HwoJ Wrap":
+                        return { oldName: "HwoJ Wrap", newName: "Hwoj Wrap" };
+                }
+                return null;
+            }
+
+            private _checkConsistencyAndSort(searchArray: any, masterList: any) {
+                var self = this;
+                for (var i = 0; i < masterList.length; i++) {
+                    var searchName = masterList[i]().itemName();
+
+                    var find = ko.utils.arrayFirst(searchArray(), function (item: any) {
+                        var spellCheck = self.spellcheckCorrect(item.itemName());
+                        if (spellCheck && spellCheck.oldName == item.itemName()) {
+                            item.itemName(spellCheck.newName);
+                        }
+                        return item.itemName() === searchName;
+                    });
+
+                    if (find == null) {
+                        searchArray.push(ko.mapping.fromJS(masterList[i])());
+                    } else {
+                        find.affix = masterList[i]().affix;
+                    }
+                    searchArray.sort(function (left, right) {
+                        return left.itemName() == right.itemName() ? 0 : (left.itemName() < right.itemName() ? -1 : 1);
+                    });
+                }
+            }
 
             checkConsistency() {
                 var self = this;
                 this.AllWeapons.length = 0;
-                this.AllJewelery.length = 0;
+                this.AllJewelry.length = 0;
                 this.AllArmor.length = 0;
                 this.loadWeapons(this.AllWeapons);
-                this.loadJewelery(this.AllJewelery);
+                this.loadJewelry(this.AllJewelry);
                 this.loadArmor(this.AllArmor);
 
-
-                for (var i = 0; i < self.AllArmor.length; i++) {
-                    var searchName = self.AllArmor[i]().itemName();
-
-                    var find = ko.utils.arrayFirst(self.Armor(), function (item) {
-                        return item.itemName() === searchName;
-                    });
-
-                    if (find == null) {
-                        self.Armor.push(ko.mapping.fromJS(self.AllArmor[i])());
-                    } else {
-                        find.affix = self.AllArmor[i]().affix;
-                    }
-                    self.Armor.sort(function (left, right) {
-                        return left.itemName() == right.itemName() ? 0 : (left.itemName() < right.itemName() ? -1 : 1);
-                    });
-                }
-
-                for (var i = 0; i < self.AllWeapons.length; i++) {
-                    var searchName = self.AllWeapons[i]().itemName();
-
-                    var find = ko.utils.arrayFirst(self.Weapons(), function (item) {
-                        return item.itemName() === searchName;
-                    });
-
-                    if (find == null) {
-                        self.Weapons.push(ko.mapping.fromJS(self.AllWeapons[i])());
-                    } else {
-                        find.affix = self.AllWeapons[i]().affix;
-                    }
-                    self.Weapons.sort(function (left, right) {
-                        return left.itemName() == right.itemName() ? 0 : (left.itemName() < right.itemName() ? -1 : 1);
-                    });
-                }
-
-                for (var i = 0; i < self.AllJewelery.length; i++) {
-                    var searchName = self.AllJewelery[i]().itemName();
-
-                    var find = ko.utils.arrayFirst(self.Jewelery(), function (item) {
-                        return item.itemName() === searchName;
-                    });
-
-                    if (find == null) {
-                        self.Jewelery.push(ko.mapping.fromJS(self.AllJewelery[i])());
-                    } else {
-                        find.affix = self.AllJewelery[i]().affix;
-                    }
-                    self.Jewelery.sort(function (left, right) {
-                        return left.itemName() == right.itemName() ? 0 : (left.itemName() < right.itemName() ? -1 : 1);
-                    });
-                }
-
+                self._checkConsistencyAndSort(self.Armor, self.AllArmor);
+                self._checkConsistencyAndSort(self.Weapons, self.AllWeapons);
+                self._checkConsistencyAndSort(self.Jewelry, self.AllJewelry);
 
                 self.saveToLocalStorage();
 
@@ -233,7 +248,118 @@ module Kanai {
             loadFromLocalStorage(vm: Kanai.VM.Site) {
                 this.Armor = vm.Armor;
                 this.Weapons = vm.Weapons;
-                this.Jewelery = vm.Jewelery;
+                this.Jewelry = vm.Jewelry;
+            }
+
+            loadArmor(target) {
+                target.push(ko.observable(new Kanai.Equipment("Ancient Parthan Defenders", "Each stunned enemy within 25 yards reduces your damage taken by 12%.")));
+                target.push(ko.observable(new Kanai.Equipment("Gungdo Gear", "Exploding Palm's on-death explosion applies Exploding Palm.")));
+                target.push(ko.observable(new Kanai.Equipment("Andariel's Visage", "Attacks release a Poison Nova that deals 450% weapon damage as Poison to enemies within 10 yards.")));
+                target.push(ko.observable(new Kanai.Equipment("Broken Crown", "Whenever a gem drops, a gem of the type socketed into this item also drops.")));
+                target.push(ko.observable(new Kanai.Equipment("Deathseer's Cowl", "20% chance on being hit by an Undead enemy to charm it for 2 seconds.")));
+                target.push(ko.observable(new Kanai.Equipment("Leorics Crown", "Increase the effect of any gem socketed into this item by 100%.")));
+                target.push(ko.observable(new Kanai.Equipment("Pride's Fall", "Your resource costs are reduced by 30% after not taking damage for 5 seconds")));
+                target.push(ko.observable(new Kanai.Equipment("Skull of Resonance", "Threatening Shout has a chance to Charm enemies and cause them to join your side.")));
+                target.push(ko.observable(new Kanai.Equipment("Eye of Peshkov", "Reduce the cooldown of Breath of Heaven by 50%.")));
+                target.push(ko.observable(new Kanai.Equipment("Gyana Na Kashu", "Lashing Tail Kick releases a piercing fireball that deals 700% weapon damage as Fire to enemies within 10 yards on impact.")));
+                target.push(ko.observable(new Kanai.Equipment("Kekegi's Unbreakable Spirit", "Damaging enemies has a chance to grant you an effect that removes the Spirit cost of your abilities for 4 seconds.")));
+                target.push(ko.observable(new Kanai.Equipment("Madstone", "Your Seven-Sided Strike applies Exploding Palm.")));
+                target.push(ko.observable(new Kanai.Equipment("The Laws of Seph", "Using Blinding Flash restores 165 Spirit.")));
+                target.push(ko.observable(new Kanai.Equipment("The Mind's Eye", "Inner Sanctuary increases Spirit Regeneration per second by 15.")));
+                target.push(ko.observable(new Kanai.Equipment("Tzo Krin's Gaze", "Wave of Light is now cast at your enemy.")));
+                target.push(ko.observable(new Kanai.Equipment("Carnevil", "Your Fetishes shoot a Poison Dart every time you do.")));
+                target.push(ko.observable(new Kanai.Equipment("Mask of Jeram", "Pets deal 75–100% more damage.")));
+                target.push(ko.observable(new Kanai.Equipment("Quetzalcoatl", "Locust Swarm and Haunt now deal their damage in half of the normal duration.")));
+                target.push(ko.observable(new Kanai.Equipment("The Grin Reaper", "Chance to summon horrific Mimics when attacking.")));
+                target.push(ko.observable(new Kanai.Equipment("Tiklandian Visage", "Horrify causes you to Fear and Root enemies around you for 6–8 seconds.")));
+                target.push(ko.observable(new Kanai.Equipment("Visage of Giyua", "Summon a Fetish Army after you kill 2 Elites.")));
+                target.push(ko.observable(new Kanai.Equipment("Archmage's Vicalyke", "Your Mirror Images have a chance to multiply when killed by enemies.")));
+                target.push(ko.observable(new Kanai.Equipment("Crown of the Primus", "Slow Time gains the effect of every rune.")));
+                target.push(ko.observable(new Kanai.Equipment("Dark Mage's Shade", "Automatically cast Diamond Skin when you fall below 35% Life. This effect may occur once every 15 seconds.")));
+                target.push(ko.observable(new Kanai.Equipment("Storm Crow", "40% chance to cast a fiery ball when attacking.")));
+                target.push(ko.observable(new Kanai.Equipment("The Magistrate", "Frost Hydra now periodically casts Frost Nova.")));
+                target.push(ko.observable(new Kanai.Equipment("The Swami", "The bonuses from Archon stacks now last for 15-20 seconds after Archon expires.")));
+                target.push(ko.observable(new Kanai.Equipment("Velvet Camaral", "Double the number of enemies your Electrocute jumps to.")));
+                target.push(ko.observable(new Kanai.Equipment("Death Watch Mantle", "35% chance to explode in a fan of knives for 750-950% weapon damage when hit.")));
+                target.push(ko.observable(new Kanai.Equipment("Fury of the Ancients", "Call of the Ancients gains the effect of the Ancients' Fury rune.")));
+                target.push(ko.observable(new Kanai.Equipment("Homing Pads", "Your Town Portal is no longer interrupted by taking damage. While casting Town Portal you gain a protective bubble that reduces damage taken by 65%.")));
+                target.push(ko.observable(new Kanai.Equipment("Pauldrons of the Skeleton King", "When receiving fatal damage, there is a chance that you are instead restored to 25% of maximum Life and cause nearby enemies to flee in fear.")));
+                target.push(ko.observable(new Kanai.Equipment("Spaulders of Zakara", "Your items become indestructible.")));
+                target.push(ko.observable(new Kanai.Equipment("Vile Ward", "Furious Charge deals 35% increased damage for every enemy hit while charging.")));
+                target.push(ko.observable(new Kanai.Equipment("Armor of the Kind Regent", "Smite will now also be cast at a second nearby enemy.")));
+                target.push(ko.observable(new Kanai.Equipment("Chaigmail", "After earning a survival bonus, quickly heal to full Life.")));
+                target.push(ko.observable(new Kanai.Equipment("Cindercoat", "Reduces the resource cost of Fire skills by 30%.")));
+                target.push(ko.observable(new Kanai.Equipment("Goldskin", "Chance for enemies to drop gold when you hit them.")));
+                target.push(ko.observable(new Kanai.Equipment("Shi Mizu's Haori", "While below 25% Life, all attacks are guaranteed Critical Hits.")));
+                target.push(ko.observable(new Kanai.Equipment("Beckon Sail", "When receiving fatal damage, you instead automatically cast Smoke Screen and are healed to 25% Life. This effect may occur once every 120 seconds.")));
+                target.push(ko.observable(new Kanai.Equipment("Blackfeather", "Dodging or getting hit by a ranged attack automatically shoots a homing rocket back at the attacker for 800% weapon damage as Physical.")));
+                target.push(ko.observable(new Kanai.Equipment("Cape of the Dark Night", "Automatically drop Caltrops when you are hit. This effect may only occur once every 6 seconds.")));
+                target.push(ko.observable(new Kanai.Equipment("Cloak of Deception", "Enemy missiles sometimes pass through you harmlessly.")));
+                target.push(ko.observable(new Kanai.Equipment("The Cloak of the Garwulf", "Companion - Wolf Companion now summons 3 wolves.")));
+                target.push(ko.observable(new Kanai.Equipment("Bracers of Destruction", "Seismic Slam deals 400% increased damage to the first two enemies it hits.")));
+                target.push(ko.observable(new Kanai.Equipment("Bracers of the First Men", "Hammer of the Ancients attacks 50% faster and deals 200% increased damage.")));
+                target.push(ko.observable(new Kanai.Equipment("Coils of the First Spider", "While channeling Firebats, gain 80,000 Life per Hit.")));
+                target.push(ko.observable(new Kanai.Equipment("Custerian Wristguards", "Picking up gold grants experience.")));
+                target.push(ko.observable(new Kanai.Equipment("Drakon's Lesson", "When your Shield Bash hits 3 or less enemies, its damage is increased by 200% and 25% of its Wrath Cost is refunded.")));
+                target.push(ko.observable(new Kanai.Equipment("Gabriel's Vambraces", "When your Blessed Hammer hits 3 or fewer enemies, 100% of its Wrath Cost is refunded.")));
+                target.push(ko.observable(new Kanai.Equipment("Jeram's Bracers", "Wall of Death can be cast up to twice again within 2 seconds before the cooldown begins.")));
+                target.push(ko.observable(new Kanai.Equipment("Krelm's Buff Bracers", "You are immune to Knockback and Stun effects.")));
+                target.push(ko.observable(new Kanai.Equipment("Nemesis Bracers", "Shrines and Pylons will spawn an enemy champion.")));
+                target.push(ko.observable(new Kanai.Equipment("Promise of Glory", "6% chance to spawn a Nephalem Glory globe when you Blind an enemy.")));
+                target.push(ko.observable(new Kanai.Equipment("Ranslor's Folly", "Energy Twister periodically pulls in lesser enemies within 30 yards.")));
+                target.push(ko.observable(new Kanai.Equipment("Reaper's Wraps", "Health globes restore 30% of your primary resource.")));
+                target.push(ko.observable(new Kanai.Equipment("Sanguinary Vambracers", "Chance on being hit to deal 1000% of your Thorns damage to nearby enemies.")));
+                target.push(ko.observable(new Kanai.Equipment("Spirit Guards", "Your Spirit Generators reduce your damage taken by 40% for 3 seconds.")));
+                target.push(ko.observable(new Kanai.Equipment("Strongarm Bracers", "Enemies hit by knockbacks suffer 30% more damage for 5 seconds when they land.")));
+                target.push(ko.observable(new Kanai.Equipment("Trag'Oul Coils", "Healing wells replenish all resources and reduce all cooldowns by 60 seconds.")));
+                target.push(ko.observable(new Kanai.Equipment("Warzechian Armguards", "Every time you destroy a wreckable object, you gain a short burst of speed.")));
+                target.push(ko.observable(new Kanai.Equipment("Wraps of Clarity", "Your Hatred Generators reduce your damage taken by 30-35% for 5 seconds.")));
+                target.push(ko.observable(new Kanai.Equipment("Frostburn", "Your Cold damage has up to a 45% chance to Freeze enemies.")));
+                target.push(ko.observable(new Kanai.Equipment("Gladiator Gauntlets", "After earning a massacre bonus, gold rains from sky.")));
+                target.push(ko.observable(new Kanai.Equipment("Gloves of Worship", "Shrine effects last for 10 minutes.")));
+                target.push(ko.observable(new Kanai.Equipment("St. Archew's Gage", "The first time an elite pack damages you, gain an absorb shield equal to 150% of your maximum Life for 10 seconds.")));
+                target.push(ko.observable(new Kanai.Equipment("Tasker and Theo", "Increase attack speed of your pets by 50%.")));
+                target.push(ko.observable(new Kanai.Equipment("Angel Hair Braid", "Punish gains the effect of every rune.")));
+                target.push(ko.observable(new Kanai.Equipment("Belt of the Trove", "Every 6–8 seconds, call down Bombardment on a random nearby enemy.")));
+                target.push(ko.observable(new Kanai.Equipment("Belt of Transcendence", "Summon a Fetish Sycophant when you hit with a Mana spender.")));
+                target.push(ko.observable(new Kanai.Equipment("Binding of the Lost", "Each hit with Seven-Sided Strike grants 3.5% damage reduction for 7 seconds.")));
+                target.push(ko.observable(new Kanai.Equipment("Blessed of Haull", "Justice spawns a Blessed Hammer when it hits an enemy.")));
+                target.push(ko.observable(new Kanai.Equipment("Cord of the Sherma", "Chance on hit to create a chaos field that Blinds and Slows enemies inside for 4 seconds.")));
+                target.push(ko.observable(new Kanai.Equipment("Crashing Rain", "Rain of Vengeance also summons a crashing beast that deals 4000% weapon damage.")));
+                target.push(ko.observable(new Kanai.Equipment("Fazula's Improbable Chain", "Archon stacks also increase your Attack Speed, Armor and Resistances by 1%.")));
+                target.push(ko.observable(new Kanai.Equipment("Goldwrap", "On gold pickup: Gain armor for 5 seconds equal to the amount picked up.")));
+                target.push(ko.observable(new Kanai.Equipment("Harrington Waistguard", "Opening a chest grants 135% increased damage for 10 seconds.")));
+                target.push(ko.observable(new Kanai.Equipment("Haunting Girdle", "Haunt releases 1 extra spirit.")));
+                target.push(ko.observable(new Kanai.Equipment("Hunter's Wrath", "Your Hatred generators attack 30% faster and deal 40% increased damage.")));
+                target.push(ko.observable(new Kanai.Equipment("Hwoj Wrap", "Locust Swarm also Slows enemies by 80%.")));
+                target.push(ko.observable(new Kanai.Equipment("Insatiable Belt", "Picking up a Health Globe increases your maximum Life by 5% for 15 seconds, stacking up to 5 times")));
+                target.push(ko.observable(new Kanai.Equipment("Jang's Envelopment", "Enemies damaged by Black Hole are also slowed by 80% for 3 seconds.")));
+                target.push(ko.observable(new Kanai.Equipment("Krelm's Buff Belt", "Gain 25% run speed. This effect is lost for 5 seconds after taking damage.")));
+                target.push(ko.observable(new Kanai.Equipment("Omnislash", "Slash attacks in all directions.")));
+                target.push(ko.observable(new Kanai.Equipment("Omryn's Chain", "Drop Caltrops when using Vault.")));
+                target.push(ko.observable(new Kanai.Equipment("Razor Strop", "Picking up a Health Globe releases an explosion that deals 400% weapon damage as Fire to enemies within 20 yards.")));
+                target.push(ko.observable(new Kanai.Equipment("Sacred Harness", "Judgment is cast at your landing location when casting Falling Sword.")));
+                target.push(ko.observable(new Kanai.Equipment("Sash of Knives", "With every attack, you throw a dagger at a nearby enemy for 650% weapon damage as Physical.")));
+                target.push(ko.observable(new Kanai.Equipment("Sebor's Nightmare", "Haunt is cast on all nearby enemies when you open a chest.")));
+                target.push(ko.observable(new Kanai.Equipment("Thundergod's Vigor", "Blocking, dodging or being hit causes you to discharge bolts of electricity that deal 130% weapon damage as Lightning.")));
+                target.push(ko.observable(new Kanai.Equipment("Chilanik's Chain", "Using War Cry increases the movement speed for you and all allies affected by 40% for 10 seconds.")));
+                target.push(ko.observable(new Kanai.Equipment("Lamentation", "Rend can now stack up to 2 times on an enemy.")));
+                target.push(ko.observable(new Kanai.Equipment("Pride of Cassius", "Increases the duration of Ignore Pain by 6 seconds.")));
+                target.push(ko.observable(new Kanai.Equipment("The Undisputed Champion", "Frenzy gains the effect of every rune.")));
+                target.push(ko.observable(new Kanai.Equipment("Death's Bargain", "Gain an aura of death that deals 1000% of your Life per Second to enemies within 20 yards. You no longer regenerate Life")));
+                target.push(ko.observable(new Kanai.Equipment("Depth Diggers", "Primary skills that generate resource deal 100% additional damage.")));
+                target.push(ko.observable(new Kanai.Equipment("Hexing Pants of Mr. Yan", "Your resource generation and damage is increased by 25% while moving and decreased by 20% while standing still.")));
+                target.push(ko.observable(new Kanai.Equipment("Pox Faulds", "When 3 or more enemies are within 12 yards, you release a vile stench that deals 550%weapon damage as Poison every second for 5 seconds to enemies within 15 yards.")));
+                target.push(ko.observable(new Kanai.Equipment("Boots of Disregard", "Gain 10000 Life Regeneration per second for each second you stand still. This effect stacks up to 8 times")));
+                target.push(ko.observable(new Kanai.Equipment("Fire Walkers", "Burn the ground you walk on, dealing 400% weapon damage each second.")));
+                target.push(ko.observable(new Kanai.Equipment("Ice Climbers", "Gain immunity to Freeze and Immobilize effects.")));
+                target.push(ko.observable(new Kanai.Equipment("Illusionary Boots", "You may move unhindered through enemies.")));
+                target.push(ko.observable(new Kanai.Equipment("Irontoe Mudsputters", "Gain up to 30% increased movement speed based on amount of Life missing.")));
+                target.push(ko.observable(new Kanai.Equipment("Lut Socks", "Leap can be cast again within 2 seconds before the cooldown begins.")));
+                target.push(ko.observable(new Kanai.Equipment("Nilfur's Boast", "Increase the damage of Meteor by 100%. When your Meteor hits 3 or less enemies, the damage is increased by 200%.")));
+                target.push(ko.observable(new Kanai.Equipment("The Crudest Boots", "Mystic Ally summons two Mystic Allies that fight by your side.")));
+                target.push(ko.observable(new Kanai.Equipment("Dread Iron", "Ground Stomp causes an Avalanche.")));
+
             }
 
             loadWeapons(target) {
@@ -382,7 +508,7 @@ module Kanai {
                 target.push(ko.observable(new Kanai.Equipment("Scrimshaw", "Reduces the Mana cost of Zombie Charger by 50%.")));
             }
 
-            loadJewelery(target) {
+            loadJewelry(target) {
                 target.push(ko.observable(new Kanai.Equipment("Countess Julia's Cameo", "Prevent all Arcane damage taken and heal yourself for 25% of the amount prevented.")));
                 target.push(ko.observable(new Kanai.Equipment("Dovu Energy Trap", "Increases duration of Stun effects by 25%.")));
                 target.push(ko.observable(new Kanai.Equipment("Golden Gorget of Leoric", "After earning a massacre bonus, 6 Skeletons are summoned to fight by your side for 10 seconds")));
@@ -419,118 +545,6 @@ module Kanai {
                 target.push(ko.observable(new Kanai.Equipment("The Tall Man's Finger", "Zombie Dogs instead summons a single gargantuan dog with more damage and health than all other dogs combined.")));
                 target.push(ko.observable(new Kanai.Equipment("Unity", "All damage taken is split between wearers of this item.")));
                 target.push(ko.observable(new Kanai.Equipment("Wyrdward", "Lightning damage has a 35% chance to Stun for 1.5 seconds.")));
-            }
-
-            loadArmor(target) {
-                //target.push(ko.observable(new Kanai.Equipment("2Andariel's Visage", "Attacks release a Poison Nova that deals 450% weapon damage as Poison to enemies within 10 yards.")));
-                target.push(ko.observable(new Kanai.Equipment("Andariel's Visage", "Attacks release a Poison Nova that deals 450% weapon damage as Poison to enemies within 10 yards.")));
-                target.push(ko.observable(new Kanai.Equipment("Broken Crown", "Whenever a gem drops, a gem of the type socketed into this item also drops.")));
-                target.push(ko.observable(new Kanai.Equipment("Deathseer's Cowl", "20% chance on being hit by an Undead enemy to charm it for 2 seconds.")));
-                target.push(ko.observable(new Kanai.Equipment("Leorics Crown", "Increase the effect of any gem socketed into this item by 100%.")));
-                target.push(ko.observable(new Kanai.Equipment("Pride's Fall", "Your resource costs are reduced by 30% after not taking damage for 5 seconds")));
-                target.push(ko.observable(new Kanai.Equipment("Skull of Resonance", "Threatening Shout has a chance to Charm enemies and cause them to join your side.")));
-                target.push(ko.observable(new Kanai.Equipment("Eye of Peshkov", "Reduce the cooldown of Breath of Heaven by 50%.")));
-                target.push(ko.observable(new Kanai.Equipment("Gyana Na Kashu", "Lashing Tail Kick releases a piercing fireball that deals 700% weapon damage as Fire to enemies within 10 yards on impact.")));
-                target.push(ko.observable(new Kanai.Equipment("Kekegi's Unbreakable Spirit", "Damaging enemies has a chance to grant you an effect that removes the Spirit cost of your abilities for 4 seconds.")));
-                target.push(ko.observable(new Kanai.Equipment("Madstone", "Your Seven-Sided Strike applies Exploding Palm.")));
-                target.push(ko.observable(new Kanai.Equipment("The Laws of Seph", "Using Blinding Flash restores 100 Spirit.")));
-                target.push(ko.observable(new Kanai.Equipment("The Mind's Eye", "Inner Sanctuary increases Spirit Regeneration per second by 15.")));
-                target.push(ko.observable(new Kanai.Equipment("Tzo Krin's Gaze", "Wave of Light is now cast at your enemy.")));
-                target.push(ko.observable(new Kanai.Equipment("Carnevil", "Your Fetishes shoot a Poison Dart every time you do.")));
-                target.push(ko.observable(new Kanai.Equipment("Mask of Jeram", "Pets deal 75–100% more damage.")));
-                target.push(ko.observable(new Kanai.Equipment("Quetzalcoatl", "Locust Swarm and Haunt now deal their damage in half of the normal duration.")));
-                target.push(ko.observable(new Kanai.Equipment("The Grin Reaper", "Chance to summon horrific Mimics when attacking.")));
-                target.push(ko.observable(new Kanai.Equipment("Tiklandian Visage", "Horrify causes you to Fear and Root enemies around you for 6–8 seconds.")));
-                target.push(ko.observable(new Kanai.Equipment("Visage of Giyua", "Summon a Fetish Army after you kill 2 Elites.")));
-                target.push(ko.observable(new Kanai.Equipment("Archmage's Vicalyke", "Your Mirror Images have a chance to multiply when killed by enemies.")));
-                target.push(ko.observable(new Kanai.Equipment("Crown of the Primus", "Slow Time gains the effect of every rune.")));
-                target.push(ko.observable(new Kanai.Equipment("Dark Mage's Shade", "Automatically cast Diamond Skin when you fall below 35% Life. This effect may occur once every 15 seconds.")));
-                target.push(ko.observable(new Kanai.Equipment("Storm Crow", "40% chance to cast a fiery ball when attacking.")));
-                target.push(ko.observable(new Kanai.Equipment("The Magistrate", "Frost Hydra now periodically casts Frost Nova.")));
-                target.push(ko.observable(new Kanai.Equipment("The Swami", "The bonuses from Archon stacks now last for 15-20 seconds after Archon expires.")));
-                target.push(ko.observable(new Kanai.Equipment("Velvet Camaral", "Double the number of enemies your Electrocute jumps to.")));
-                target.push(ko.observable(new Kanai.Equipment("Death Watch Mantle", "35% chance to explode in a fan of knives for 750-950% weapon damage when hit.")));
-                target.push(ko.observable(new Kanai.Equipment("Fury of the Ancients", "Call of the Ancients gains the effect of the Ancients' Fury rune.")));
-                target.push(ko.observable(new Kanai.Equipment("Homing Pads", "Your Town Portal is no longer interrupted by taking damage. While casting Town Portal you gain a protective bubble that reduces damage taken by 65%.")));
-                target.push(ko.observable(new Kanai.Equipment("Pauldrons of the Skeleton King", "When receiving fatal damage, there is a chance that you are instead restored to 25% of maximum Life and cause nearby enemies to flee in fear.")));
-                target.push(ko.observable(new Kanai.Equipment("Spaulders of Zakara", "Your items become indestructible.")));
-                target.push(ko.observable(new Kanai.Equipment("Vile Ward", "Furious Charge deals 35% increased damage for every enemy hit while charging.")));
-                target.push(ko.observable(new Kanai.Equipment("Armor of the Kind Regent", "Smite will now also be cast at a second nearby enemy.")));
-                target.push(ko.observable(new Kanai.Equipment("Chaigmail", "After earning a survival bonus, quickly heal to full Life.")));
-                target.push(ko.observable(new Kanai.Equipment("Cindercoat", "Reduces the resource cost of Fire skills by 30%.")));
-                target.push(ko.observable(new Kanai.Equipment("Goldskin", "Chance for enemies to drop gold when you hit them.")));
-                target.push(ko.observable(new Kanai.Equipment("Shi Mizu's Haori", "While below 25% Life, all attacks are guaranteed Critical Hits.")));
-                target.push(ko.observable(new Kanai.Equipment("Beckon Sail", "When receiving fatal damage, you instead automatically cast Smoke Screen and are healed to 25% Life. This effect may occur once every 120 seconds.")));
-                target.push(ko.observable(new Kanai.Equipment("Blackfeather", "Dodging or getting hit by a ranged attack automatically shoots a homing rocket back at the attacker for 800% weapon damage as Physical.")));
-                target.push(ko.observable(new Kanai.Equipment("Cape of the Dark Night", "Automatically drop Caltrops when you are hit. This effect may only occur once every 6 seconds.")));
-                target.push(ko.observable(new Kanai.Equipment("Cloak of Deception", "Enemy missiles sometimes pass through you harmlessly.")));
-                target.push(ko.observable(new Kanai.Equipment("The Cloak of the Garwulf", "Companion - Wolf Companion now summons 3 wolves.")));
-                target.push(ko.observable(new Kanai.Equipment("Ancient Parthan Defenders", "Each stunned enemy within 25 yards reduces your damage taken by 12%.")));
-                target.push(ko.observable(new Kanai.Equipment("Bracers of Destruction", "Seismic Slam deals 400% increased damage to the first two enemies it hits.")));
-                target.push(ko.observable(new Kanai.Equipment("Bracers of the First Men", "Hammer of the Ancients attacks 50% faster and deals 200% increased damage.")));
-                target.push(ko.observable(new Kanai.Equipment("Coils of the First Spider", "While channeling Firebats, gain 80,000 Life per Hit.")));
-                target.push(ko.observable(new Kanai.Equipment("Custerian Wristguards", "Picking up gold grants experience.")));
-                target.push(ko.observable(new Kanai.Equipment("Drakon's Lesson", "When your Shield Bash hits 3 or less enemies, its damage is increased by 200% and 25% of its Wrath Cost is refunded.")));
-                target.push(ko.observable(new Kanai.Equipment("Gabriel's Vambraces", "When your Blessed Hammer hits 3 or fewer enemies, 100% of its Wrath Cost is refunded.")));
-                target.push(ko.observable(new Kanai.Equipment("Gundo Gear", "Exploding Palm's on-death explosion applies Exploding Palm.")));
-                target.push(ko.observable(new Kanai.Equipment("Jeram's Bracers", "Wall of Death can be cast up to twice again within 2 seconds before the cooldown begins.")));
-                target.push(ko.observable(new Kanai.Equipment("Krelm's Buff Bracers", "You are immune to Knockback and Stun effects.")));
-                target.push(ko.observable(new Kanai.Equipment("Nemesis Bracers", "Shrines and Pylons will spawn an enemy champion.")));
-                target.push(ko.observable(new Kanai.Equipment("Promise of Glory", "6% chance to spawn a Nephalem Glory globe when you Blind an enemy.")));
-                target.push(ko.observable(new Kanai.Equipment("Ranslor's Folly", "Energy Twister periodically pulls in lesser enemies within 30 yards.")));
-                target.push(ko.observable(new Kanai.Equipment("Reaper's Wraps", "Health globes restore 30% of your primary resource.")));
-                target.push(ko.observable(new Kanai.Equipment("Sanguinary Vambracers", "Chance on being hit to deal 1000% of your Thorns damage to nearby enemies.")));
-                target.push(ko.observable(new Kanai.Equipment("Spirit Guards", "Your Spirit Generators reduce your damage taken by 40% for 3 seconds.")));
-                target.push(ko.observable(new Kanai.Equipment("Strongarm Bracers", "Enemies hit by knockbacks suffer 30% more damage for 5 seconds when they land.")));
-                target.push(ko.observable(new Kanai.Equipment("Trag'Oul Coils", "Healing wells replenish all resources and reduce all cooldowns by 60 seconds.")));
-                target.push(ko.observable(new Kanai.Equipment("Warzechian Armguards", "Every time you destroy a wreckable object, you gain a short burst of speed.")));
-                target.push(ko.observable(new Kanai.Equipment("Wraps of Clarity", "Your Hatred Generators reduce your damage taken by 30-35% for 5 seconds.")));
-                target.push(ko.observable(new Kanai.Equipment("Frostburn", "Your Cold damage has up to a 45% chance to Freeze enemies.")));
-                target.push(ko.observable(new Kanai.Equipment("Gladiator Gauntlets", "After earning a massacre bonus, gold rains from sky.")));
-                target.push(ko.observable(new Kanai.Equipment("Gloves of Worship", "Shrine effects last for 10 minutes.")));
-                target.push(ko.observable(new Kanai.Equipment("St. Archew's Gage", "The first time an elite pack damages you, gain an absorb shield equal to 150% of your maximum Life for 10 seconds.")));
-                target.push(ko.observable(new Kanai.Equipment("Tasker and Theo", "Increase attack speed of your pets by 50%.")));
-                target.push(ko.observable(new Kanai.Equipment("Angel Hair Braid", "Punish gains the effect of every rune.")));
-                target.push(ko.observable(new Kanai.Equipment("Belt of the Trove", "Every 6–8 seconds, call down Bombardment on a random nearby enemy.")));
-                target.push(ko.observable(new Kanai.Equipment("Belt of Transcendence", "Summon a Fetish Sycophant when you hit with a Mana spender.")));
-                target.push(ko.observable(new Kanai.Equipment("Binding of the Lost", "Each hit with Seven-Sided Strike grants 3.5% damage reduction for 7 seconds.")));
-                target.push(ko.observable(new Kanai.Equipment("Blessed of Haull", "Justice spawns a Blessed Hammer when it hits an enemy.")));
-                target.push(ko.observable(new Kanai.Equipment("Cord of the Sherma", "Chance on hit to create a chaos field that Blinds and Slows enemies inside for 4 seconds.")));
-                target.push(ko.observable(new Kanai.Equipment("Crashing Rain", "Rain of Vengeance also summons a crashing beast that deals 4000% weapon damage.")));
-                target.push(ko.observable(new Kanai.Equipment("Fazula's Improbable Chain", "Archon stacks also increase your Attack Speed, Armor and Resistances by 1%.")));
-                target.push(ko.observable(new Kanai.Equipment("Goldwrap", "On gold pickup: Gain armor for 5 seconds equal to the amount picked up.")));
-                target.push(ko.observable(new Kanai.Equipment("Harrington Waistguard", "Opening a chest grants 135% increased damage for 10 seconds.")));
-                target.push(ko.observable(new Kanai.Equipment("Haunting Girdle", "Haunt releases 1 extra spirit.")));
-                target.push(ko.observable(new Kanai.Equipment("Hunter's Wrath", "Your Hatred generators attack 30% faster and deal 40% increased damage.")));
-                target.push(ko.observable(new Kanai.Equipment("HwoJ Wrap", "Locust Swarm also Slows enemies by 80%.")));
-                target.push(ko.observable(new Kanai.Equipment("Insatiable Belt", "Picking up a Health Globe increases your maximum Life by 5% for 15 seconds, stacking up to 5 times")));
-                target.push(ko.observable(new Kanai.Equipment("Jang's Envelopment", "Enemies damaged by Black Hole are also slowed by 80% for 3 seconds.")));
-                target.push(ko.observable(new Kanai.Equipment("Krelm's Buff Belt", "Gain 25% run speed. This effect is lost for 5 seconds after taking damage.")));
-                target.push(ko.observable(new Kanai.Equipment("Omnislash", "Slash attacks in all directions.")));
-                target.push(ko.observable(new Kanai.Equipment("Omryn's Chain", "Drop Caltrops when using Vault.")));
-                target.push(ko.observable(new Kanai.Equipment("Razor Strop", "Picking up a Health Globe releases an explosion that deals 400% weapon damage as Fire to enemies within 20 yards.")));
-                target.push(ko.observable(new Kanai.Equipment("Sacred Harness", "Judgment is cast at your landing location when casting Falling Sword.")));
-                target.push(ko.observable(new Kanai.Equipment("Sash of Knives", "With every attack, you throw a dagger at a nearby enemy for 650% weapon damage as Physical.")));
-                target.push(ko.observable(new Kanai.Equipment("Sebor's Nightmare", "Haunt is cast on all nearby enemies when you open a chest.")));
-                target.push(ko.observable(new Kanai.Equipment("Thundergod's Vigor", "Blocking, dodging or being hit causes you to discharge bolts of electricity that deal 130% weapon damage as Lightning.")));
-                target.push(ko.observable(new Kanai.Equipment("Chilanik's Chain", "Using War Cry increases the movement speed for you and all allies affected by 40% for 10 seconds.")));
-                target.push(ko.observable(new Kanai.Equipment("Lamentation", "Rend can now stack up to 2 times on an enemy.")));
-                target.push(ko.observable(new Kanai.Equipment("Pride of Cassius", "Increases the duration of Ignore Pain by 6 seconds.")));
-                target.push(ko.observable(new Kanai.Equipment("The Undisputed Champion", "Frenzy gains the effect of every rune.")));
-                target.push(ko.observable(new Kanai.Equipment("Death's Bargain", "Gain an aura of death that deals 1000% of your Life per Second to enemies within 20 yards. You no longer regenerate Life")));
-                target.push(ko.observable(new Kanai.Equipment("Depth Diggers", "Primary skills that generate resource deal 100% additional damage.")));
-                target.push(ko.observable(new Kanai.Equipment("Hexing Pants of Mr. Yan", "Your resource generation and damage is increased by 25% while moving and decreased by 20% while standing still.")));
-                target.push(ko.observable(new Kanai.Equipment("Pox Faulds", "When 3 or more enemies are within 12 yards, you release a vile stench that deals 550%weapon damage as Poison every second for 5 seconds to enemies within 15 yards.")));
-                target.push(ko.observable(new Kanai.Equipment("Boots of Disregard", "Gain 10000 Life Regeneration per second for each second you stand still. This effect stacks up to 8 times")));
-                target.push(ko.observable(new Kanai.Equipment("Fire Walkers", "Burn the ground you walk on, dealing 400% weapon damage each second.")));
-                target.push(ko.observable(new Kanai.Equipment("Ice Climbers", "Gain immunity to Freeze and Immobilize effects.")));
-                target.push(ko.observable(new Kanai.Equipment("Illusionary Boots", "You may move unhindered through enemies.")));
-                target.push(ko.observable(new Kanai.Equipment("Irontoe Mudsputters", "Gain up to 30% increased movement speed based on amount of Life missing.")));
-                target.push(ko.observable(new Kanai.Equipment("Lut Socks", "Leap can be cast again within 2 seconds before the cooldown begins.")));
-                target.push(ko.observable(new Kanai.Equipment("Nilfur's Boast", "Increase the damage of Meteor by 100%. When your Meteor hits 3 or less enemies, the damage is increased by 200%.")));
-                target.push(ko.observable(new Kanai.Equipment("The Crudest Boots", "Mystic Ally summons two Mystic Allies that fight by your side.")));
-                target.push(ko.observable(new Kanai.Equipment("Dread Iron", "Ground Stomp causes an Avalanche.")));
-
             }
         }
     }

@@ -18,21 +18,29 @@
         .cursor-finger {
             cursor: pointer;
         }
+
         dl {
             clear: both;
             display: inline-block;
         }
+
         dt {
             width: 200px;
             float: left;
             clear: left;
         }
+
         dd {
             float: left;
             clear: right;
         }
+
         .progress-bar {
             min-width: 2em;
+        }
+
+        .progress-bar.progress-bar-warning {
+            min-width: 0;
         }
     </style>
 </head>
@@ -75,9 +83,13 @@
                             <span>Weapon: </span><span data-bind="text: WeaponCubedCount() + ' (of ' + AllWeapons.length + ')'"></span>
                         </li>
                         <li>
-                            <span>Jewelery: </span><span data-bind="text: JeweleryCubedCount() + ' (of ' + AllJewelery.length + ')'"></span>
+                            <span>Jewelry: </span><span data-bind="text: JewelryCubedCount() + ' (of ' + AllJewelry.length + ')'"></span>
                         </li>
-                        <li data-bind="text:'Total: ' + (JeweleryCubedCount() + WeaponCubedCount() + ArmorCubedCount()) + ' (of ' + (AllArmor.length + AllWeapons.length + AllJewelery.length) +')'"></li>
+                        <li>
+                            <span>Stashed Items:</span><span data-bind="text: (StashedCount()) + ' (of ' + (AllJewelry.length + AllWeapons.length + AllArmor.length) + ')'"></span>
+                        </li>
+                        <li data-bind="text:'Total Cubed: ' + (JewelryCubedCount() + WeaponCubedCount() + ArmorCubedCount()) + ' (of ' + (AllArmor.length + AllWeapons.length + AllJewelry.length) +')'"></li>
+                        <li data-bind="text:'Total: ' + (JewelryCubedCount() + WeaponCubedCount() + ArmorCubedCount() + StashedCount()) + ' (of ' + (AllArmor.length + AllWeapons.length + AllJewelry.length) +')'"></li>
                     </ul>
                 </div>
                 <div class="tabbable" id="tabs-377221">
@@ -89,7 +101,7 @@
                             <a href="#panel-weapons" data-toggle="tab">Weapons</a>
                         </li>
                         <li>
-                            <a href="#panel-jewelery" data-toggle="tab">Jewelery</a>
+                            <a href="#panel-Jewelry" data-toggle="tab">Jewelry</a>
                         </li>
 
                     </ul>
@@ -103,6 +115,10 @@
                                                 <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100"
                                                      data-bind="style: {width: ((ArmorCubedCount() / AllArmor.length) * 100).toFixed(2) + '%'}">
                                                     <span data-bind="text: parseInt(((ArmorCubedCount() / AllArmor.length) * 100),10) + '%'"></span>
+                                                </div>
+                                                <div class="progress-bar progress-bar-warning"
+                                                     data-bind="style: {width: ((ArmorStashedCount() / AllArmor.length) * 100).toFixed(2) + '%'}">
+                                                    <span data-bind="text: parseInt(((ArmorStashedCount() / AllArmor.length) * 100),10) + '%'"></span>
                                                 </div>
                                             </div>
                                         </div>
@@ -133,6 +149,11 @@
                                                      data-bind="style: {width: ((WeaponCubedCount() / AllWeapons.length) * 100).toFixed(2) + '%'}">
                                                     <span data-bind="text: parseInt(((WeaponCubedCount() / AllWeapons.length) * 100),10) + '%'"></span>
                                                 </div>
+
+                                                <div class="progress-bar progress-bar-warning"
+                                                     data-bind="style: {width: ((WeaponStashedCount() / AllWeapons.length) * 100).toFixed(2) + '%'}">
+                                                    <span data-bind="text: parseInt(((WeaponStashedCount() / AllWeapons.length) * 100),10) + '%'"></span>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -152,15 +173,19 @@
                             </table>
 
                         </div>
-                        <div class="tab-pane" id="panel-jewelery">
+                        <div class="tab-pane" id="panel-Jewelry">
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="progress">
                                                 <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100"
-                                                     data-bind="style: {width: ((JeweleryCubedCount() / AllJewelery.length) * 100).toFixed(2) + '%'}">
-                                                    <span data-bind="text: parseInt(((JeweleryCubedCount() / AllJewelery.length) * 100), 10) + '%'"></span>
+                                                     data-bind="style: {width: ((JewelryCubedCount() / AllJewelry.length) * 100).toFixed(2) + '%'}">
+                                                    <span data-bind="text: parseInt(((JewelryCubedCount() / AllJewelry.length) * 100), 10) + '%'"></span>
+                                                </div>
+                                                <div class="progress-bar progress-bar-warning"
+                                                     data-bind="style: {width: ((JewelryStashedCount() / AllJewelry.length) * 100).toFixed(2) + '%'}">
+                                                    <span data-bind="text: parseInt(((JewelryStashedCount() / AllJewelry.length) * 100),10) + '%'"></span>
                                                 </div>
                                             </div>
                                         </div>
@@ -177,7 +202,7 @@
                                         <td>Affix</td>
                                     </tr>
                                 </thead>
-                                <tbody data-bind="template: {name: 'item-template', foreach:Jewelery}"></tbody>
+                                <tbody data-bind="template: {name: 'item-template', foreach:Jewelry}"></tbody>
                             </table>
 
                         </div>
@@ -192,9 +217,7 @@
                 <span data-bind="text:itemName"></span>
             </td>
             <td>
-                <div class="checkbox">
-                    <input type="checkbox" data-bind="checked:isCubedSeason" />
-                </div>
+                <input type="checkbox" data-bind="checked:isCubedSeason" />
             </td>
             <td>
                 <input type="checkbox" data-bind="checked:isCubedNonSeason" />

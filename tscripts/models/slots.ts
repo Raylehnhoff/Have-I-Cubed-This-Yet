@@ -4,7 +4,7 @@
         export enum Slots {
             Armor = 0,
             Weapon = 1,
-            Jewelery = 2,
+            Jewelry = 2,
         }
     }
 }
