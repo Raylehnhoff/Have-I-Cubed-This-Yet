@@ -7,6 +7,7 @@ module Kanai {
         export class Site {
             Weapons: KnockoutObservableArray<KnockoutObservable<Equipment>>;
             Jewelry: KnockoutObservableArray<KnockoutObservable<Equipment>>;
+            Jewelery: KnockoutObservableArray<KnockoutObservable<Equipment>>;
             Armor: KnockoutObservableArray<KnockoutObservable<Equipment>>;
             hideCubed: KnockoutObservable<boolean>;
             hideCubedNonSeason: KnockoutObservable<boolean>;
@@ -21,6 +22,7 @@ module Kanai {
 
             AllWeapons: Equipment[];
             AllJewelry: Equipment[];
+            AllJewelery: Equipment[];
             AllArmor: Equipment[];
 
             constructor() {
@@ -59,6 +61,7 @@ module Kanai {
                         return left().itemName() == right().itemName() ? 0 : (left().itemName() < right().itemName() ? -1 : 1);
                     });
                     localStorage.setItem("kanai_cube", ko.mapping.toJSON(this));
+
                     $.each(self.Armor(), function (i, elem: KnockoutObservable<Equipment>) {
                         elem().isCubedSeason.subscribe((newValue) => {
                             self.saveToLocalStorage();
@@ -96,6 +99,11 @@ module Kanai {
                     });
                 } else {
                     ko.mapping.fromJS(vm, {}, self);
+                    if (self.Jewelery) {
+                        self.Jewelry = self.Jewelery;
+                        self.Jewelery = null;
+                        self.AllJewelry = self.AllJewelery;
+                    }
                     this.checkConsistency();
                     $.each(self.Armor(), function (i, elem: Equipment) {
                         elem.isCubedSeason.subscribe((newValue) => {

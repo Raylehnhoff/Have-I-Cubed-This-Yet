@@ -78,6 +78,11 @@ var Kanai;
                 }
                 else {
                     ko.mapping.fromJS(vm, {}, self);
+                    if (self.Jewelery) {
+                        self.Jewelry = self.Jewelery;
+                        self.Jewelery = null;
+                        self.AllJewelry = self.AllJewelery;
+                    }
                     this.checkConsistency();
                     $.each(self.Armor(), function (i, elem) {
                         elem.isCubedSeason.subscribe(function (newValue) {
