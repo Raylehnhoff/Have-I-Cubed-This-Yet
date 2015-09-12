@@ -77,6 +77,16 @@ var Kanai;
                     });
                 }
                 else {
+                    if (vm.Jewelery) {
+                        if (!self.Jewelry) {
+                            self.Jewelry = ko.observableArray();
+                        }
+                        for (var i = 0; i < vm.Jewelery.length; i++) {
+                            self.Jewelry.push(ko.mapping.fromJS(vm.Jewelery[i]));
+                        }
+                        delete vm.Jewelery;
+                        vm.Jewelry = self.Jewelry();
+                    }
                     ko.mapping.fromJS(vm, {}, self);
                     this.checkConsistency();
                     $.each(self.Armor(), function (i, elem) {
@@ -160,6 +170,8 @@ var Kanai;
                 });
             };
             Site.prototype.saveToLocalStorage = function () {
+                localStorage["kanai_cube"] = null;
+                delete this.Jewelery;
                 localStorage.setItem("kanai_cube", ko.mapping.toJSON(this));
             };
             // This function will return correct spelling of words that I typoed at some time without destroying user data or duplicating records
