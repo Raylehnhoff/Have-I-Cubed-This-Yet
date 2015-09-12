@@ -87,6 +87,11 @@ var Kanai;
                         delete vm.Jewelery;
                         vm.Jewelry = self.Jewelry();
                     }
+                    if (!vm.Jewelry) {
+                        if (!self.Jewelry) {
+                            self.Jewelry = ko.observableArray();
+                        }
+                    }
                     ko.mapping.fromJS(vm, {}, self);
                     this.checkConsistency();
                     $.each(self.Armor(), function (i, elem) {
