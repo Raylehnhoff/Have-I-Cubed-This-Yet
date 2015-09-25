@@ -551,6 +551,7 @@ module Kanai {
                 target.push(ko.observable(new Kanai.Equipment("Convention of Elements", "Gain 200% increased damage to a single element for 4 seconds. This effect rotates through the elements available to your class in the following order: Arcane, Cold, Fire, Holy, Lightning, Physical, Poison.")));
                 target.push(ko.observable(new Kanai.Equipment("Eternal Union", "Increases the duration of Phalanx avatars by 200%.")));
                 target.push(ko.observable(new Kanai.Equipment("Halo of Arlyse", "Your Ice Armor now reduces damage from melee attacks by 60% and automatically casts Frost Nova whenever you take 10% of your Life in damage.")));
+                target.push(ko.observable(new Kanai.Equipment("Haunt of Vaxo", "Summons shadow clones to your aid when you Stun an enemy. This effect may occur once every 30 seconds.")));
                 target.push(ko.observable(new Kanai.Equipment("Hellfire Ring", "Chance on hit to engulf the ground in lava, dealing 200% weapon damage per second for 6 seconds.")));
                 target.push(ko.observable(new Kanai.Equipment("Krede's Flame", "Taking Fire damage restores your primary resource.")));
                 target.push(ko.observable(new Kanai.Equipment("Nagelring", "Summons a Fallen Lunatic to your side every 10 seconds.")));
