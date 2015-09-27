@@ -352,7 +352,7 @@ var Kanai;
                 target.push(ko.observable(new Kanai.Equipment("Blessed of Haull", "Justice spawns a Blessed Hammer when it hits an enemy.")));
                 target.push(ko.observable(new Kanai.Equipment("Cord of the Sherma", "Chance on hit to create a chaos field that Blinds and Slows enemies inside for 4 seconds.")));
                 target.push(ko.observable(new Kanai.Equipment("Crashing Rain", "Rain of Vengeance also summons a crashing beast that deals 4000% weapon damage.")));
-                target.push(ko.observable(new Kanai.Equipment("Fazula's Improbable Chain", "Archon stacks also increase your Attack Speed, Armor and Resistances by 1%.")));
+                target.push(ko.observable(new Kanai.Equipment("Fazula's Improbable Chain", "You automatically start with 20 Archon stacks when entering Archon form.")));
                 target.push(ko.observable(new Kanai.Equipment("Goldwrap", "On gold pickup: Gain armor for 5 seconds equal to the amount picked up.")));
                 target.push(ko.observable(new Kanai.Equipment("Harrington Waistguard", "Opening a chest grants 135% increased damage for 10 seconds.")));
                 target.push(ko.observable(new Kanai.Equipment("Haunting Girdle", "Haunt releases 1 extra spirit.")));
