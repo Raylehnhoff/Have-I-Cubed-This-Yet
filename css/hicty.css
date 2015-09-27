@@ -1,0 +1,46 @@
+﻿.cursor-finger {
+    cursor: pointer;
+}
+
+dl {
+    clear: both;
+    display: inline-block;
+}
+
+dt {
+    width: 200px;
+    float: left;
+    clear: left;
+}
+
+dd {
+    float: left;
+    clear: right;
+}
+
+.progress-bar {
+    min-width: 2em;
+}
+
+.progress-bar.progress-bar-warning {
+    min-width: 0;
+}
+.sticky {
+    position:fixed;
+    top:0;
+    background-color: white;
+    width: 100%;
+}
+.progress-container {
+    padding-top: 10px;
+}
+.progress-container p {
+    float: left;
+    width: 100px;
+}
+.sticky-progress {
+    position: fixed;
+    top: 41px;
+    background-color: white;
+    width: 100%;
+}

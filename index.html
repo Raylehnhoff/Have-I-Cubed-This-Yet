@@ -8,41 +8,12 @@
     <script type="text/javascript" src="scripts/knockout.persist.js"></script>
     <script type="text/javascript" src="scripts/bootstrap/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="scripts/bootstrap/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/2.0.0/css/bootstrap-switch.min.css" />
+    <link rel="stylesheet" href="css/font-awesome.min.css" />
+    <link rel="stylesheet" href="css/hicty.css" />
     <script type="text/javascript" src="tscripts/models/equipment.js"></script>
     <script type="text/javascript" src="tscripts/models/restrictions.js"></script>
     <script type="text/javascript" src="tscripts/models/slots.js"></script>
     <script type="text/javascript" src="tscripts/VM/items.js?v=20152509"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/2.0.0/js/bootstrap-switch.min.js"></script>
-    <style>
-        .cursor-finger {
-            cursor: pointer;
-        }
-
-        dl {
-            clear: both;
-            display: inline-block;
-        }
-
-        dt {
-            width: 200px;
-            float: left;
-            clear: left;
-        }
-
-        dd {
-            float: left;
-            clear: right;
-        }
-
-        .progress-bar {
-            min-width: 2em;
-        }
-
-        .progress-bar.progress-bar-warning {
-            min-width: 0;
-        }
-    </style>
 </head>
 <body>
     <div class="container-fluid">
@@ -56,20 +27,7 @@
                     <p>
                         If you notice a problem with this site, please reach out to <a href="http://www.reddit.com/message/compose/?to=smdaegan">/u/smdaegan</a> on reddit
                     </p>
-                    <dl>
-                        <dt>
-                            Hide Cubed (seasonal):
-                        </dt>
-                        <dd>
-                            <input type="checkbox" data-bind="bootstrapSwitchOn: hideCubed" />
-                        </dd>
-                        <dt>
-                            Hide Cubed (non-seasonal):
-                        </dt>
-                        <dd>
-                            <input type="checkbox" data-bind="bootstrapSwitchOn: hideCubedNonSeason" />
-                        </dd>
-                    </dl>
+
 
                     <span id="refreshGrid" class="pull-right cursor-finger" title="Refresh"><i class="glyphicon glyphicon-refresh"></i> Refresh from Site</span>
                 </div>
@@ -77,19 +35,19 @@
                     <h4>Seasonal Progress</h4>
                     <ul>
                         <li>
-                            <span>Armor: </span><span data-bind="text: ArmorCubedCount() + ' (of ' + AllArmor.length +')'"></span>
+                            <span>Armor: </span><span data-bind="text: ArmorSeasonalCubedCount() + ' (of ' + AllArmor.length +')'"></span>
                         </li>
                         <li>
-                            <span>Weapon: </span><span data-bind="text: WeaponCubedCount() + ' (of ' + AllWeapons.length + ')'"></span>
+                            <span>Weapon: </span><span data-bind="text: WeaponSeasonalCubedCount() + ' (of ' + AllWeapons.length + ')'"></span>
                         </li>
                         <li>
-                            <span>Jewelry: </span><span data-bind="text: JewelryCubedCount() + ' (of ' + AllJewelry.length + ')'"></span>
+                            <span>Jewelry: </span><span data-bind="text: JewelrySeasonalCubedCount() + ' (of ' + AllJewelry.length + ')'"></span>
                         </li>
                         <li>
                             <span>Stashed Items:</span><span data-bind="text: (StashedCount()) + ' (of ' + (AllJewelry.length + AllWeapons.length + AllArmor.length) + ')'"></span>
                         </li>
-                        <li data-bind="text:'Total Cubed: ' + (JewelryCubedCount() + WeaponCubedCount() + ArmorCubedCount()) + ' (of ' + (AllArmor.length + AllWeapons.length + AllJewelry.length) +')'"></li>
-                        <li data-bind="text:'Total: ' + (JewelryCubedCount() + WeaponCubedCount() + ArmorCubedCount() + StashedCount()) + ' (of ' + (AllArmor.length + AllWeapons.length + AllJewelry.length) +')'"></li>
+                        <li data-bind="text:'Total Cubed: ' + (JewelrySeasonalCubedCount() + WeaponSeasonalCubedCount() + ArmorSeasonalCubedCount()) + ' (of ' + (AllArmor.length + AllWeapons.length + AllJewelry.length) +')'"></li>
+                        <li data-bind="text:'Total: ' + (JewelrySeasonalCubedCount() + WeaponSeasonalCubedCount() + ArmorSeasonalCubedCount() + StashedCount()) + ' (of ' + (AllArmor.length + AllWeapons.length + AllJewelry.length) +')'"></li>
                     </ul>
                 </div>
                 <div class="tabbable" id="tabs-377221">
@@ -103,22 +61,40 @@
                         <li>
                             <a href="#panel-Jewelry" data-toggle="tab">Jewelry</a>
                         </li>
-
+                        <li>
+                            <a href="#panel-settings" data-toggle="tab"><i class="fa fa-cog"></i> Settings</a>
+                        </li>
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane active" id="panel-armor">
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="progress">
-                                                <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100"
-                                                     data-bind="style: {width: ((ArmorCubedCount() / AllArmor.length) * 100).toFixed(2) + '%'}">
-                                                    <span data-bind="text: parseInt(((ArmorCubedCount() / AllArmor.length) * 100),10) + '%'"></span>
+                                        <div class="col-md-12 progress-container" data-bind="visible:(seasonalProgressBar || nonSeasonalProgressBar)">
+                                            <div data-bind="visible:seasonalProgressBar">
+                                                <p>Seasonal</p>
+                                                <div class="progress">
+                                                    <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100"
+                                                         data-bind="style: {width: ((ArmorSeasonalCubedCount() / AllArmor.length) * 100).toFixed(2) + '%'}">
+                                                        <span data-bind="text: parseInt(((ArmorSeasonalCubedCount() / AllArmor.length) * 100),10) + '%'"></span>
+                                                    </div>
+                                                    <div class="progress-bar progress-bar-warning"
+                                                         data-bind="style: {width: ((ArmorStashedCount() / AllArmor.length) * 100).toFixed(2) + '%'}">
+                                                        <span data-bind="text: parseInt(((ArmorStashedCount() / AllArmor.length) * 100),10) + '%'"></span>
+                                                    </div>
                                                 </div>
-                                                <div class="progress-bar progress-bar-warning"
-                                                     data-bind="style: {width: ((ArmorStashedCount() / AllArmor.length) * 100).toFixed(2) + '%'}">
-                                                    <span data-bind="text: parseInt(((ArmorStashedCount() / AllArmor.length) * 100),10) + '%'"></span>
+                                            </div>
+                                            <div data-bind="visible:nonSeasonalProgressBar">
+                                                <p>Non-Seasonal</p>
+                                                <div class="progress" data-bind="visible:nonSeasonalProgressBar">
+                                                    <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100"
+                                                         data-bind="style: {width: ((ArmorNonSeasonalCubedCount() / AllArmor.length) * 100).toFixed(2) + '%'}">
+                                                        <span data-bind="text: parseInt(((ArmorNonSeasonalCubedCount() / AllArmor.length) * 100),10) + '%'"></span>
+                                                    </div>
+                                                    <div class="progress-bar progress-bar-warning"
+                                                         data-bind="style: {width: ((ArmorStashedCount() / AllArmor.length) * 100).toFixed(2) + '%'}">
+                                                        <span data-bind="text: parseInt(((ArmorStashedCount() / AllArmor.length) * 100),10) + '%'"></span>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -143,16 +119,33 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="progress">
-                                                <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100"
-                                                     data-bind="style: {width: ((WeaponCubedCount() / AllWeapons.length) * 100).toFixed(2) + '%'}">
-                                                    <span data-bind="text: parseInt(((WeaponCubedCount() / AllWeapons.length) * 100),10) + '%'"></span>
-                                                </div>
+                                        <div class="col-md-12 progress-container" data-bind="visible:(seasonalProgressBar || nonSeasonalProgressBar)">
+                                            <div data-bind="visible:seasonalProgressBar">
+                                                <p>Seasonal</p>
+                                                <div class="progress">
+                                                    <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100"
+                                                         data-bind="style: {width: ((WeaponSeasonalCubedCount() / AllWeapons.length) * 100).toFixed(2) + '%'}">
+                                                        <span data-bind="text: parseInt(((WeaponSeasonalCubedCount() / AllWeapons.length) * 100),10) + '%'"></span>
+                                                    </div>
 
-                                                <div class="progress-bar progress-bar-warning"
-                                                     data-bind="style: {width: ((WeaponStashedCount() / AllWeapons.length) * 100).toFixed(2) + '%'}">
-                                                    <span data-bind="text: parseInt(((WeaponStashedCount() / AllWeapons.length) * 100),10) + '%'"></span>
+                                                    <div class="progress-bar progress-bar-warning"
+                                                         data-bind="style: {width: ((WeaponStashedCount() / AllWeapons.length) * 100).toFixed(2) + '%'}">
+                                                        <span data-bind="text: parseInt(((WeaponStashedCount() / AllWeapons.length) * 100),10) + '%'"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div data-bind="visible:nonSeasonalProgressBar">
+                                                <p>Non-Seasonal</p>
+                                                <div class="progress">
+                                                    <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100"
+                                                         data-bind="style: {width: ((WeaponNonSeasonalCubedCount() / AllWeapons.length) * 100).toFixed(2) + '%'}">
+                                                        <span data-bind="text: parseInt(((WeaponNonSeasonalCubedCount() / AllWeapons.length) * 100),10) + '%'"></span>
+                                                    </div>
+
+                                                    <div class="progress-bar progress-bar-warning"
+                                                         data-bind="style: {width: ((WeaponStashedCount() / AllWeapons.length) * 100).toFixed(2) + '%'}">
+                                                        <span data-bind="text: parseInt(((WeaponStashedCount() / AllWeapons.length) * 100),10) + '%'"></span>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -165,8 +158,8 @@
                                         <td>Name</td>
                                         <th>Cubed - Seasonal</th>
                                         <th>Cubed - Non-Seasonal</th>
-                                        <td>Stashed</td>
-                                        <td>Affix</td>
+                                        <th>Stashed</th>
+                                        <th>Affix</th>
                                     </tr>
                                 </thead>
                                 <tbody data-bind="template: {name: 'item-template', foreach:Weapons}"></tbody>
@@ -177,15 +170,31 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="progress">
-                                                <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100"
-                                                     data-bind="style: {width: ((JewelryCubedCount() / AllJewelry.length) * 100).toFixed(2) + '%'}">
-                                                    <span data-bind="text: parseInt(((JewelryCubedCount() / AllJewelry.length) * 100), 10) + '%'"></span>
+                                        <div class="col-md-12 progress-container" data-bind="visible:(seasonalProgressBar || nonSeasonalProgressBar)">
+                                            <div data-bind="visible:seasonalProgressBar">
+                                                <p>Seasonal</p>
+                                                <div class="progress">
+                                                    <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100"
+                                                         data-bind="style: {width: ((JewelrySeasonalCubedCount() / AllJewelry.length) * 100).toFixed(2) + '%'}">
+                                                        <span data-bind="text: parseInt(((JewelrySeasonalCubedCount() / AllJewelry.length) * 100), 10) + '%'"></span>
+                                                    </div>
+                                                    <div class="progress-bar progress-bar-warning"
+                                                         data-bind="style: {width: ((JewelryStashedCount() / AllJewelry.length) * 100).toFixed(2) + '%'}">
+                                                        <span data-bind="text: parseInt(((JewelryStashedCount() / AllJewelry.length) * 100),10) + '%'"></span>
+                                                    </div>
                                                 </div>
-                                                <div class="progress-bar progress-bar-warning"
-                                                     data-bind="style: {width: ((JewelryStashedCount() / AllJewelry.length) * 100).toFixed(2) + '%'}">
-                                                    <span data-bind="text: parseInt(((JewelryStashedCount() / AllJewelry.length) * 100),10) + '%'"></span>
+                                            </div>
+                                            <div data-bind="visible:nonSeasonalProgressBar">
+                                                <p>Non-Seasonal</p>
+                                                <div class="progress">
+                                                    <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100"
+                                                         data-bind="style: {width: ((JewelryNonSeasonalCubedCount() / AllJewelry.length) * 100).toFixed(2) + '%'}">
+                                                        <span data-bind="text: parseInt(((JewelryNonSeasonalCubedCount() / AllJewelry.length) * 100), 10) + '%'"></span>
+                                                    </div>
+                                                    <div class="progress-bar progress-bar-warning"
+                                                         data-bind="style: {width: ((JewelryStashedCount() / AllJewelry.length) * 100).toFixed(2) + '%'}">
+                                                        <span data-bind="text: parseInt(((JewelryStashedCount() / AllJewelry.length) * 100),10) + '%'"></span>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -195,16 +204,100 @@
                             <table class="table table-responsive">
                                 <thead>
                                     <tr>
-                                        <td>Name</td>
-                                        <td>Cubed - Seasonal</td>
-                                        <td>Cubed - Non-Seasonal</td>
-                                        <td>Stashed</td>
-                                        <td>Affix</td>
+                                        <th>Name</th>
+                                        <th>Cubed - Seasonal</th>
+                                        <th>Cubed - Non-Seasonal</th>
+                                        <th>Stashed</th>
+                                        <th>Affix</th>
                                     </tr>
                                 </thead>
                                 <tbody data-bind="template: {name: 'item-template', foreach:Jewelry}"></tbody>
                             </table>
 
+                        </div>
+                        <div id="panel-settings" class="tab-pane">
+                            <div class="panel-group" id="settings-accordion" role="tablist" aria-multiselectable="true">
+                                <div class="panel panel-default in">
+                                    <div class="panel-heading" role="tab" id="exportHeading">
+                                        <h4 class="panel-title">
+                                            <a role="button" data-toggle="collapse" data-parent="#settings-accordion" href="#seasonal-settings" aria-expanded="false" aria-controls="collapseOne">
+                                                Configure
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="seasonal-settings" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="exportHeading">
+                                        <div class="panel-body">
+                                            <fieldset>
+                                                <legend>Seasonal Settings:</legend>
+                                                <dl>
+                                                    <dt>
+                                                        Hide Cubed
+                                                    </dt>
+                                                    <dd>
+                                                        <input type="checkbox" data-bind="checked: hideCubed" />
+                                                    </dd>
+                                                    <dt>
+                                                        Show Progress Bar
+                                                    </dt>
+                                                    <dd>
+                                                        <input type="checkbox" data-bind="checked:seasonalProgressBar" />
+                                                    </dd>
+                                                </dl>
+                                            </fieldset>
+                                            <fieldset>
+                                                <legend>Non-Seasonal Settings:</legend>
+                                                <dl>
+                                                    <dt>
+                                                        Hide Cubed
+                                                    </dt>
+                                                    <dd>
+                                                        <input type="checkbox" data-bind="checked: hideCubedNonSeason" />
+                                                    </dd>
+                                                    <dt>
+                                                        Show Progress Bar
+                                                    </dt>
+                                                    <dd>
+                                                        <input type="checkbox" data-bind="checked:nonSeasonalProgressBar" />
+                                                    </dd>
+
+                                                </dl>
+                                            </fieldset>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel panel-default">
+                                    <div class="panel-heading" role="tab" id="exportHeading">
+                                        <h4 class="panel-title">
+                                            <a role="button" data-toggle="collapse" data-parent="#settings-accordion" href="#export" aria-expanded="false" aria-controls="collapseOne">
+                                                Export
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="export" class="panel-collapse collapse" role="tabpanel" aria-labelledby="exportHeading">
+                                        <div class="panel-body">
+                                            <p>The below will allow you to copy/paste your data into the import field.</p>
+                                            <textarea data-bind="text:Export" class="col-xs-12"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel panel-default">
+                                    <div class="panel-heading" role="tab" id="importHeading">
+                                        <h4 class="panel-title">
+                                            <a class="collapsed" role="button" data-toggle="collapse" data-parent="#settings-accordion" href="#import" aria-expanded="false" aria-controls="collapseTwo">
+                                                Import
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="import" class="panel-collapse collapse" role="tabpanel" aria-labelledby="importHeading">
+                                        <div class="panel-body">
+                                            <p>Importing will override ALL of your current selections. Do so with caution.</p>
+                                            <textarea data-bind="value:Import" class="col-xs-12"></textarea>
+                                            <button data-bind="click:function(){importValues()}">Import</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -232,29 +325,6 @@
     </script>
     <script type="text/javascript">
         var pageViewModel;
-
-        /**
- * Knockout binding handler for bootstrapSwitch indicating the status
- * of the switch (on/off): https://github.com/nostalgiaz/bootstrap-switch
- */
-        ko.bindingHandlers.bootstrapSwitchOn = {
-            init: function (element, valueAccessor, allBindingsAccessor, viewModel) {
-                $elem = $(element);
-                $(element).bootstrapSwitch();
-                $(element).bootstrapSwitch('setState', ko.utils.unwrapObservable(valueAccessor())); // Set intial state
-                $elem.on('switch-change', function (e, data) {
-                    valueAccessor()(data.value);
-                }); // Update the model when changed.
-            },
-            update: function (element, valueAccessor, allBindingsAccessor, viewModel) {
-                var vStatus = $(element).bootstrapSwitch('state');
-                var vmStatus = ko.utils.unwrapObservable(valueAccessor());
-                if (vStatus != vmStatus) {
-                    $(element).bootstrapSwitch('setState', vmStatus);
-                }
-            }
-        };
-
         $(document).ready(function () {
             pageViewModel = new Kanai.VM.Site();
             pageViewModel.init();
@@ -266,6 +336,27 @@
                     pageViewModel.init();
                 }
             });
+
+
+            var $menu = $('ul.nav');
+            var $progress = $(".progress-container");
+            var origOffsetY = $menu.offset().top;
+
+            function scroll() {
+                if ($(window).scrollTop() >= origOffsetY) {
+                    $menu.addClass('sticky');
+                    $progress.addClass("sticky-progress");
+                    //$('.tab-content').addClass('menu-padding');
+                } else {
+                    $menu.removeClass('sticky');
+                    $progress.removeClass("sticky-progress");
+                    //$('.tab-content').removeClass('menu-padding');
+                }
+
+
+            }
+
+            document.onscroll = scroll;
         });
 
     </script>
