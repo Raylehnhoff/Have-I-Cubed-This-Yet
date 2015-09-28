@@ -14,8 +14,7 @@
     <script type="text/javascript" src="tscripts/models/restrictions.js"></script>
     <script type="text/javascript" src="tscripts/models/slots.js"></script>
     <script type="text/javascript" src="tscripts/lang.js"></script>
-    <script type="text/javascript" src="tscripts/VM/items.js?v=20152509"></script>
-
+    <script type="text/javascript" src="tscripts/VM/items.js?v=20152809"></script>
 </head>
 <body>
     <div class="container-fluid">
@@ -265,14 +264,13 @@
                                 <div class="panel panel-default">
                                     <div class="panel-heading" role="tab" id="exportHeading">
                                         <h4 class="panel-title">
-                                            <a data-bind="text:lang.export()" role="button" data-toggle="collapse" data-parent="#settings-accordion" href="#export" aria-expanded="false" aria-controls="collapseOne">
-                                            </a>
+                                            <a data-bind="text:lang.export(),click:function(){fillExport();}" role="button" data-toggle="collapse" data-parent="#settings-accordion" href="#export" aria-expanded="false" aria-controls="collapseOne">
                                         </h4>
                                     </div>
                                     <div id="export" class="panel-collapse collapse" role="tabpanel" aria-labelledby="exportHeading">
                                         <div class="panel-body">
                                             <p data-bind="text:lang.exportWarning()"></p>
-                                            <textarea data-bind="text:Export" class="col-xs-12"></textarea>
+                                            <textarea data-bind="text:Export, click:function(){fillExport()}" class="col-xs-12"></textarea>
                                         </div>
                                     </div>
                                 </div>

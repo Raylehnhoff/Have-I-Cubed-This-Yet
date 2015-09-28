@@ -65,6 +65,9 @@ module Kanai {
                     this.loadWeapons(self.Weapons);
                     this.loadJewelry(self.Jewelry);
                     this.loadArmor(self.Armor);
+                    self.loadJewelry(self.AllJewelry);
+                    self.loadArmor(self.AllWeapons);
+                    self.loadWeapons(self.AllArmor);
                     this.Weapons.sort(function (left, right) {
                         return left().itemName() == right().itemName() ? 0 : (left().itemName() < right().itemName() ? -1 : 1);
                     });
@@ -255,7 +258,10 @@ module Kanai {
                 this.hideCubedNonSeason.subscribe(() => { self.saveToLocalStorage(); });
                 this.nonSeasonalProgressBar.subscribe(() => { self.saveToLocalStorage(); });
                 this.seasonalProgressBar.subscribe(() => { self.saveToLocalStorage(); });
+            }
 
+            fillExport() {
+                var self = this;
                 this.Export(ko.mapping.toJSON(self));
             }
 
@@ -263,8 +269,8 @@ module Kanai {
                 var self = this;
                 localStorage["kanai_cube"] = null;
                 delete this.Jewelery;
-                localStorage.setItem("kanai_cube", ko.mapping.toJSON(self));
-                this.Export(ko.mapping.toJSON(self));
+                localStorage.setItem("kanai_cube", ko.mapping.toJSON(self, {
+                    "ignore": ["AllWeapons", "AllJewelry", "Export", "AllArmor", "ArmorNonSeasonalCubedCount", "ArmorSeasonalCubedCount", "ArmorStashedCount", "JewelryNonSeasonalCubedCount", "JewelrySeasonalCubedCount", "JewelryStashedCount", "StashedCount", "WeaponNonSeasonalCubedCount", "WeaponSeasonalCubedCount", "WeaponStashedCount"]}));
             }
             
             // This function will return correct spelling of words that I typoed at some time without destroying user data or duplicating records
