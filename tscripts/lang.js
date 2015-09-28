@@ -1,6 +1,6 @@
 var lang = {
-    //culture: ko.observable("de-DE"),
-    culture: ko.observable(navigator.userLanguage || navigator.language),
+    culture: ko.observable("en-US"),
+    //culture: ko.observable(navigator.userLanguage || navigator.language),
     "pleaseRead": function () {
         switch (this.culture()) {
             case "en-US":

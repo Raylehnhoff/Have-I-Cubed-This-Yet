@@ -9,3 +9,4 @@
 /// <reference path="../tscripts/models/slots.js" />
 /// <reference path="../tscripts/VM/items.js" />
 /// <reference path="../tscripts/lang.js" />
+/// <reference path="footerScripts.js" />
