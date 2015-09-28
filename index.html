@@ -13,56 +13,56 @@
     <script type="text/javascript" src="tscripts/models/equipment.js"></script>
     <script type="text/javascript" src="tscripts/models/restrictions.js"></script>
     <script type="text/javascript" src="tscripts/models/slots.js"></script>
+    <script type="text/javascript" src="tscripts/lang.js"></script>
     <script type="text/javascript" src="tscripts/VM/items.js?v=20152509"></script>
+
 </head>
 <body>
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12" id="page">
                 <div>
-                    <p>
-                        <strong>Please read:</strong> This site makes use of <a href="http://www.html5rocks.com/en/features/storage">HTML5 localstorage</a> to store your information. This information is never sent to a server, and will only
-                        persist on the device that you set this up on.
+                    <p data-bind="html:lang.pleaseRead()">
+                        
                     </p>
-                    <p>
-                        If you notice a problem with this site, please reach out to <a href="http://www.reddit.com/message/compose/?to=smdaegan">/u/smdaegan</a> on reddit
+                    <p data-bind="html:lang.problem()">
                     </p>
 
 
                     <span id="refreshGrid" class="pull-right cursor-finger" title="Refresh"><i class="glyphicon glyphicon-refresh"></i> Refresh from Site</span>
                 </div>
                 <div class="clearfix">
-                    <h4>Seasonal Progress</h4>
+                    <h4 data-bind="lang.seasonalProgress()"></h4>
                     <ul>
                         <li>
-                            <span>Armor: </span><span data-bind="text: ArmorSeasonalCubedCount() + ' (of ' + AllArmor.length +')'"></span>
+                            <span data-bind="text:lang.armor()+': '"> </span><span data-bind="text: ArmorSeasonalCubedCount() + ' (of ' + AllArmor.length +')'"></span>
                         </li>
                         <li>
-                            <span>Weapon: </span><span data-bind="text: WeaponSeasonalCubedCount() + ' (of ' + AllWeapons.length + ')'"></span>
+                            <span data-bind="text:lang.weapon()+': '"> </span><span data-bind="text: WeaponSeasonalCubedCount() + ' (of ' + AllWeapons.length + ')'"></span>
                         </li>
                         <li>
-                            <span>Jewelry: </span><span data-bind="text: JewelrySeasonalCubedCount() + ' (of ' + AllJewelry.length + ')'"></span>
+                            <span data-bind="text:lang.jewelry()+': '"> </span><span data-bind="text: JewelrySeasonalCubedCount() + ' (of ' + AllJewelry.length + ')'"></span>
                         </li>
                         <li>
-                            <span>Stashed Items:</span><span data-bind="text: (StashedCount()) + ' (of ' + (AllJewelry.length + AllWeapons.length + AllArmor.length) + ')'"></span>
+                            <span data-bind="text:lang.stashedItems()+':'"></span><span data-bind="text: (StashedCount()) + ' (of ' + (AllJewelry.length + AllWeapons.length + AllArmor.length) + ')'"></span>
                         </li>
-                        <li data-bind="text:'Total Cubed: ' + (JewelrySeasonalCubedCount() + WeaponSeasonalCubedCount() + ArmorSeasonalCubedCount()) + ' (of ' + (AllArmor.length + AllWeapons.length + AllJewelry.length) +')'"></li>
-                        <li data-bind="text:'Total: ' + (JewelrySeasonalCubedCount() + WeaponSeasonalCubedCount() + ArmorSeasonalCubedCount() + StashedCount()) + ' (of ' + (AllArmor.length + AllWeapons.length + AllJewelry.length) +')'"></li>
+                        <li data-bind="text:lang.totalCubed() +': ' + (JewelrySeasonalCubedCount() + WeaponSeasonalCubedCount() + ArmorSeasonalCubedCount()) + ' (of ' + (AllArmor.length + AllWeapons.length + AllJewelry.length) +')'"></li>
+                        <li data-bind="text:lang.total()+': ' + (JewelrySeasonalCubedCount() + WeaponSeasonalCubedCount() + ArmorSeasonalCubedCount() + StashedCount()) + ' (of ' + (AllArmor.length + AllWeapons.length + AllJewelry.length) +')'"></li>
                     </ul>
                 </div>
                 <div class="tabbable" id="tabs-377221">
                     <ul class="nav nav-tabs">
                         <li class="active">
-                            <a href="#panel-armor" data-toggle="tab">Armor</a>
+                            <a href="#panel-armor" data-toggle="tab" data-bind="text:lang.armor()"></a>
                         </li>
                         <li>
-                            <a href="#panel-weapons" data-toggle="tab">Weapons</a>
+                            <a href="#panel-weapons" data-toggle="tab" data-bind="text:lang.weapons()"></a>
                         </li>
                         <li>
-                            <a href="#panel-Jewelry" data-toggle="tab">Jewelry</a>
+                            <a href="#panel-Jewelry" data-toggle="tab" data-bind="text:lang.jewelry()"></a>
                         </li>
                         <li>
-                            <a href="#panel-settings" data-toggle="tab"><i class="fa fa-cog"></i> Settings</a>
+                            <a href="#panel-settings" data-toggle="tab" data-bind="text:lang.settings()"><i class="fa fa-cog"></i> </a>
                         </li>
                     </ul>
                     <div class="tab-content">
@@ -72,7 +72,7 @@
                                     <div class="row">
                                         <div class="col-md-12 progress-container" data-bind="visible:(seasonalProgressBar || nonSeasonalProgressBar)">
                                             <div data-bind="visible:seasonalProgressBar">
-                                                <p>Seasonal</p>
+                                                <p data-bind="text:lang.seasonal()"></p>
                                                 <div class="progress">
                                                     <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100"
                                                          data-bind="style: {width: ((ArmorSeasonalCubedCount() / AllArmor.length) * 100).toFixed(2) + '%'}">
@@ -85,7 +85,7 @@
                                                 </div>
                                             </div>
                                             <div data-bind="visible:nonSeasonalProgressBar">
-                                                <p>Non-Seasonal</p>
+                                                <p data-bind="text:lang.nonSeasonal()"></p>
                                                 <div class="progress" data-bind="visible:nonSeasonalProgressBar">
                                                     <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100"
                                                          data-bind="style: {width: ((ArmorNonSeasonalCubedCount() / AllArmor.length) * 100).toFixed(2) + '%'}">
@@ -104,11 +104,11 @@
                             <table class="table table-responsive">
                                 <thead>
                                     <tr>
-                                        <th>Name</th>
-                                        <th>Cubed - Seasonal</th>
-                                        <th>Cubed - Non-Seasonal</th>
-                                        <th>Stashed</th>
-                                        <th>Affix</th>
+                                        <th data-bind="text:lang.name()"></th>
+                                        <th data-bind="text:lang.cubedSeasonal()"></th>
+                                        <th data-bind="text:lang.cubedNonSeasonal()"></th>
+                                        <th data-bind="text:lang.stashed()"></th>
+                                        <th data-bind="text:lang.affix()"></th>
                                     </tr>
                                 </thead>
                                 <tbody data-bind="template: {name: 'item-template', foreach:Armor}"></tbody>
@@ -121,7 +121,7 @@
                                     <div class="row">
                                         <div class="col-md-12 progress-container" data-bind="visible:(seasonalProgressBar || nonSeasonalProgressBar)">
                                             <div data-bind="visible:seasonalProgressBar">
-                                                <p>Seasonal</p>
+                                                <p data-bind="text:lang.seasonal()"></p>
                                                 <div class="progress">
                                                     <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100"
                                                          data-bind="style: {width: ((WeaponSeasonalCubedCount() / AllWeapons.length) * 100).toFixed(2) + '%'}">
@@ -135,7 +135,7 @@
                                                 </div>
                                             </div>
                                             <div data-bind="visible:nonSeasonalProgressBar">
-                                                <p>Non-Seasonal</p>
+                                                <p data-bind="text:lang.nonSeasonal()"></p>
                                                 <div class="progress">
                                                     <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100"
                                                          data-bind="style: {width: ((WeaponNonSeasonalCubedCount() / AllWeapons.length) * 100).toFixed(2) + '%'}">
@@ -155,11 +155,11 @@
                             <table class="table table-responsive">
                                 <thead>
                                     <tr>
-                                        <td>Name</td>
-                                        <th>Cubed - Seasonal</th>
-                                        <th>Cubed - Non-Seasonal</th>
-                                        <th>Stashed</th>
-                                        <th>Affix</th>
+                                        <th data-bind="text:lang.name()"></th>
+                                        <th data-bind="text:lang.cubedSeasonal()"></th>
+                                        <th data-bind="text:lang.cubedNonSeasonal()"></th>
+                                        <th data-bind="text:lang.stashed()"></th>
+                                        <th data-bind="text:lang.affix()"></th>
                                     </tr>
                                 </thead>
                                 <tbody data-bind="template: {name: 'item-template', foreach:Weapons}"></tbody>
@@ -172,7 +172,7 @@
                                     <div class="row">
                                         <div class="col-md-12 progress-container" data-bind="visible:(seasonalProgressBar || nonSeasonalProgressBar)">
                                             <div data-bind="visible:seasonalProgressBar">
-                                                <p>Seasonal</p>
+                                                <p data-bind="text:lang.seasonal()"></p>
                                                 <div class="progress">
                                                     <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100"
                                                          data-bind="style: {width: ((JewelrySeasonalCubedCount() / AllJewelry.length) * 100).toFixed(2) + '%'}">
@@ -185,7 +185,7 @@
                                                 </div>
                                             </div>
                                             <div data-bind="visible:nonSeasonalProgressBar">
-                                                <p>Non-Seasonal</p>
+                                                <p data-bind="text:lang.nonSeasonal()"></p>
                                                 <div class="progress">
                                                     <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100"
                                                          data-bind="style: {width: ((JewelryNonSeasonalCubedCount() / AllJewelry.length) * 100).toFixed(2) + '%'}">
@@ -204,11 +204,11 @@
                             <table class="table table-responsive">
                                 <thead>
                                     <tr>
-                                        <th>Name</th>
-                                        <th>Cubed - Seasonal</th>
-                                        <th>Cubed - Non-Seasonal</th>
-                                        <th>Stashed</th>
-                                        <th>Affix</th>
+                                        <th data-bind="text:lang.name()"></th>
+                                        <th data-bind="text:lang.cubedSeasonal()"></th>
+                                        <th data-bind="text:lang.cubedNonSeasonal()"></th>
+                                        <th data-bind="text:lang.stashed()"></th>
+                                        <th data-bind="text:lang.affix()"></th>
                                     </tr>
                                 </thead>
                                 <tbody data-bind="template: {name: 'item-template', foreach:Jewelry}"></tbody>
@@ -220,24 +220,22 @@
                                 <div class="panel panel-default in">
                                     <div class="panel-heading" role="tab" id="exportHeading">
                                         <h4 class="panel-title">
-                                            <a role="button" data-toggle="collapse" data-parent="#settings-accordion" href="#seasonal-settings" aria-expanded="false" aria-controls="collapseOne">
-                                                Configure
+                                            <a data-bind="text:lang.configure()" role="button" data-toggle="collapse" data-parent="#settings-accordion" href="#seasonal-settings" aria-expanded="false" aria-controls="collapseOne">
+                                                
                                             </a>
                                         </h4>
                                     </div>
                                     <div id="seasonal-settings" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="exportHeading">
                                         <div class="panel-body">
                                             <fieldset>
-                                                <legend>Seasonal Settings:</legend>
+                                                <legend data-bind="text:lang.seasonalSettingsHeader()"></legend>
                                                 <dl>
-                                                    <dt>
-                                                        Hide Cubed
+                                                    <dt data-bind="text:lang.hideCubed()">
                                                     </dt>
                                                     <dd>
                                                         <input type="checkbox" data-bind="checked: hideCubed" />
                                                     </dd>
-                                                    <dt>
-                                                        Show Progress Bar
+                                                    <dt data-bind="text:lang.showProgressBar()">
                                                     </dt>
                                                     <dd>
                                                         <input type="checkbox" data-bind="checked:seasonalProgressBar" />
@@ -245,16 +243,14 @@
                                                 </dl>
                                             </fieldset>
                                             <fieldset>
-                                                <legend>Non-Seasonal Settings:</legend>
+                                                <legend data-bind="text:lang.nonSeasonalSettingsHeader()"></legend>
                                                 <dl>
-                                                    <dt>
-                                                        Hide Cubed
+                                                    <dt data-bind="text:lang.hideCubed()">
                                                     </dt>
                                                     <dd>
                                                         <input type="checkbox" data-bind="checked: hideCubedNonSeason" />
                                                     </dd>
-                                                    <dt>
-                                                        Show Progress Bar
+                                                    <dt data-bind="text:lang.showProgressBar()">
                                                     </dt>
                                                     <dd>
                                                         <input type="checkbox" data-bind="checked:nonSeasonalProgressBar" />
@@ -269,14 +265,13 @@
                                 <div class="panel panel-default">
                                     <div class="panel-heading" role="tab" id="exportHeading">
                                         <h4 class="panel-title">
-                                            <a role="button" data-toggle="collapse" data-parent="#settings-accordion" href="#export" aria-expanded="false" aria-controls="collapseOne">
-                                                Export
+                                            <a data-bind="text:lang.export()" role="button" data-toggle="collapse" data-parent="#settings-accordion" href="#export" aria-expanded="false" aria-controls="collapseOne">
                                             </a>
                                         </h4>
                                     </div>
                                     <div id="export" class="panel-collapse collapse" role="tabpanel" aria-labelledby="exportHeading">
                                         <div class="panel-body">
-                                            <p>The below will allow you to copy/paste your data into the import field.</p>
+                                            <p data-bind="text:lang.exportWarning()"></p>
                                             <textarea data-bind="text:Export" class="col-xs-12"></textarea>
                                         </div>
                                     </div>
@@ -284,16 +279,16 @@
                                 <div class="panel panel-default">
                                     <div class="panel-heading" role="tab" id="importHeading">
                                         <h4 class="panel-title">
-                                            <a class="collapsed" role="button" data-toggle="collapse" data-parent="#settings-accordion" href="#import" aria-expanded="false" aria-controls="collapseTwo">
-                                                Import
+                                            <a data-bind="text:lang.import()" class="collapsed" role="button" data-toggle="collapse" data-parent="#settings-accordion" href="#import" aria-expanded="false" aria-controls="collapseTwo">
+                                                
                                             </a>
                                         </h4>
                                     </div>
                                     <div id="import" class="panel-collapse collapse" role="tabpanel" aria-labelledby="importHeading">
                                         <div class="panel-body">
-                                            <p>Importing will override ALL of your current selections. Do so with caution.</p>
+                                            <p data-bind="text:lang.importWarning()"></p>
                                             <textarea data-bind="value:Import" class="col-xs-12"></textarea>
-                                            <button data-bind="click:function(){importValues()}">Import</button>
+                                            <button data-bind="click:function(){importValues()}, text:lang.import()"></button>
                                         </div>
                                     </div>
                                 </div>
@@ -330,7 +325,7 @@
             pageViewModel.init();
             ko.applyBindings(pageViewModel, $("#page")[0]);
             $("#refreshGrid").on('click', function () {
-                if (confirm("This option will remove all data in local storage (including your selections) and refresh the grid. Are you sure you want to do this?")) {
+                if (confirm(lang.refreshWarning())) {
                     localStorage.removeItem("kanai_cube");
                     pageViewModel.clear();
                     pageViewModel.init();

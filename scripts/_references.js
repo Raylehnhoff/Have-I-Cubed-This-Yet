@@ -4,3 +4,7 @@
 /// <reference path="knockout-3.3.0.js" />
 /// <reference path="knockout.persist.js" />
 /// <reference path="knockout.mapping-latest.js" />
+/// <reference path="../tscripts/models/equipment.js" />
+/// <reference path="../tscripts/models/restrictions.js" />
+/// <reference path="../tscripts/models/slots.js" />
+/// <reference path="../tscripts/VM/items.js" />
