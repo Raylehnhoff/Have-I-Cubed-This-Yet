@@ -14,6 +14,7 @@ module Kanai {
             //Seasonal Settings
             hideCubed: KnockoutObservable<boolean>;
             seasonalProgressBar: KnockoutObservable<boolean>;
+            hideSeasonalCheckboxes: KnockoutObservable<boolean>;
             ArmorSeasonalCubedCount: KnockoutComputed<number>;
             WeaponSeasonalCubedCount: KnockoutComputed<number>;
             JewelrySeasonalCubedCount: KnockoutComputed<number>;
@@ -21,6 +22,7 @@ module Kanai {
             //Non-Seasonal Settings
             hideCubedNonSeason: KnockoutObservable<boolean>;
             nonSeasonalProgressBar: KnockoutObservable<boolean>;
+            hideNonSeasonalCheckboxes: KnockoutObservable<boolean>;
             ArmorNonSeasonalCubedCount: KnockoutComputed<number>;
             WeaponNonSeasonalCubedCount: KnockoutComputed<number>;
             JewelryNonSeasonalCubedCount: KnockoutComputed<number>;
@@ -46,6 +48,8 @@ module Kanai {
                 this.hideCubed = ko.observable(false).extend({ notify: 'always' });
                 this.hideCubedNonSeason = ko.observable(false).extend({ notify: 'always' });
                 this.nonSeasonalProgressBar = ko.observable(false).extend({ notify: 'always' });
+                this.hideNonSeasonalCheckboxes = ko.observable(false).extend({ notify: 'always' });
+                this.hideSeasonalCheckboxes = ko.observable(false).extend({ notify: 'always' });
                 this.seasonalProgressBar = ko.observable(true).extend({ notify: 'always' });
                 this.AllWeapons = new Array<Equipment>();
                 this.AllJewelry = new Array<Equipment>();

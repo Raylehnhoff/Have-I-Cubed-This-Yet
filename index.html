@@ -28,10 +28,10 @@
                     </p>
 
 
-                    <span id="refreshGrid" class="pull-right cursor-finger" title="Refresh"><i class="glyphicon glyphicon-refresh"></i> Refresh from Site</span>
+                    <span id="refreshGrid" class="pull-right cursor-finger" data-bind="attr:{'title':lang.refreshFromSite()}"><i class="glyphicon glyphicon-refresh"></i> <span data-bind="text:lang.refreshFromSite()"></span> </span>
                 </div>
                 <div class="clearfix">
-                    <h4 data-bind="lang.seasonalProgress()"></h4>
+                    <h4 data-bind="text:lang.seasonalProgress()"></h4>
                     <ul>
                         <li>
                             <span data-bind="text:lang.armor()+': '"> </span><span data-bind="text: ArmorSeasonalCubedCount() + ' (of ' + AllArmor.length +')'"></span>
@@ -104,8 +104,8 @@
                                 <thead>
                                     <tr>
                                         <th data-bind="text:lang.name()"></th>
-                                        <th data-bind="text:lang.cubedSeasonal()"></th>
-                                        <th data-bind="text:lang.cubedNonSeasonal()"></th>
+                                        <th data-bind="text:lang.cubedSeasonal(),visible:(!(hideSeasonalCheckboxes()))"></th>
+                                        <th data-bind="text:lang.cubedNonSeasonal(),visible:(!(hideNonSeasonalCheckboxes()))"></th>
                                         <th data-bind="text:lang.stashed()"></th>
                                         <th data-bind="text:lang.affix()"></th>
                                     </tr>
@@ -155,8 +155,8 @@
                                 <thead>
                                     <tr>
                                         <th data-bind="text:lang.name()"></th>
-                                        <th data-bind="text:lang.cubedSeasonal()"></th>
-                                        <th data-bind="text:lang.cubedNonSeasonal()"></th>
+                                        <th data-bind="text:lang.cubedSeasonal(),visible:(!(hideSeasonalCheckboxes()))"></th>
+                                        <th data-bind="text:lang.cubedNonSeasonal(),visible:(!(hideNonSeasonalCheckboxes()))"></th>
                                         <th data-bind="text:lang.stashed()"></th>
                                         <th data-bind="text:lang.affix()"></th>
                                     </tr>
@@ -204,8 +204,8 @@
                                 <thead>
                                     <tr>
                                         <th data-bind="text:lang.name()"></th>
-                                        <th data-bind="text:lang.cubedSeasonal()"></th>
-                                        <th data-bind="text:lang.cubedNonSeasonal()"></th>
+                                        <th data-bind="text:lang.cubedSeasonal(),visible:(!(hideSeasonalCheckboxes()))"></th>
+                                        <th data-bind="text:lang.cubedNonSeasonal(),visible:(!(hideNonSeasonalCheckboxes()))"></th>
                                         <th data-bind="text:lang.stashed()"></th>
                                         <th data-bind="text:lang.affix()"></th>
                                     </tr>
@@ -234,8 +234,13 @@
                                                     <dd>
                                                         <input type="checkbox" data-bind="checked: hideCubed" />
                                                     </dd>
+                                                    <dt data-bind="text:lang.hideSeasonalCheckboxes()"></dt>
+                                                    <dd>
+                                                        <input type="checkbox" data-bind="checked:hideSeasonalCheckboxes" />
+                                                    </dd>
                                                     <dt data-bind="text:lang.showProgressBar()">
                                                     </dt>
+
                                                     <dd>
                                                         <input type="checkbox" data-bind="checked:seasonalProgressBar" />
                                                     </dd>
@@ -248,6 +253,10 @@
                                                     </dt>
                                                     <dd>
                                                         <input type="checkbox" data-bind="checked: hideCubedNonSeason" />
+                                                    </dd>
+                                                    <dt data-bind="text:lang.hideNonSeasonalCheckboxes()"></dt>
+                                                    <dd>
+                                                        <input type="checkbox" data-bind="checked:hideNonSeasonalCheckboxes" />
                                                     </dd>
                                                     <dt data-bind="text:lang.showProgressBar()">
                                                     </dt>
@@ -302,10 +311,10 @@
             <td>
                 <span data-bind="text:itemName"></span>
             </td>
-            <td>
+            <td data-bind="visible:(!(pageViewModel.hideSeasonalCheckboxes()))">
                 <input type="checkbox" data-bind="checked:isCubedSeason" />
             </td>
-            <td>
+            <td data-bind="visible:(!(pageViewModel.hideNonSeasonalCheckboxes()))">
                 <input type="checkbox" data-bind="checked:isCubedNonSeason" />
             </td>
             <td>

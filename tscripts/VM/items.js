@@ -16,6 +16,8 @@ var Kanai;
                 this.hideCubed = ko.observable(false).extend({ notify: 'always' });
                 this.hideCubedNonSeason = ko.observable(false).extend({ notify: 'always' });
                 this.nonSeasonalProgressBar = ko.observable(false).extend({ notify: 'always' });
+                this.hideNonSeasonalCheckboxes = ko.observable(false).extend({ notify: 'always' });
+                this.hideSeasonalCheckboxes = ko.observable(false).extend({ notify: 'always' });
                 this.seasonalProgressBar = ko.observable(true).extend({ notify: 'always' });
                 this.AllWeapons = new Array();
                 this.AllJewelry = new Array();

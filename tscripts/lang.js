@@ -13,6 +13,9 @@ var lang = {
             case "en-US":
             default:
                 return "If you notice a problem with this site, please reach out to <a href='http://www.reddit.com/message/compose/?to=smdaegan'>/u/smdaegan</a> on reddit";
+            //german translations will go here
+            case "de-DE":
+                return "";
         }
     },
     "armor": function () {
@@ -141,6 +144,13 @@ var lang = {
                 return "Importing values will override all of your current selections. Are you sure you want to do this?";
         }
     },
+    "refreshFromSite": function () {
+        switch (this.culture()) {
+            case "en-US":
+            default:
+                return "Refresh from Site";
+        }
+    },
     "refreshWarning": function () {
         switch (this.culture()) {
             case "en-US":
@@ -181,6 +191,20 @@ var lang = {
             case "en-US":
             default:
                 return "Cubed - Seasonal";
+        }
+    },
+    "hideSeasonalCheckboxes": function () {
+        switch (this.culture()) {
+            case "en-US":
+            default:
+                return "Hide Seasonal Checkboxes";
+        }
+    },
+    "hideNonSeasonalCheckboxes": function () {
+        switch (this.culture()) {
+            case "en-US":
+            default:
+                return "Hide Non-Seasonal Checkboxes";
         }
     },
     "cubedNonSeasonal": function () {

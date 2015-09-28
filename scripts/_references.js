@@ -8,3 +8,4 @@
 /// <reference path="../tscripts/models/restrictions.js" />
 /// <reference path="../tscripts/models/slots.js" />
 /// <reference path="../tscripts/VM/items.js" />
+/// <reference path="../tscripts/lang.js" />
