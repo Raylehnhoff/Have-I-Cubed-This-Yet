@@ -212,7 +212,7 @@ var Kanai;
                 var self = this;
                 localStorage["kanai_cube"] = null;
                 delete this.Jewelery;
-                localStorage.setItem("kanai_cube", ko.mapping.toJSON(self));
+                localStorage.setItem("kanai_cube", ko.mapping.toJSON(self, { "ignore": ["AllWeapons", "AllJewelry", "AllArmor"] }));
                 this.Export(ko.mapping.toJSON(self));
             };
             // This function will return correct spelling of words that I typoed at some time without destroying user data or duplicating records
