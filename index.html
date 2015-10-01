@@ -70,8 +70,8 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="row">
-                                        <div class="col-md-12 progress-container" data-bind="visible:(seasonalProgressBar || nonSeasonalProgressBar)">
-                                            <div data-bind="visible:seasonalProgressBar">
+                                        <div class="col-md-12 progress-container" data-bind="visible:(seasonalProgressBar() || nonSeasonalProgressBar())">
+                                            <div data-bind="visible:seasonalProgressBar()">
                                                 <p>Seasonal</p>
                                                 <div class="progress">
                                                     <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100"
@@ -84,9 +84,9 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div data-bind="visible:nonSeasonalProgressBar">
+                                            <div data-bind="visible:nonSeasonalProgressBar()">
                                                 <p>Non-Seasonal</p>
-                                                <div class="progress" data-bind="visible:nonSeasonalProgressBar">
+                                                <div class="progress" data-bind="visible:nonSeasonalProgressBar()">
                                                     <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100"
                                                          data-bind="style: {width: ((ArmorNonSeasonalCubedCount() / AllArmor.length) * 100).toFixed(2) + '%'}">
                                                         <span data-bind="text: parseInt(((ArmorNonSeasonalCubedCount() / AllArmor.length) * 100),10) + '%'"></span>
@@ -119,8 +119,8 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="row">
-                                        <div class="col-md-12 progress-container" data-bind="visible:(seasonalProgressBar || nonSeasonalProgressBar)">
-                                            <div data-bind="visible:seasonalProgressBar">
+                                        <div class="col-md-12 progress-container" data-bind="visible:(seasonalProgressBar() || nonSeasonalProgressBar())">
+                                            <div data-bind="visible:seasonalProgressBar()">
                                                 <p>Seasonal</p>
                                                 <div class="progress">
                                                     <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100"
@@ -134,7 +134,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div data-bind="visible:nonSeasonalProgressBar">
+                                            <div data-bind="visible:nonSeasonalProgressBar()">
                                                 <p>Non-Seasonal</p>
                                                 <div class="progress">
                                                     <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100"
@@ -170,8 +170,8 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="row">
-                                        <div class="col-md-12 progress-container" data-bind="visible:(seasonalProgressBar || nonSeasonalProgressBar)">
-                                            <div data-bind="visible:seasonalProgressBar">
+                                        <div class="col-md-12 progress-container" data-bind="visible:(seasonalProgressBar() || nonSeasonalProgressBar())">
+                                            <div data-bind="visible:seasonalProgressBar()">
                                                 <p>Seasonal</p>
                                                 <div class="progress">
                                                     <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100"
@@ -184,7 +184,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div data-bind="visible:nonSeasonalProgressBar">
+                                            <div data-bind="visible:nonSeasonalProgressBar()">
                                                 <p>Non-Seasonal</p>
                                                 <div class="progress">
                                                     <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100"
