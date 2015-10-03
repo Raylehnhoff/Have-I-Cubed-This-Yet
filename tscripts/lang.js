@@ -1,11 +1,54 @@
 var lang = {
-    culture: ko.observable("en-US"),
-    //culture: ko.observable(navigator.userLanguage || navigator.language),
+    //culture: ko.observable("de-DE"),
+    culture: ko.observable(navigator.userLanguage || navigator.language),
+    "bothSettingsHeader": function () {
+        switch (this.culture()) {
+            case "en-US":
+            default:
+                return "Both";
+            case "de-DE":
+            case "de":
+                return "Beide";
+        }
+    },
+    "showBothProgressBar": function () {
+        switch (this.culture()) {
+            case "en-US":
+            default:
+                return "Show progress bar for both";
+            case "de-DE":
+            case "de":
+                return "Zeige Fortschrittsbalken für beide";
+        }
+    },
+    "bothProgressBarLabel": function () {
+        switch (this.culture()) {
+            case "en-US":
+            default:
+                return "Both";
+            case "de-DE":
+            case "de":
+                return "Beide";
+        }
+    },
+    "searchPlaceholder": function () {
+        switch (this.culture()) {
+            case "en-US":
+            default:
+                return "Search";
+            case "de-DE":
+            case "de":
+                return "Suche";
+        }
+    },
     "pleaseRead": function () {
         switch (this.culture()) {
             case "en-US":
             default:
                 return "<strong>Please read:</strong> This site makes use of <a href='http://www.html5rocks.com/en/features/storage'>HTML5 localstorage</a> to store your information. This information is never sent to a server, and will only persist on the device that you set this up on.";
+            case "de-DE":
+            case "de":
+                return "<strong>Bitte lesen:</strong> Diese Seite benutzt <a href='http://www.html5rocks.com/en/features/storage'>HTML5 localstorage</a> um ihre Informationen zu speichern. Diese Informationen werden niemals an einen Server gesendet und verweilen nur auf dem Gerät, das Sie benutzen.";
         }
     },
     "problem": function () {
@@ -13,9 +56,9 @@ var lang = {
             case "en-US":
             default:
                 return "If you notice a problem with this site, please reach out to <a href='http://www.reddit.com/message/compose/?to=smdaegan'>/u/smdaegan</a> on reddit";
-            //german translations will go here
             case "de-DE":
-                return "";
+            case "de":
+                return "Falls Ihnen Probleme mit der Seite auffallen, wenden Sie sich bitte an <a href='http://www.reddit.com/message/compose/?to=smdaegan'>/u/smdaegan</a> auf reddit.";
         }
     },
     "armor": function () {
@@ -23,6 +66,9 @@ var lang = {
             case "en-US":
             default:
                 return "Armor";
+            case "de-DE":
+            case "de":
+                return "Rüstung";
         }
     },
     "weapon": function () {
@@ -30,6 +76,9 @@ var lang = {
             case "en-US":
             default:
                 return "Weapon";
+            case "de-DE":
+            case "de":
+                return "Waffe";
         }
     },
     "weapons": function () {
@@ -37,6 +86,9 @@ var lang = {
             case "en-US":
             default:
                 return "Weapons";
+            case "de-DE":
+            case "de":
+                return "Waffen";
         }
     },
     "jewelry": function () {
@@ -44,6 +96,9 @@ var lang = {
             case "en-US":
             default:
                 return "Jewelry";
+            case "de-DE":
+            case "de":
+                return "Schmuck";
         }
     },
     "stashedItems": function () {
@@ -51,6 +106,9 @@ var lang = {
             case "en-US":
             default:
                 return "Stashed Items";
+            case "de-DE":
+            case "de":
+                return "Gelagerte Items";
         }
     },
     "totalCubed": function () {
@@ -72,6 +130,9 @@ var lang = {
             case "en-US":
             default:
                 return "Settings";
+            case "de-DE":
+            case "de":
+                return "Einstellungen";
         }
     },
     "configure": function () {
@@ -79,6 +140,9 @@ var lang = {
             case "en-US":
             default:
                 return "Configure";
+            case "de-DE":
+            case "de":
+                return "Konfiguration";
         }
     },
     "seasonalSettingsHeader": function () {
@@ -86,6 +150,9 @@ var lang = {
             case "en-US":
             default:
                 return "Seasonal Settings:";
+            case "de-DE":
+            case "de":
+                return "Saisonale Einstellungen";
         }
     },
     "nonSeasonalSettingsHeader": function () {
@@ -93,6 +160,9 @@ var lang = {
             case "en-US":
             default:
                 return "Non-Seasonal Settings:";
+            case "de-DE":
+            case "de":
+                return "Nicht-Saisonale Einstellungen";
         }
     },
     "hideCubed": function () {
@@ -100,6 +170,9 @@ var lang = {
             case "en-US":
             default:
                 return "Hide Cubed";
+            case "de-DE":
+            case "de":
+                return "Verstecke Würfel";
         }
     },
     "showProgressBar": function () {
@@ -107,6 +180,9 @@ var lang = {
             case "en-US":
             default:
                 return "Show Progress Bar";
+            case "de-DE":
+            case "de":
+                return "Zeige Fortschrittsbalken";
         }
     },
     "export": function () {
@@ -114,6 +190,9 @@ var lang = {
             case "en-US":
             default:
                 return "Export";
+            case "de-DE":
+            case "de":
+                return "Exportieren";
         }
     },
     "exportWarning": function () {
@@ -121,6 +200,9 @@ var lang = {
             case "en-US":
             default:
                 return "The below will allow you to copy/paste your data into the import field.";
+            case "de-DE":
+            case "de":
+                return "Unten kannst du deine Daten in das Feld hineinkopieren und importieren.";
         }
     },
     "import": function () {
@@ -128,6 +210,9 @@ var lang = {
             case "en-US":
             default:
                 return "Import";
+            case "de-DE":
+            case "de":
+                return "Importieren";
         }
     },
     "importWarning": function () {
@@ -135,6 +220,9 @@ var lang = {
             case "en-US":
             default:
                 return "Importing will override ALL of your current selections. Do so with caution.";
+            case "de-DE":
+            case "de":
+                return "Eine Importierung wird ALLE deine bisherigen Daten überschreiben. Sei Vorsichtig.";
         }
     },
     "importConfirm": function () {
@@ -142,6 +230,9 @@ var lang = {
             case "en-US":
             default:
                 return "Importing values will override all of your current selections. Are you sure you want to do this?";
+            case "de-DE":
+            case "de":
+                return "Importierung der Werte wird deine Daten überschreiben. Bist du sicher, dass du das machen willst?";
         }
     },
     "refreshFromSite": function () {
@@ -149,6 +240,9 @@ var lang = {
             case "en-US":
             default:
                 return "Refresh from Site";
+            case "de-DE":
+            case "de":
+                return "Aktualisierung";
         }
     },
     "refreshWarning": function () {
@@ -156,6 +250,9 @@ var lang = {
             case "en-US":
             default:
                 return "This option will remove all data in local storage (including your selections) and refresh the grid. Are you sure you want to do this?";
+            case "de-DE":
+            case "de":
+                return "Diese Option wird deinen lokalen Speicher (inklusive deiner Auswahl)entfernen und die Tabelle zurücksetzen. Bist du sicher, dass du das machen willst?";
         }
     },
     "seasonal": function () {
@@ -163,6 +260,9 @@ var lang = {
             case "en-US":
             default:
                 return "Seasonal";
+            case "de-DE":
+            case "de":
+                return "Saisonal";
         }
     },
     "seasonalProgress": function () {
@@ -177,12 +277,18 @@ var lang = {
             case "en-US":
             default:
                 return "Non-Seasonal";
+            case "de-DE":
+            case "de":
+                return "Nicht-Saisonal";
         }
     },
     "name": function () {
         switch (this.culture()) {
             case "en-US":
             default:
+                return "Name";
+            case "de-DE":
+            case "de":
                 return "Name";
         }
     },
@@ -191,6 +297,9 @@ var lang = {
             case "en-US":
             default:
                 return "Cubed - Seasonal";
+            case "de-DE":
+            case "de":
+                return "Würfel - Saisonal";
         }
     },
     "hideSeasonalCheckboxes": function () {
@@ -198,6 +307,9 @@ var lang = {
             case "en-US":
             default:
                 return "Hide Seasonal Checkboxes";
+            case "de-DE":
+            case "de":
+                return "Verstecke Saisonale Kontrollkästchen";
         }
     },
     "hideNonSeasonalCheckboxes": function () {
@@ -205,6 +317,9 @@ var lang = {
             case "en-US":
             default:
                 return "Hide Non-Seasonal Checkboxes";
+            case "de-DE":
+            case "de":
+                return "Verstecke Nicht-Saisonale Kontrollkästchen";
         }
     },
     "cubedNonSeasonal": function () {
@@ -212,6 +327,9 @@ var lang = {
             case "en-US":
             default:
                 return "Cubed - Non-Seasonal";
+            case "de-DE":
+            case "de":
+                return "Würfel - Nicht-Saisonal";
         }
     },
     "stashed": function () {
@@ -219,12 +337,18 @@ var lang = {
             case "en-US":
             default:
                 return "Stashed";
+            case "de-DE":
+            case "de":
+                return "Gelagert";
         }
     },
     "affix": function () {
         switch (this.culture()) {
             case "en-US":
             default:
+                return "Affix";
+            case "de-DE":
+            case "de":
                 return "Affix";
         }
     },
@@ -236,6 +360,7 @@ var lang = {
                 default:
                     return item;
                 case "de-DE":
+                case "de":
                     {
                         switch (ko.unwrap(_item.itemName)) {
                             case "Sanguinary Vambracers":
@@ -869,7 +994,7 @@ var lang = {
                     target.push(ko.observable(new Kanai.Equipment("The Cloak of the Garwulf", "Companion - Wolf Companion now summons 3 wolves.")));
                     target.push(ko.observable(new Kanai.Equipment("Bracers of Destruction", "Seismic Slam deals 400% increased damage to the first two enemies it hits.")));
                     target.push(ko.observable(new Kanai.Equipment("Bracers of the First Men", "Hammer of the Ancients attacks 50% faster and deals 200% increased damage.")));
-                    target.push(ko.observable(new Kanai.Equipment("Coils of the First Spider", "While channeling Firebats, gain 80,000 Life per Hit.")));
+                    target.push(ko.observable(new Kanai.Equipment("Coils of the First Spider", "While channeling Firebats, you take 30% reduced damage and gain 80,000 Life per hit.")));
                     target.push(ko.observable(new Kanai.Equipment("Custerian Wristguards", "Picking up gold grants experience.")));
                     target.push(ko.observable(new Kanai.Equipment("Drakon's Lesson", "When your Shield Bash hits 3 or less enemies, its damage is increased by 200% and 25% of its Wrath Cost is refunded.")));
                     target.push(ko.observable(new Kanai.Equipment("Gabriel's Vambraces", "When your Blessed Hammer hits 3 or fewer enemies, 100% of its Wrath Cost is refunded.")));
@@ -934,6 +1059,7 @@ var lang = {
                     break;
                 }
             case "de-DE":
+            case "de":
                 {
                     target.push(ko.observable(new Kanai.Equipment("Blutrünstige Unterarmschienen", "Wenn Ihr getroffen werdet, besteht eine Chance, dass Ihr Gegnern in der Nähe 1.000% Eures Dornenschadens zufügt")));
                     target.push(ko.observable(new Kanai.Equipment("Wickeltuch des Seelenernters", "Heilkugeln stellen 30% Eurer Primärressource wieder her")));
@@ -1193,6 +1319,7 @@ var lang = {
                 break;
             }
             case "de-DE":
+            case "de":
                 {
                     target.push(ko.observable(new Kanai.Equipment('Genzaniku', 'Ihr beschwört manchmal einen geisterhaften Champion der Gefallenen, wenn Ihr angreift')));
                     target.push(ko.observable(new Kanai.Equipment('Hacken', '100% Eures Dornenschadens wird auf jeden Angriff angewandt')));
@@ -1200,141 +1327,143 @@ var lang = {
                     target.push(ko.observable(new Kanai.Equipment('Die brennende Axt von Sankis', 'Ihr unterdrückt manchmal Euren Schmerz, wenn Ihr getroffen werdet')));
                     target.push(ko.observable(new Kanai.Equipment('Schlächtersichel', 'Chance von 20–25%, Gegner zu Euch heranzuziehen, wenn Ihr angreift')));
                     target.push(ko.observable(new Kanai.Equipment('Klinge des Neids', 'Eure kritische Trefferchance gegen Gegner mit vollem Leben beträgt 100%')));
+                    target.push(ko.observable(new Kanai.Equipment("Eun-jang-do", "Gegner, die über weniger als 20% ihres Lebens verfügen, werden durch Eure Angriffe für 3 Sek. eingefroren")));
+                    target.push(ko.observable(new Kanai.Equipment('Zauberdorn', 'Chance von 20–25%, eine gefrorene Kugel zu wirken, wenn Ihr angreift')));
                     target.push(ko.observable(new Kanai.Equipment('Jaces Hammer der Wachsamkeit', "Vergrößert die Hämmer von 'Gesegneter Hammer'")));
                     target.push(ko.observable(new Kanai.Equipment('Szepter des wahnsinnigen Monarchen', 'Wenn Ihr 10 Gegner getötet habt, setzt Ihr eine Giftnova frei, die Gegnern innerhalb von 30 Metern 1050–1400% Waffenschaden als Giftschaden zufügt')));
                     target.push(ko.observable(new Kanai.Equipment('Odyns Sohn', 'Chance von 20–40%, einen Kettenblitz auf Eure Gegner zu wirken, wenn Ihr sie trefft')));
+                    target.push(ko.observable(new Kanai.Equipment('Solanium', 'Kritische Treffer haben eine Chance von 3–4%, eine Heilkugel hervorzurufen')));
                     target.push(ko.observable(new Kanai.Equipment('Das Gesetz des Arreat', "'Waffenwurf' erzeugt mit zunehmender Entfernung zum getroffenen Gegner zusätzlich bis zu 15–20 mehr Wut. Der Maximalwert wird ab 20 Meter erreicht.")));
+                    target.push(ko.observable(new Kanai.Equipment('Solanium', 'Kritische Treffer haben eine Chance von 3–4%, eine Heilkugel hervorzurufen')));
                     target.push(ko.observable(new Kanai.Equipment('Blauzorn', 'Untote und dämonische Gegner innerhalb von 25 Metern erleiden jede Sekunde 500–650% Waffenschaden als Heiligschaden und werden manchmal in die Luft geschleudert.')));
                     target.push(ko.observable(new Kanai.Equipment('Donnerkeil', 'Jeglicher Blitzschaden hat jetzt eine Chance, Gegner in Blitzableiter zu verwandeln, die Gegnern in der Nähe 6 Sekunden lang jede Sekunde 444–555% Waffenschaden als Blitzschaden zufügen.')));
+                    target.push(ko.observable(new Kanai.Equipment("In-geom", "Die Abklingzeiten Eurer Fertigkeiten werden jedes Mal 15 Sek. lang um 10 Sek. reduziert, wenn Ihr eine Gruppe von Elitegegnern tötet")));
                     target.push(ko.observable(new Kanai.Equipment('Frostherz', 'Gewährt eine Chance von 10%, bei einem Treffer eingefrorenen Gegnern sofort 10000% Waffenschaden als Kälteschaden zuzufügen')));
-                    target.push(ko.observable(new Kanai.Equipment('Solanium', 'Kritische Treffer haben eine Chance von 3–4%, eine Heilkugel hervorzurufen')));
                     target.push(ko.observable(new Kanai.Equipment('Schnitt', 'Eure Gegner platzen vor Neid')));
-                    target.push(ko.observable(new Kanai.Equipment('Zauberdorn', 'Chance von 20–25%, eine gefrorene Kugel zu wirken, wenn Ihr angreift')));
                     target.push(ko.observable(new Kanai.Equipment('Splitter des Hasses', "Elementarfertigkeiten haben eine Chance, einen mächtigen Angriff auszulösen, der 250% Waffenschaden verursacht:   Kältefertigkeiten lösen 'Eisknochengeist' aus   Giftfertigkeiten lösen 'Giftnova' aus   Blitzfertigkeiten lösen 'Combo - Blitz' aus")));
-                    target.push(ko.observable(new Kanai.Equipment("Eun-jang-do", "Gegner, die über weniger als 20% ihres Lebens verfügen, werden durch Eure Angriffe für 3 Sek. eingefroren")));
                     target.push(ko.observable(new Kanai.Equipment('Himmelsschlitzer', 'Ihr ruft manchmal Engelsbeistand herbei, wenn Ihr angreift')));
-                    target.push(ko.observable(new Kanai.Equipment('Sternstahlkukri', "Reduziert jedes Mal, wenn Eure Fetische Schaden verursachen, die Abklingzeit von 'Fetischarmee' und 'Gro ßerböser Voodoo' um 1 Sek.")));
-                    target.push(ko.observable(new Kanai.Equipment('Heiliger Ernter', "'Seelenernte' ist bis zu 10-mal stapelbar")));
+                    target.push(ko.observable(new Kanai.Equipment('Donnerzorn, Gesegnete Klinge des Windsuchers', 'Chance, Eurem Gegner bei einem Treffer einen Blitzschlag zu versetzen, der 279–372% Waffenschaden als Blitzschaden verursacht und dann auf weitere Gegner in der Nähe überspringt. Bei jedem getroffenen Gegner werden dessen Angriffs- und Bewegungsgeschwindigkeit 3 Sek. lang um 30% reduziert. Dieser Effekt springt auf bis zu 5 zusätzliche Gegner über')));
                     target.push(ko.observable(new Kanai.Equipment('Anessazi-Stilett', 'Zombiehunde betäuben Gegner um sie herum für 1,5 Sek., wenn sie beschworen werden')));
-                    target.push(ko.observable(new Kanai.Equipment('Der Dolchpfeil', 'Eure Giftpfeile und die Giftpfeile Eurer Fetische durchschlagen ihre Ziele')));
                     target.push(ko.observable(new Kanai.Equipment("Rhen'hos Schinder", "Eure Kröten verfolgen Gegner jetzt und können zweimal explodieren")));
-                    target.push(ko.observable(new Kanai.Equipment('Kieferbrecher', "Wenn 'Rasender Angriff' einen Gegner in mehr als 35 Metern Entfernung trifft, werden die Aufladungskosten der Fertigkeit erstattet")));
+                    target.push(ko.observable(new Kanai.Equipment('Heiliger Ernter', "'Seelenernte' ist bis zu 10-mal stapelbar")));
+                    target.push(ko.observable(new Kanai.Equipment('Sternstahlkukri', "Reduziert jedes Mal, wenn Eure Fetische Schaden verursachen, die Abklingzeit von 'Fetischarmee' und 'Gro ßerböser Voodoo' um 1 Sek.")));
+                    target.push(ko.observable(new Kanai.Equipment('Der Dolchpfeil', 'Eure Giftpfeile und die Giftpfeile Eurer Fetische durchschlagen ihre Ziele')));
                     target.push(ko.observable(new Kanai.Equipment('Der Gidbinn', 'Ihr beschwört manchmal einen Fetisch, wenn Ihr angreift')));
                     target.push(ko.observable(new Kanai.Equipment('Die Umklammerung der Spinnenkönigin', 'Eure Leichenspinnen erzeugen beim Auftreffen ein Netz, das Gegner um 60–80% verlangsamt')));
+                    target.push(ko.observable(new Kanai.Equipment('Kieferbrecher', "Wenn 'Rasender Angriff' einen Gegner in mehr als 35 Metern Entfernung trifft, werden die Aufladungskosten der Fertigkeit erstattet")));
+                    target.push(ko.observable(new Kanai.Equipment('Löwenklaue', "'Schlag der Sieben Fäuste' führt 7 zusätzliche Schläge aus.")));
                     target.push(ko.observable(new Kanai.Equipment("Die Faust von Az'Turrasq", "Erhöht den Schaden der Todesexplosion von 'Explodierende Hand' um 100% ")));
                     target.push(ko.observable(new Kanai.Equipment('Rachsüchtiger Wind', "Erhöht die maximale Stapelanzahl von 'Reißender Wind' um 3")));
                     target.push(ko.observable(new Kanai.Equipment('Dunkellicht', "'Himmelsfaust' hat eine Chance von 60%, zusätzlich an Eurer Position gewirkt zu werden")));
-                    target.push(ko.observable(new Kanai.Equipment('Löwenklaue', "'Schlag der Sieben Fäuste' führt 7 zusätzliche Schläge aus.")));
-                    target.push(ko.observable(new Kanai.Equipment('Unerschütterlicher Glaube', "Das Wirken von 'Weihe' ruft weitere Wirkungsbereiche von 'Weihe' unter Euren Verbündeten hervor")));
+                    target.push(ko.observable(new Kanai.Equipment("Goldgeißel", "'Niederstrecken' springt jetzt auf 3 weitere Gegner über")));
                     target.push(ko.observable(new Kanai.Equipment('Gerfalkenfuß', "Entfernt die Ressourcenkosten von 'Gesegneter Schild'")));
-                    target.push(ko.observable(new Kanai.Equipment('Kassars Vergeltung', "Das Wirken von 'Gerechtigkeit' erhöht 2 Sek. lang Eure Bewegungsgeschwindigkeit um 20%")));
-                    target.push(ko.observable(new Kanai.Equipment('Justinians Gnade', "'Gesegneter Hammer' erhält den Effekt der Rune 'Herrschaft'")));
+                    target.push(ko.observable(new Kanai.Equipment('Unerschütterlicher Glaube', "Das Wirken von 'Weihe' ruft weitere Wirkungsbereiche von 'Weihe' unter Euren Verbündeten hervor")));
                     target.push(ko.observable(new Kanai.Equipment('Johannas Argument', "Erhöht die Angriffsgeschwindigkeit von 'Gesegneter Hammer' um 100%.")));
+                    target.push(ko.observable(new Kanai.Equipment('Justinians Gnade', "'Gesegneter Hammer' erhält den Effekt der Rune 'Herrschaft'")));
                     target.push(ko.observable(new Kanai.Equipment('Geschändetes Erbe', "Erhöht den Schaden von 'Spalten' um bis zu 400%, basierend auf dem prozentualen Anteil der aktuell verbrauchten Wut.")));
+                    target.push(ko.observable(new Kanai.Equipment('Kassars Vergeltung', "Das Wirken von 'Gerechtigkeit' erhöht 2 Sek. lang Eure Bewegungsgeschwindigkeit um 20%")));
                     target.push(ko.observable(new Kanai.Equipment('Windreiter', "Verdoppelt die Dauer von 'Kavallerie'")));
+                    target.push(ko.observable(new Kanai.Equipment('Geschändetes Erbe', "Erhöht den Schaden von 'Spalten' um bis zu 400%, basierend auf dem prozentualen Anteil der aktuell verbrauchten Wut.")));
                     target.push(ko.observable(new Kanai.Equipment('Fjordspalter', 'Beim Angriff seid Ihr von einer unterkühlenden Aura umgeben.')));
+                    target.push(ko.observable(new Kanai.Equipment("Unbarmherzigkeit", "'Hammer der Urahnen' hat eine Chance von 30%, für 20 Sek. einen Urahnen zu beschwören")));
                     target.push(ko.observable(new Kanai.Equipment('Ausbruch des Zorns', 'Das Töten von Gegnern und Zerstören von Objekten hat eine Chance, Euch 20% Eurer maximalen Primärressource zu gewähren')));
-                    target.push(ko.observable(new Kanai.Equipment('Schaefers Hammer', 'Ihr ladet Euch mit Blitzenergie auf, wenn Ihr eine Blitzfertigkeit einsetzt, sodass Ihr Gegnern in der Nähe 5 Sek. lang pro Sekunde 650–850% Waffenschaden als Blitzschaden zufügt')));
                     target.push(ko.observable(new Kanai.Equipment('Schlächterschnitzer', 'Der Schlächter lebt in seinem Schnitzer weiter')));
-                    target.push(ko.observable(new Kanai.Equipment('Himmelswächter', 'Alle 60 Sek. erhaltet Ihr 60 Sek. lang ein zufälliges Gebot')));
-                    target.push(ko.observable(new Kanai.Equipment('Donnerzorn, Gesegnete Klinge des Windsuchers', 'Chance, Eurem Gegner bei einem Treffer einen Blitzschlag zu versetzen, der 279–372% Waffenschaden als Blitzschaden verursacht und dann auf weitere Gegner in der Nähe überspringt. Bei jedem getroffenen Gegner werden dessen Angriffs- und Bewegungsgeschwindigkeit 3 Sek. lang um 30% reduziert. Dieser Effekt springt auf bis zu 5 zusätzliche Gegner über')));
+                    target.push(ko.observable(new Kanai.Equipment("Aschebeil", "Chance von 50%, einen Feuerball zu wirken, wenn Ihr angreift")));
                     target.push(ko.observable(new Kanai.Equipment('Arthefs Lebensfunke', 'Ihr werdet um 3–4% Eures verlorenen Lebens geheilt, wenn Ihr einen untoten Gegner tötet')));
+                    target.push(ko.observable(new Kanai.Equipment('Schaefers Hammer', 'Ihr ladet Euch mit Blitzenergie auf, wenn Ihr eine Blitzfertigkeit einsetzt, sodass Ihr Gegnern in der Nähe 5 Sek. lang pro Sekunde 650–850% Waffenschaden als Blitzschaden zufügt')));
+                    target.push(ko.observable(new Kanai.Equipment('Himmelswächter', 'Alle 60 Sek. erhaltet Ihr 60 Sek. lang ein zufälliges Gebot')));
                     target.push(ko.observable(new Kanai.Equipment('Seelenberster', 'Wenn Ihr einen Gegner tötet, explodiert er und fügt allen Gegnern im Umkreis von 20 Metern 450–600% Eures Lebens pro getötetem Gegner als Schaden zu. Ihr erhaltet kein Leben pro getötetem Gegner mehr.')));
+                    target.push(ko.observable(new Kanai.Equipment("Zerfetzer", "Chance von 50%, den Boden unter den Füßen Eurer Gegner aufbrechen zu lassen, wenn Ihr angreift")));
                     target.push(ko.observable(new Kanai.Equipment('Der Schmelzofen', 'Erhöht den Schaden gegen Elitegegner um 40–50%')));
-                    target.push(ko.observable(new Kanai.Equipment('Maloths Fokus', 'Der Anblick dieses Stabes schlägt Gegner gelegentlich in die Flucht')));
+                    target.push(ko.observable(new Kanai.Equipment('Rinderbardike', 'Chance, bei einem Treffer eine Herde mörderischer Kühe herbeizurufen')));
                     target.push(ko.observable(new Kanai.Equipment('Wachsamkeit', "Chance, 'HeiligeEinkehr' zu wirken, wenn Ihr getroffen werdet")));
+                    target.push(ko.observable(new Kanai.Equipment("Ahavarion, Stab von Lycander", "Es besteht eine Chance, dass beim Töten eines Dämons ein zufälliger Schreineffekt auf Euch gewirkt wird")));
+                    target.push(ko.observable(new Kanai.Equipment('Maloths Fokus', 'Der Anblick dieses Stabes schlägt Gegner gelegentlich in die Flucht')));
                     target.push(ko.observable(new Kanai.Equipment('Der Großwesir', "Reduziert die Arkankraftkosten von 'Meteor' um 50%")));
                     target.push(ko.observable(new Kanai.Equipment('Der Schwelende Kern', 'Niedere Gegner werden jetzt an den Einschlagsort Eures Meteors gelockt')));
                     target.push(ko.observable(new Kanai.Equipment('Der Peiniger', 'Ihr betört manchmal Gegner, wenn Ihr sie trefft')));
-                    target.push(ko.observable(new Kanai.Equipment('Rinderbardike', 'Chance, bei einem Treffer eine Herde mörderischer Kühe herbeizurufen')));
-                    target.push(ko.observable(new Kanai.Equipment('Klinge der Verheißung', "Zwei Gegner, die von 'Schuldspruch' betroffen sind, rufen ebenfalls eine Explosion hervor")));
                     target.push(ko.observable(new Kanai.Equipment('Valtheks Zurechtweisung', "'Energiewirbel' bewegt sich jetzt geradlinig")));
-                    target.push(ko.observable(new Kanai.Equipment('Blutsbruder', 'Gewährt eine Chance von 15–20%, dass Angriffe geblockt werden. Geblockte Angriffe verursachen 30% weniger Schaden. Nach dem Blocken eines Angriffs verursacht Euer nächster Angriff 30% mehr Schaden.')));
                     target.push(ko.observable(new Kanai.Equipment('Wermut', "Belegt Gegner in der Nähe ununterbrochen mit 'Heuschreckenplage'.")));
+                    target.push(ko.observable(new Kanai.Equipment('Klinge der Verheißung', "Zwei Gegner, die von 'Schuldspruch' betroffen sind, rufen ebenfalls eine Explosion hervor")));
+                    target.push(ko.observable(new Kanai.Equipment('Blutsbruder', 'Gewährt eine Chance von 15–20%, dass Angriffe geblockt werden. Geblockte Angriffe verursachen 30% weniger Schaden. Nach dem Blocken eines Angriffs verursacht Euer nächster Angriff 30% mehr Schaden.')));
+                    target.push(ko.observable(new Kanai.Equipment('Cams Erwiderung', "'Himmlische Vollstreckung' kann innerhalb von 4 Sek. wieder eingesetzt werden, bevor die Abklingzeit ausgelöst wird")));
                     target.push(ko.observable(new Kanai.Equipment('Maximus', 'Chance, bei einem Treffer einen dämonischen Sklaven zu beschwören')));
                     target.push(ko.observable(new Kanai.Equipment('Stalgards Dezimierer', 'Bei Nahkampfangriffen wird eine Axt auf einen Gegner in der Nähe geschleudert, die ihm 550–700% Waffenschaden als physischen Schaden zufügt')));
                     target.push(ko.observable(new Kanai.Equipment('Geißel', 'Chance von 20–45%, mit dämonischer Wut zu explodieren und 1.800-2.000% Waffenschaden als Feuerschaden zu verursachen, wenn Ihr angreift')));
-                    target.push(ko.observable(new Kanai.Equipment('Weihrauchstab des großen Tempels', "Reduziert die Geisteskraftkosten von 'Wogedes Lichts' um 50%")));
-                    target.push(ko.observable(new Kanai.Equipment('Cams Erwiderung', "'Himmlische Vollstreckung' kann innerhalb von 4 Sek. wieder eingesetzt werden, bevor die Abklingzeit ausgelöst wird")));
-                    target.push(ko.observable(new Kanai.Equipment('Der Fluss der Ewigkeit', "Reduziert die Abklingzeit von 'Schlag der Sieben Fäuste' um 60%")));
                     target.push(ko.observable(new Kanai.Equipment('Fliegender Drache', 'Ihr verdoppelt manchmal Eure Angriffsgeschwindigkeit, wenn Ihr angreift')));
-                    target.push(ko.observable(new Kanai.Equipment('Unheilvolles Relikt', "Gegner, die getötet werden, während 'Akarats Champion' aktiv ist, werden 10 Sek. lang zu Avataren von 'Phalanx'")));
-                    target.push(ko.observable(new Kanai.Equipment('Goldener Häuter', "'Schwungangriff' stellt 4–6 Zorn pro getroffenem Gegner wieder her")));
-                    target.push(ko.observable(new Kanai.Equipment('Schicksal der Grausamen', "Ihr erhaltet zwei zusätzliche Strahlen 'Himmelsfuror'")));
-                    target.push(ko.observable(new Kanai.Equipment('Held der Bastion', "'Raserei' ist bis zu 10-mal stapelbar")));
+                    target.push(ko.observable(new Kanai.Equipment('Weihrauchstab des großen Tempels', "Reduziert die Geisteskraftkosten von 'Wogedes Lichts' um 50%")));
+                    target.push(ko.observable(new Kanai.Equipment('Der Fluss der Ewigkeit', "Reduziert die Abklingzeit von 'Schlag der Sieben Fäuste' um 60%")));
                     target.push(ko.observable(new Kanai.Equipment('Kriegsstab von General Quang', "'Gewitterfront' erhält den Effekt der Rune 'Rückenwind'")));
+                    target.push(ko.observable(new Kanai.Equipment('Unheilvolles Relikt', "Gegner, die getötet werden, während 'Akarats Champion' aktiv ist, werden 10 Sek. lang zu Avataren von 'Phalanx'")));
+                    target.push(ko.observable(new Kanai.Equipment('Schicksal der Grausamen', "Ihr erhaltet zwei zusätzliche Strahlen 'Himmelsfuror'")));
+                    target.push(ko.observable(new Kanai.Equipment('Goldener Häuter', "'Schwungangriff' stellt 4–6 Zorn pro getroffenem Gegner wieder her")));
+                    target.push(ko.observable(new Kanai.Equipment('Tödliches Drama', "Verdoppelt die Anzahl der Einschläge von 'Bombardement'")));
+                    target.push(ko.observable(new Kanai.Equipment('Held der Bastion', "'Raserei' ist bis zu 10-mal stapelbar")));
                     target.push(ko.observable(new Kanai.Equipment('Wut des vernichteten Gipfels', "Reduziert die Wutkosten von 'Seismisches Schmettern' um 50%")));
+                    target.push(ko.observable(new Kanai.Equipment('Madawcs Schmerz', 'Ihr betäubt Gegner für 2 Sek., wenn Ihr sie das erste Mal trefft')));
                     target.push(ko.observable(new Kanai.Equipment('Der Hammer des Richtspruchs', "Wenn 'Hammer der Urahnen' 3 oder weniger Ziele trifft, erhaltet Ihr 25 Wut zurück")));
                     target.push(ko.observable(new Kanai.Equipment('Hühnerauge', 'Chance von 25–50% auf ein Gegacker, wenn Ihr angreift')));
-                    target.push(ko.observable(new Kanai.Equipment('Madawcs Schmerz', 'Ihr betäubt Gegner für 2 Sek., wenn Ihr sie das erste Mal trefft')));
+                    target.push(ko.observable(new Kanai.Equipment('Kriderschuss', "'Elementarpfeil' erzeugt jetzt 3–4 Hass")));
                     target.push(ko.observable(new Kanai.Equipment('Löwenbogen von Hashir', 'Bolas haben eine Chance von 15–20%, bei ihrer Explosion alle Gegner im Umkreis von 24 Metern heranzuziehen')));
                     target.push(ko.observable(new Kanai.Equipment('Ende der Odyssee', "Feinde, die von 'Einfangender Schuss' getroffen und verlangsamt werden, erleiden um 20–25% erhöhten Schaden aus allen Quellen")));
-                    target.push(ko.observable(new Kanai.Equipment('Kriderschuss', "'Elementarpfeil' erzeugt jetzt 3–4 Hass")));
-                    target.push(ko.observable(new Kanai.Equipment('Yangs Reflexbogen', "Erhöht die Angriffsgeschwindigkeit von 'Mehrfachschuss' um 50%.")));
                     target.push(ko.observable(new Kanai.Equipment('Rabenflügel', 'Ein Rabe fliegt an Eurer Seite')));
-                    target.push(ko.observable(new Kanai.Equipment('Dämonenmaschine', 'Chance von 35–65%, explosive Pfeile zu verschießen, wenn Ihr angreift')));
-                    target.push(ko.observable(new Kanai.Equipment('Eiterspeier', 'Chance von 25–50%, einen Säureklumpen zu werfen, wenn Ihr angreift')));
+                    target.push(ko.observable(new Kanai.Equipment('Yangs Reflexbogen', "Erhöht die Angriffsgeschwindigkeit von 'Mehrfachschuss' um 50%.")));
+                    target.push(ko.observable(new Kanai.Equipment("Buriza-Do Kyanon", "Eure Geschosse durchschlagen ihre Ziele zusätzlich 2-mal")));
                     target.push(ko.observable(new Kanai.Equipment('Chanons Balläster', 'Eure Stachelfallen locken Gegner an. Gegner können einmal alle 12–16 Sek. angelockt werden')));
+                    target.push(ko.observable(new Kanai.Equipment('Dämonenmaschine', 'Chance von 35–65%, explosive Pfeile zu verschießen, wenn Ihr angreift')));
                     target.push(ko.observable(new Kanai.Equipment('Höllenplage', 'Macht Gegner manchmal bewegungsunfähig, wenn Ihr sie trefft')));
-                    target.push(ko.observable(new Kanai.Equipment('Katastrophe', 'Ziele, die Ihr trefft, werden todgeweiht')));
+                    target.push(ko.observable(new Kanai.Equipment('Eiterspeier', 'Chance von 25–50%, einen Säureklumpen zu werfen, wenn Ihr angreift')));
                     target.push(ko.observable(new Kanai.Equipment('Sturm der Wojahnni', "Erhöht den Schaden von 'Schnellfeuer' für jede Sekunde Kanalisieren um 30–40%. Dieser Effekt ist bis zu 4-mal stapelbar.")));
-                    target.push(ko.observable(new Kanai.Equipment('Höllenjäger', "Chance von 7–10%, bei einem Treffer 'Stachelfalle', 'Krähenfüße' oder 'Geschützturm' auszulösen")));
+                    target.push(ko.observable(new Kanai.Equipment('Katastrophe', 'Ziele, die Ihr trefft, werden todgeweiht')));
                     target.push(ko.observable(new Kanai.Equipment('Danettas Rache', "'Salto' erhält den Effekt der Rune 'Geschüttelt, nicht gerührt'")));
                     target.push(ko.observable(new Kanai.Equipment('Danettas Trotz', "Ihr hinterlasst beim Einsatz von 'Salto' eine Kopie von Euch")));
-                    target.push(ko.observable(new Kanai.Equipment('Der Untergang der Dämonen', "'Stachelfalle - Klebefalle' springt auf Gegner in der Nähe über, wenn sie explodiert.")));
+                    target.push(ko.observable(new Kanai.Equipment('Höllenjäger', "Chance von 7–10%, bei einem Treffer 'Stachelfalle', 'Krähenfüße' oder 'Geschützturm' auszulösen")));
                     target.push(ko.observable(new Kanai.Equipment("Blankbogen von K'mar", "'Sperrfeuer' erhält den Effekt der Rune 'Wehender Schatten'")));
-                    target.push(ko.observable(new Kanai.Equipment('Tödliches Drama', "Verdoppelt die Anzahl der Einschläge von 'Bombardement'")));
-                    target.push(ko.observable(new Kanai.Equipment("Orpheus' Wink", "Reduziert die Abklingzeit von 'Zeit verlangsamen' um 40 %")));
+                    target.push(ko.observable(new Kanai.Equipment('Der Untergang der Dämonen', "'Stachelfalle - Klebefalle' springt auf Gegner in der Nähe über, wenn sie explodiert.")));
                     target.push(ko.observable(new Kanai.Equipment('Vallas Vermächtnis', 'Die Projektile von Speerfeuer durchschlagen Ziele.')));
                     target.push(ko.observable(new Kanai.Equipment('Ätherwandler', "'Teleportation' hat keine Abklingzeit mehr, aber kostet 25 Arkankraft")));
-                    target.push(ko.observable(new Kanai.Equipment('Zauberstab von Woh', "Nach dem Wirken von 'Explosion' werden drei weitere Explosionen ausgelöst")));
-                    target.push(ko.observable(new Kanai.Equipment('Die Verwehrung', "Jeder von Eurem 'Schwungangriff' getroffene Gegner erhöht den Schaden Eures nächsten 'Schwungangriffs' um 30–40%. Bis zu 5-mal stapelbar.")));
-                    target.push(ko.observable(new Kanai.Equipment('Verteidiger der Westmark', 'Einen Angriff zu blocken gewährt eine Chance, einen heranstürmenden Wolf herbeizurufen, der allen Gegnern, die er berührt, 800–1000% Waffenschaden zufügt')));
-                    target.push(ko.observable(new Kanai.Equipment('Maß des Zirkels', 'Ihr erleidet 45–60% weniger Schaden von geblockten Angriffen')));
-                    target.push(ko.observable(new Kanai.Equipment('Eberlis Charo', "Reduziert die Abklingzeit von 'Himmelsfuror' um 50%")));
-                    target.push(ko.observable(new Kanai.Equipment('Ablenkender Frost', 'Wenn Ihr einen Angriff blockt, besteht die Chance, den Angreifer 0,5–1,5 Sek. lang einzufrieren')));
+                    target.push(ko.observable(new Kanai.Equipment("Orpheus' Wink", "Reduziert die Abklingzeit von 'Zeit verlangsamen' um 40 %")));
                     target.push(ko.observable(new Kanai.Equipment('Funkenstab der Schlange', 'Ihr könnt eine zusätzliche Hydra gleichzeitig aktiv haben')));
                     target.push(ko.observable(new Kanai.Equipment('Sloraks Wahnsinn', 'Dieser Zauberstab findet Euren Tod äußerst erheiternd')));
-                    target.push(ko.observable(new Kanai.Equipment("Vo'Toyias' Dornschild", "Gegner, die von 'Provokation' betroffen sind, erleiden doppelten Schaden durch Dornen")));
+                    target.push(ko.observable(new Kanai.Equipment('Zauberstab von Woh', "Nach dem Wirken von 'Explosion' werden drei weitere Explosionen ausgelöst")));
+                    target.push(ko.observable(new Kanai.Equipment('Maß des Zirkels', 'Ihr erleidet 45–60% weniger Schaden von geblockten Angriffen')));
+                    target.push(ko.observable(new Kanai.Equipment('Verteidiger der Westmark', 'Einen Angriff zu blocken gewährt eine Chance, einen heranstürmenden Wolf herbeizurufen, der allen Gegnern, die er berührt, 800–1000% Waffenschaden zufügt')));
+                    target.push(ko.observable(new Kanai.Equipment('Die Verwehrung', "Jeder von Eurem 'Schwungangriff' getroffene Gegner erhöht den Schaden Eures nächsten 'Schwungangriffs' um 30–40%. Bis zu 5-mal stapelbar.")));
+                    target.push(ko.observable(new Kanai.Equipment('Eberlis Charo', "Reduziert die Abklingzeit von 'Himmelsfuror' um 50%")));
+                    target.push(ko.observable(new Kanai.Equipment('Ablenkender Frost', 'Wenn Ihr einen Angriff blockt, besteht die Chance, den Angreifer 0,5–1,5 Sek. lang einzufrieren')));
                     target.push(ko.observable(new Kanai.Equipment('Elfenbeinturm', "Geblockte Angriffe lösen ein 'Himmelsfeuer' in Blickrichtung aus")));
-                    target.push(ko.observable(new Kanai.Equipment('Johannas Schutzschild', "Erhöht den Schaden der ersten 3 getroffenen Gegner von 'Gesegneter Hammer' um 250%.")));
-                    target.push(ko.observable(new Kanai.Equipment('Geheiligtes Bollwerk', "'Eisenhaut' erhöht zusätzlich Euren Blockwert um 60%")));
+                    target.push(ko.observable(new Kanai.Equipment("Vo'Toyias' Dornschild", "Gegner, die von 'Provokation' betroffen sind, erleiden doppelten Schaden durch Dornen")));
+                    target.push(ko.observable(new Kanai.Equipment("Mauer der Menschheit", "Chance von 20–30%, Euch mit einem Knochenschild zu umgeben, wenn Ihr getroffen werdet")));
                     target.push(ko.observable(new Kanai.Equipment('Akarats Erwachen', 'Jedes erfolgreiche Blocken eines Angriffs hat eine Chance von 20–25%, jegliche Abklingzeiten um 1 Sek. zu reduzieren')));
                     target.push(ko.observable(new Kanai.Equipment('Frydehrs Zorn', "'Schuldspruch' hat keine Abklingzeit mehr, aber kostet 40 Zorn")));
-                    target.push(ko.observable(new Kanai.Equipment("Piro Marella", "Reduziert die Zornkosten von 'Schildstoß' um 50%")));
-                    target.push(ko.observable(new Kanai.Equipment('Jekangbrett', "'Gesegneter Schild' springt auf bis zu 4–6 weitere Gegner über")));
+                    target.push(ko.observable(new Kanai.Equipment('Johannas Schutzschild', "Erhöht den Schaden der ersten 3 getroffenen Gegner von 'Gesegneter Hammer' um 250%.")));
+                    target.push(ko.observable(new Kanai.Equipment('Geheiligtes Bollwerk', "'Eisenhaut' erhöht zusätzlich Euren Blockwert um 60%")));
                     target.push(ko.observable(new Kanai.Equipment('Höllenschädel', 'Erhöht Euren Schaden um 10%, wenn Ihr eine Zweihandwaffe verwendet')));
-                    target.push(ko.observable(new Kanai.Equipment('Der letzte Zeuge', "'Gleißender Schild' trifft jetzt sämtliche Gegner, die Euch umgeben")));
+                    target.push(ko.observable(new Kanai.Equipment('Jekangbrett', "'Gesegneter Schild' springt auf bis zu 4–6 weitere Gegner über")));
+                    target.push(ko.observable(new Kanai.Equipment("Piro Marella", "Reduziert die Zornkosten von 'Schildstoß' um 50%")));
                     target.push(ko.observable(new Kanai.Equipment('Erlösung', 'Wenn Ihr einen Angriff blockt, werdet Ihr und Eure Verbündeten um 20–30% des geblockten Betrags geheilt')));
-                    target.push(ko.observable(new Kanai.Equipment('Unnachgiebige Phalanx', "'Phalanx' wird 2-mal ausgelöst")));
                     target.push(ko.observable(new Kanai.Equipment('Erhabene Überzeugung', 'Wenn Ihr einen Angriff blockt, habt Ihr basierend auf Eurer aktuellen Menge Zorn eine Chance von bis zu 15–20%, den Angreifer 1,5 Sek. lang zu betäuben')));
+                    target.push(ko.observable(new Kanai.Equipment('Der letzte Zeuge', "'Gleißender Schild' trifft jetzt sämtliche Gegner, die Euch umgeben")));
+                    target.push(ko.observable(new Kanai.Equipment('Unnachgiebige Phalanx', "'Phalanx' wird 2-mal ausgelöst")));
                     target.push(ko.observable(new Kanai.Equipment('Henris ewige Jagd', 'Wenn ein Gegner Euch zum ersten Mal trifft, wird dieser Schaden um 60–80% reduziert. Darüber hinaus wird der Gegner 3 Sek. lang betört.')));
                     target.push(ko.observable(new Kanai.Equipment('Homunkulus', 'Alle 2 Sek. wird automatisch ein Zombiehund beschworen, der an Eurer Seite kämpft')));
-                    target.push(ko.observable(new Kanai.Equipment('Uhkapische Schlange', '25–30% des Euch zugefügten Schadens wird auf Eure Zombiehunde umgelenkt')));
-                    target.push(ko.observable(new Kanai.Equipment('Licht der Gnade', "'Froststrahl' durchschlägt jetzt Gegner")));
                     target.push(ko.observable(new Kanai.Equipment('Shukranis Triumph', "'Geistwandler' hält an, bis Ihr angreift oder sich ein Gegner innerhalb von 30 Metern von Euch befindet")));
+                    target.push(ko.observable(new Kanai.Equipment('Uhkapische Schlange', '25–30% des Euch zugefügten Schadens wird auf Eure Zombiehunde umgelenkt')));
+                    target.push(ko.observable(new Kanai.Equipment("Kosmischer Strang", "'Teleportation' erhält den Effekt der Rune 'Wurmloch'")));
+                    target.push(ko.observable(new Kanai.Equipment('Licht der Gnade', "'Froststrahl' durchschlägt jetzt Gegner")));
+                    target.push(ko.observable(new Kanai.Equipment('Spiegelkugel', "'Magisches Geschoss' verschießt 2 zusätzliche Geschosse")));
                     target.push(ko.observable(new Kanai.Equipment('Mykens Hasskugel', "'Stromschlag' kann auf Gegner überspringen, die bereits getroffen wurden")));
                     target.push(ko.observable(new Kanai.Equipment('Der Oculus', "Chance von bis zu 20%, die Abklingzeit von 'Teleportation' zurückzusetzen, wenn Ihr Schaden erleidet")));
-                    target.push(ko.observable(new Kanai.Equipment('Vermächtnis des toten Mannes', "'Mehrfachschuss' trifft Gegner, die weniger als 60% Leben haben, zweimal")));
-                    target.push(ko.observable(new Kanai.Equipment('Rucksack des Bombenschützen', 'Ihr könnt 2 zusätzliche Geschütztürme gleichzeitig aktiv haben')));
-                    target.push(ko.observable(new Kanai.Equipment('Wintereile', "Es besteht eine Chance von 15–20%, dass Gegner, die durch Kälteschaden sterben, 'Frostnova' auslösen")));
                     target.push(ko.observable(new Kanai.Equipment('Triumvirat', "Eure Kernzauber erhöhen den Schaden von 'Arkane Kugel' 6 Sek. lang um 100%. Bis zu 3-mal stapelbar.")));
+                    target.push(ko.observable(new Kanai.Equipment('Wintereile', "Es besteht eine Chance von 15–20%, dass Gegner, die durch Kälteschaden sterben, 'Frostnova' auslösen")));
+                    target.push(ko.observable(new Kanai.Equipment('Rucksack des Bombenschützen', 'Ihr könnt 2 zusätzliche Geschütztürme gleichzeitig aktiv haben')));
+                    target.push(ko.observable(new Kanai.Equipment('Vermächtnis des toten Mannes', "'Mehrfachschuss' trifft Gegner, die weniger als 60% Leben haben, zweimal")));
                     target.push(ko.observable(new Kanai.Equipment('Emimeis tiefer Beutel', 'Bolas explodieren jetzt ohne Verzögerung')));
                     target.push(ko.observable(new Kanai.Equipment('Akkurate Bolzen', "Der Kugelblitz von 'Elementarpfeil' bewegt sich mit einer Geschwindigkeit von 30–40%")));
-                    target.push(ko.observable(new Kanai.Equipment('Neunter Köcher des Cirri', "'Hungriger Pfeil' hat eine zusätzliche Chance von 20–25%, das Ziel zu durchschlagen")));
                     target.push(ko.observable(new Kanai.Equipment('Dornen des brodelnden Hasses', "'Chakram' erzeugt 3–4 Hass")));
-                    target.push(ko.observable(new Kanai.Equipment('Walrosszahn', "Reduziert die Manakosten von 'Zombieangreifer' um 40–50%.")));
+                    target.push(ko.observable(new Kanai.Equipment('Neunter Köcher des Cirri', "'Hungriger Pfeil' hat eine zusätzliche Chance von 20–25%, das Ziel zu durchschlagen")));
                     target.push(ko.observable(new Kanai.Equipment('Wünschelrute von Su Wong', "'Säurewolke' erhält den Effekt der Rune 'Schleimschmeißer'.")));
-                    target.push(ko.observable(new Kanai.Equipment("Goldgeißel", "'Niederstrecken' springt jetzt auf 3 weitere Gegner über")));
-                    target.push(ko.observable(new Kanai.Equipment("Unbarmherzigkeit", "'Hammer der Urahnen' hat eine Chance von 30%, für 20 Sek. einen Urahnen zu beschwören")));
-                    target.push(ko.observable(new Kanai.Equipment("Aschebeil", "Chance von 50%, einen Feuerball zu wirken, wenn Ihr angreift")));
-                    target.push(ko.observable(new Kanai.Equipment("Zerfetzer", "Chance von 50%, den Boden unter den Füßen Eurer Gegner aufbrechen zu lassen, wenn Ihr angreift")));
-                    target.push(ko.observable(new Kanai.Equipment("Ahavarion, Stab von Lycander", "Es besteht eine Chance, dass beim Töten eines Dämons ein zufälliger Schreineffekt auf Euch gewirkt wird")));
-                    target.push(ko.observable(new Kanai.Equipment("Buriza-Do Kyanon", "Eure Geschosse durchschlagen ihre Ziele zusätzlich 2-mal")));
-                    target.push(ko.observable(new Kanai.Equipment("Mauer der Menschheit", "Chance von 20–30%, Euch mit einem Knochenschild zu umgeben, wenn Ihr getroffen werdet")));
-                    target.push(ko.observable(new Kanai.Equipment("In-geom", "Die Abklingzeiten Eurer Fertigkeiten werden jedes Mal 15 Sek. lang um 10 Sek. reduziert, wenn Ihr eine Gruppe von Elitegegnern tötet")));
-                    target.push(ko.observable(new Kanai.Equipment("Kosmischer Strang", "'Teleportation' erhält den Effekt der Rune 'Wurmloch'")));
-                    target.push(ko.observable(new Kanai.Equipment('Spiegelkugel', "'Magisches Geschoss' verschießt 2 zusätzliche Geschosse")));
+                    target.push(ko.observable(new Kanai.Equipment('Walrosszahn', "Reduziert die Manakosten von 'Zombieangreifer' um 40–50%.")));
                 }
         }
     },
@@ -1381,6 +1510,7 @@ var lang = {
                 target.push(ko.observable(new Kanai.Equipment("Wyrdward", "Lightning damage has a 35% chance to Stun for 1.5 seconds.")));
                 break;
             case "de-DE":
+            case "de":
                 {
                     target.push(ko.observable(new Kanai.Equipment('Kamee von Gräfin Julia', 'Ignoriert sämtlichen eintreffenden Arkanschaden und heilt Euch um 20–25% der ignorierten Menge')));
                     target.push(ko.observable(new Kanai.Equipment('Energiefalle von Dovu', 'Erhöht die Dauer von Betäubungseffekten um 25%')));

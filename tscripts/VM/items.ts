@@ -3,10 +3,11 @@
 /// <reference path="../jquery.d.ts"/>
 /// <reference path="../models/equipment.ts"/>
 /// <reference path="../lang.ts" />
-
+/// <reference path="../includes.d.ts"/>
 module Kanai {
     export module VM {
         export class Site {
+            localStorageString:string = "kanai_cube";
             Weapons: KnockoutObservableArray<KnockoutObservable<Equipment>>;
             Jewelry: KnockoutObservableArray<KnockoutObservable<Equipment>>;
             Jewelery: KnockoutObservableArray<KnockoutObservable<Equipment>>;
@@ -27,6 +28,11 @@ module Kanai {
             WeaponNonSeasonalCubedCount: KnockoutComputed<number>;
             JewelryNonSeasonalCubedCount: KnockoutComputed<number>;
 
+            //both
+            bothProgressBar: KnockoutObservable<boolean>;
+            ArmorBothCubedCount: KnockoutComputed<number>;
+            WeaponBothCubedCount: KnockoutComputed<number>;
+            JewelryBothCubedCount: KnockoutComputed<number>;
             ArmorStashedCount: KnockoutComputed<number>;
             WeaponStashedCount: KnockoutComputed<number>;
             JewelryStashedCount: KnockoutComputed<number>;
@@ -40,6 +46,9 @@ module Kanai {
             AllJewelery: Equipment[];
             AllArmor: Equipment[];
 
+            Search: KnockoutObservable<string>;
+            FilteredArray:KnockoutObservableArray<KnockoutObservable<Equipment>>;
+
             constructor() {
                 var self = this;
                 this.Weapons = ko.observableArray<KnockoutObservable<Equipment>>();
@@ -51,12 +60,45 @@ module Kanai {
                 this.hideNonSeasonalCheckboxes = ko.observable(false).extend({ notify: 'always' });
                 this.hideSeasonalCheckboxes = ko.observable(false).extend({ notify: 'always' });
                 this.seasonalProgressBar = ko.observable(true).extend({ notify: 'always' });
+                this.bothProgressBar = ko.observable(false).extend({ notify: 'always' });
                 this.AllWeapons = new Array<Equipment>();
                 this.AllJewelry = new Array<Equipment>();
                 this.AllArmor = new Array<Equipment>();
                 this.Export = ko.observable<string>();
                 this.Import = ko.observable<string>();
+                this.Search = ko.observable<string>('').extend({ notify: 'always', rateLimit: 200 });
+                this.FilteredArray = ko.observableArray<KnockoutObservable<Equipment>>([]);
+                this.Search.subscribe((searchText) => {
+                    if (searchText && searchText.length >= 2) {
+                        //we need to search the array
+                        self.FilteredArray([]);
+                        self.searchArray(self.Armor, searchText, self.FilteredArray);
+                        self.searchArray(self.Weapons, searchText, self.FilteredArray);
+                        self.searchArray(self.Jewelry, searchText, self.FilteredArray);
+                        if (self.FilteredArray().length > 0) {
+                            self.FilteredArray.valueHasMutated();
+                            $("a[href='#panel-search']").tab("show");
+                        }
+                    } else {
+                        $("a[href='#panel-armor']").tab("show");
+                        self.FilteredArray([]);
+                        $(".sticky").removeClass('sticky');
+                        $(".sticky-progress").removeClass("sticky-progress");
+                        $(".sticky-table").removeClass('sticky-table');
+                    }
+                });
             }
+
+            searchArray(array: KnockoutObservableArray<KnockoutObservable<Equipment>>, searchText: string, response:KnockoutObservableArray<KnockoutObservable<Equipment>>):boolean {
+                var res = ko.utils.arrayFilter(array(), (item: any) => {
+                    var lowerItemName = ko.unwrap(item.itemName).toString().toLowerCase();
+                    var lowerAffix = ko.unwrap(item.affix).toString().toLowerCase();
+                    return (lowerItemName.indexOf(searchText) !== -1) || (lowerAffix.indexOf(searchText) !== -1);
+                });
+                ko.utils.arrayPushAll(response(), res);
+                return res.length > 0;
+            }
+
             clear() {
                 this.Weapons([]);
                 this.Jewelry([]);
@@ -64,7 +106,7 @@ module Kanai {
             }
             init() {
                 var self = this;
-                var vm = JSON.parse(localStorage.getItem("kanai_cube"));
+                var vm = JSON.parse(localStorage.getItem(self.localStorageString));
                 if (!vm) {
                     this.loadWeapons(self.Weapons);
                     this.loadJewelry(self.Jewelry);
@@ -83,7 +125,7 @@ module Kanai {
                     this.Jewelry.sort(function (left, right) {
                         return left().itemName() == right().itemName() ? 0 : (left().itemName() < right().itemName() ? -1 : 1);
                     });
-                    localStorage.setItem("kanai_cube", ko.mapping.toJSON(this));
+                    localStorage.setItem(self.localStorageString, ko.mapping.toJSON(this));
 
                     $.each(self.Armor(), function (i, elem: KnockoutObservable<Equipment>) {
                         elem().isCubedSeason.subscribe((newValue) => {
@@ -137,7 +179,7 @@ module Kanai {
                             self.Jewelry = ko.observableArray<KnockoutObservable<Equipment>>();
                         }
                     }
-                    ko.mapping.fromJS(vm, { "include": ["hideCubed", "hideCubedNonSeason", "nonSeasonalProgressBar", "seasonalProgressBar"]}, self);                   
+                    ko.mapping.fromJS(vm, { "include": ["hideCubed", "hideCubedNonSeason", "nonSeasonalProgressBar", "seasonalProgressBar", "bothProgressBar"]}, self);                   
                     this.checkConsistency();
                     this.saveToLocalStorage();
                     $.each(self.Armor(), function (i, elem: Equipment) {
@@ -254,6 +296,27 @@ module Kanai {
                     }).length;
                 });
 
+                this.ArmorBothCubedCount = ko.computed(() => {
+                    return ko.utils.arrayFilter(self.Armor(), (item: Equipment) => {
+                        var elem = ko.unwrap(item);
+                        return elem.isCubedNonSeason() || elem.isCubedSeason();
+                    }).length;
+                });
+
+                this.WeaponBothCubedCount = ko.computed(() => {
+                    return ko.utils.arrayFilter(self.Weapons(), (item: Equipment) => {
+                        var elem = ko.unwrap(item);
+                        return elem.isCubedNonSeason() || elem.isCubedSeason();
+                    }).length;
+                });
+
+                this.JewelryBothCubedCount = ko.computed(() => {
+                    return ko.utils.arrayFilter(self.Jewelry(), (item: Equipment) => {
+                        var elem = ko.unwrap(item);
+                        return elem.isCubedNonSeason() || elem.isCubedSeason();
+                    }).length;
+                });
+
                 this.StashedCount = ko.computed(() => {
                     return this.JewelryStashedCount() + this.WeaponStashedCount() + this.ArmorStashedCount();
                 });
@@ -262,6 +325,7 @@ module Kanai {
                 this.hideCubedNonSeason.subscribe(() => { self.saveToLocalStorage(); });
                 this.nonSeasonalProgressBar.subscribe(() => { self.saveToLocalStorage(); });
                 this.seasonalProgressBar.subscribe(() => { self.saveToLocalStorage(); });
+                this.bothProgressBar.subscribe(() => { self.saveToLocalStorage(); });
             }
 
             fillExport() {
@@ -271,12 +335,12 @@ module Kanai {
 
             saveToLocalStorage() {
                 var self = this;
-                localStorage["kanai_cube"] = null;
+                localStorage[self.localStorageString] = null;
                 delete this.Jewelery;
-                localStorage.setItem("kanai_cube", ko.mapping.toJSON(self, {
-                    "ignore": ["AllWeapons", "AllJewelry", "Export", "AllArmor", "ArmorNonSeasonalCubedCount", "ArmorSeasonalCubedCount", "ArmorStashedCount", "JewelryNonSeasonalCubedCount", "JewelrySeasonalCubedCount", "JewelryStashedCount", "StashedCount", "WeaponNonSeasonalCubedCount", "WeaponSeasonalCubedCount", "WeaponStashedCount"]}));
+                localStorage.setItem(self.localStorageString, ko.mapping.toJSON(self, {
+                    "ignore": ["AllWeapons", "AllJewelry", "FilteredArray", "Search", "Export", "AllArmor", "ArmorNonSeasonalCubedCount", "ArmorSeasonalCubedCount", "ArmorStashedCount", "JewelryNonSeasonalCubedCount", "JewelrySeasonalCubedCount", "JewelryStashedCount", "StashedCount", "WeaponNonSeasonalCubedCount", "WeaponSeasonalCubedCount", "WeaponStashedCount", "ArmorBothCubedCount", "WeaponBothCubedCount", "JewelryBothCubedCount"]}));
             }
-            
+
             // This function will return correct spelling of words that I typoed at some time without destroying user data or duplicating records
             spellcheckCorrect(searchName: string) {
                 switch (searchName) {

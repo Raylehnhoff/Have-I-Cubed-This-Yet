@@ -1,4 +1,5 @@
 ﻿var pageViewModel;
+
 $(document).ready(function () {
     pageViewModel = new Kanai.VM.Site();
     pageViewModel.init();

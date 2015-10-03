@@ -3,12 +3,14 @@
 /// <reference path="../jquery.d.ts"/>
 /// <reference path="../models/equipment.ts"/>
 /// <reference path="../lang.ts" />
+/// <reference path="../includes.d.ts"/>
 var Kanai;
 (function (Kanai) {
     var VM;
     (function (VM) {
         var Site = (function () {
             function Site() {
+                this.localStorageString = "kanai_cube";
                 var self = this;
                 this.Weapons = ko.observableArray();
                 this.Jewelry = ko.observableArray();
@@ -19,12 +21,44 @@ var Kanai;
                 this.hideNonSeasonalCheckboxes = ko.observable(false).extend({ notify: 'always' });
                 this.hideSeasonalCheckboxes = ko.observable(false).extend({ notify: 'always' });
                 this.seasonalProgressBar = ko.observable(true).extend({ notify: 'always' });
+                this.bothProgressBar = ko.observable(false).extend({ notify: 'always' });
                 this.AllWeapons = new Array();
                 this.AllJewelry = new Array();
                 this.AllArmor = new Array();
                 this.Export = ko.observable();
                 this.Import = ko.observable();
+                this.Search = ko.observable('').extend({ notify: 'always', rateLimit: 200 });
+                this.FilteredArray = ko.observableArray([]);
+                this.Search.subscribe(function (searchText) {
+                    if (searchText && searchText.length >= 2) {
+                        //we need to search the array
+                        self.FilteredArray([]);
+                        self.searchArray(self.Armor, searchText, self.FilteredArray);
+                        self.searchArray(self.Weapons, searchText, self.FilteredArray);
+                        self.searchArray(self.Jewelry, searchText, self.FilteredArray);
+                        if (self.FilteredArray().length > 0) {
+                            self.FilteredArray.valueHasMutated();
+                            $("a[href='#panel-search']").tab("show");
+                        }
+                    }
+                    else {
+                        $("a[href='#panel-armor']").tab("show");
+                        self.FilteredArray([]);
+                        $(".sticky").removeClass('sticky');
+                        $(".sticky-progress").removeClass("sticky-progress");
+                        $(".sticky-table").removeClass('sticky-table');
+                    }
+                });
             }
+            Site.prototype.searchArray = function (array, searchText, response) {
+                var res = ko.utils.arrayFilter(array(), function (item) {
+                    var lowerItemName = ko.unwrap(item.itemName).toString().toLowerCase();
+                    var lowerAffix = ko.unwrap(item.affix).toString().toLowerCase();
+                    return (lowerItemName.indexOf(searchText) !== -1) || (lowerAffix.indexOf(searchText) !== -1);
+                });
+                ko.utils.arrayPushAll(response(), res);
+                return res.length > 0;
+            };
             Site.prototype.clear = function () {
                 this.Weapons([]);
                 this.Jewelry([]);
@@ -33,7 +67,7 @@ var Kanai;
             Site.prototype.init = function () {
                 var _this = this;
                 var self = this;
-                var vm = JSON.parse(localStorage.getItem("kanai_cube"));
+                var vm = JSON.parse(localStorage.getItem(self.localStorageString));
                 if (!vm) {
                     this.loadWeapons(self.Weapons);
                     this.loadJewelry(self.Jewelry);
@@ -50,7 +84,7 @@ var Kanai;
                     this.Jewelry.sort(function (left, right) {
                         return left().itemName() == right().itemName() ? 0 : (left().itemName() < right().itemName() ? -1 : 1);
                     });
-                    localStorage.setItem("kanai_cube", ko.mapping.toJSON(this));
+                    localStorage.setItem(self.localStorageString, ko.mapping.toJSON(this));
                     $.each(self.Armor(), function (i, elem) {
                         elem().isCubedSeason.subscribe(function (newValue) {
                             self.saveToLocalStorage();
@@ -101,7 +135,7 @@ var Kanai;
                             self.Jewelry = ko.observableArray();
                         }
                     }
-                    ko.mapping.fromJS(vm, { "include": ["hideCubed", "hideCubedNonSeason", "nonSeasonalProgressBar", "seasonalProgressBar"] }, self);
+                    ko.mapping.fromJS(vm, { "include": ["hideCubed", "hideCubedNonSeason", "nonSeasonalProgressBar", "seasonalProgressBar", "bothProgressBar"] }, self);
                     this.checkConsistency();
                     this.saveToLocalStorage();
                     $.each(self.Armor(), function (i, elem) {
@@ -205,6 +239,24 @@ var Kanai;
                         return elem.isStashed() && !(elem.isCubedNonSeason() || elem.isCubedSeason());
                     }).length;
                 });
+                this.ArmorBothCubedCount = ko.computed(function () {
+                    return ko.utils.arrayFilter(self.Armor(), function (item) {
+                        var elem = ko.unwrap(item);
+                        return elem.isCubedNonSeason() || elem.isCubedSeason();
+                    }).length;
+                });
+                this.WeaponBothCubedCount = ko.computed(function () {
+                    return ko.utils.arrayFilter(self.Weapons(), function (item) {
+                        var elem = ko.unwrap(item);
+                        return elem.isCubedNonSeason() || elem.isCubedSeason();
+                    }).length;
+                });
+                this.JewelryBothCubedCount = ko.computed(function () {
+                    return ko.utils.arrayFilter(self.Jewelry(), function (item) {
+                        var elem = ko.unwrap(item);
+                        return elem.isCubedNonSeason() || elem.isCubedSeason();
+                    }).length;
+                });
                 this.StashedCount = ko.computed(function () {
                     return _this.JewelryStashedCount() + _this.WeaponStashedCount() + _this.ArmorStashedCount();
                 });
@@ -212,6 +264,7 @@ var Kanai;
                 this.hideCubedNonSeason.subscribe(function () { self.saveToLocalStorage(); });
                 this.nonSeasonalProgressBar.subscribe(function () { self.saveToLocalStorage(); });
                 this.seasonalProgressBar.subscribe(function () { self.saveToLocalStorage(); });
+                this.bothProgressBar.subscribe(function () { self.saveToLocalStorage(); });
             };
             Site.prototype.fillExport = function () {
                 var self = this;
@@ -219,10 +272,10 @@ var Kanai;
             };
             Site.prototype.saveToLocalStorage = function () {
                 var self = this;
-                localStorage["kanai_cube"] = null;
+                localStorage[self.localStorageString] = null;
                 delete this.Jewelery;
-                localStorage.setItem("kanai_cube", ko.mapping.toJSON(self, {
-                    "ignore": ["AllWeapons", "AllJewelry", "Export", "AllArmor", "ArmorNonSeasonalCubedCount", "ArmorSeasonalCubedCount", "ArmorStashedCount", "JewelryNonSeasonalCubedCount", "JewelrySeasonalCubedCount", "JewelryStashedCount", "StashedCount", "WeaponNonSeasonalCubedCount", "WeaponSeasonalCubedCount", "WeaponStashedCount"] }));
+                localStorage.setItem(self.localStorageString, ko.mapping.toJSON(self, {
+                    "ignore": ["AllWeapons", "AllJewelry", "FilteredArray", "Search", "Export", "AllArmor", "ArmorNonSeasonalCubedCount", "ArmorSeasonalCubedCount", "ArmorStashedCount", "JewelryNonSeasonalCubedCount", "JewelrySeasonalCubedCount", "JewelryStashedCount", "StashedCount", "WeaponNonSeasonalCubedCount", "WeaponSeasonalCubedCount", "WeaponStashedCount", "ArmorBothCubedCount", "WeaponBothCubedCount", "JewelryBothCubedCount"] }));
             };
             // This function will return correct spelling of words that I typoed at some time without destroying user data or duplicating records
             Site.prototype.spellcheckCorrect = function (searchName) {
