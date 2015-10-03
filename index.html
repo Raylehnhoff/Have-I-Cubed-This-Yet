@@ -62,13 +62,21 @@
                         <li>
                             <a href="#panel-settings" data-toggle="tab"><i class="fa fa-cog"></i> <span data-bind="text:lang.settings()"></span></a>
                         </li>
+                        <li>
+                            <div class="input-group" style="min-width:50px;max-width:150px;padding-top:4px;">
+                                <span class="input-group-addon"><i class="fa fa-search-plus"></i></span>
+                                <input type="text" class="form-control" data-bind="attr:{'placeholder':lang.searchPlaceholder()}, value:Search, valueUpdate:['input', 'afterkeydown']" />
+                                <a href="#panel-search" data-toggle="tab"></a>
+                            </div>
+                        </li>
+
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane active" id="panel-armor">
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="row">
-                                        <div class="col-md-12 progress-container" data-bind="visible:(seasonalProgressBar() || nonSeasonalProgressBar())">
+                                        <div class="col-md-12 progress-container" data-bind="visible:(seasonalProgressBar() || nonSeasonalProgressBar() || bothProgressBar())">
                                             <div data-bind="visible:seasonalProgressBar()">
                                                 <p data-bind="text:lang.seasonal()"></p>
                                                 <div class="progress">
@@ -89,6 +97,20 @@
                                                          data-bind="style: {width: ((ArmorNonSeasonalCubedCount() / AllArmor.length) * 100).toFixed(2) + '%'}">
                                                         <span data-bind="text: parseInt(((ArmorNonSeasonalCubedCount() / AllArmor.length) * 100),10) + '%'"></span>
                                                     </div>
+                                                    <div class="progress-bar progress-bar-warning"
+                                                         data-bind="style: {width: ((ArmorStashedCount() / AllArmor.length) * 100).toFixed(2) + '%'}">
+                                                        <span data-bind="text: parseInt(((ArmorStashedCount() / AllArmor.length) * 100),10) + '%'"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div data-bind="visible:bothProgressBar()">
+                                                <p data-bind="text:lang.bothProgressBarLabel()"></p>
+                                                <div class="progress">
+                                                    <div class="progress-bar" role="ProgressBar" aria-valuemin="0" aria-valuemax="100"
+                                                         data-bind="style: {width: ((ArmorBothCubedCount() / AllArmor.length) * 100).toFixed(2) + '%'}">
+                                                        <span data-bind="text: parseInt(((ArmorBothCubedCount() / AllArmor.length) * 100),10) + '%'"></span>
+                                                    </div>
+
                                                     <div class="progress-bar progress-bar-warning"
                                                          data-bind="style: {width: ((ArmorStashedCount() / AllArmor.length) * 100).toFixed(2) + '%'}">
                                                         <span data-bind="text: parseInt(((ArmorStashedCount() / AllArmor.length) * 100),10) + '%'"></span>
@@ -117,7 +139,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="row">
-                                        <div class="col-md-12 progress-container" data-bind="visible:(seasonalProgressBar() || nonSeasonalProgressBar())">
+                                        <div class="col-md-12 progress-container" data-bind="visible:(seasonalProgressBar() || nonSeasonalProgressBar() || bothProgressBar())">
                                             <div data-bind="visible:seasonalProgressBar()">
                                                 <p data-bind="text:lang.seasonal()"></p>
                                                 <div class="progress">
@@ -146,6 +168,20 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div data-bind="visible:bothProgressBar()">
+                                                <p data-bind="text:lang.bothProgressBarLabel()"></p>
+                                                <div class="progress">
+                                                    <div class="progress-bar" role="ProgressBar" aria-valuemin="0" aria-valuemax="100"
+                                                         data-bind="style: {width: ((WeaponBothCubedCount() / AllWeapons.length) * 100).toFixed(2) + '%'}">
+                                                        <span data-bind="text: parseInt(((WeaponBothCubedCount() / AllWeapons.length) * 100),10) + '%'"></span>
+                                                    </div>
+
+                                                    <div class="progress-bar progress-bar-warning"
+                                                         data-bind="style: {width: ((WeaponBothCubedCount() / AllWeapons.length) * 100).toFixed(2) + '%'}">
+                                                        <span data-bind="text: parseInt(((WeaponBothCubedCount() / AllWeapons.length) * 100),10) + '%'"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -168,7 +204,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="row">
-                                        <div class="col-md-12 progress-container" data-bind="visible:(seasonalProgressBar() || nonSeasonalProgressBar())">
+                                        <div class="col-md-12 progress-container" data-bind="visible:(seasonalProgressBar() || nonSeasonalProgressBar() || bothProgressBar())">
                                             <div data-bind="visible:seasonalProgressBar()">
                                                 <p data-bind="text:lang.seasonal()"></p>
                                                 <div class="progress">
@@ -192,6 +228,20 @@
                                                     <div class="progress-bar progress-bar-warning"
                                                          data-bind="style: {width: ((JewelryStashedCount() / AllJewelry.length) * 100).toFixed(2) + '%'}">
                                                         <span data-bind="text: parseInt(((JewelryStashedCount() / AllJewelry.length) * 100),10) + '%'"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div data-bind="visible:bothProgressBar()">
+                                                <p data-bind="text:lang.bothProgressBarLabel()"></p>
+                                                <div class="progress">
+                                                    <div class="progress-bar" role="ProgressBar" aria-valuemin="0" aria-valuemax="100"
+                                                         data-bind="style: {width: ((JewelryBothCubedCount() / AllJewelry.length) * 100).toFixed(2) + '%'}">
+                                                        <span data-bind="text: parseInt(((JewelryBothCubedCount() / AllJewelry.length) * 100),10) + '%'"></span>
+                                                    </div>
+
+                                                    <div class="progress-bar progress-bar-warning"
+                                                         data-bind="style: {width: ((JewelryBothCubedCount() / AllJewelry.length) * 100).toFixed(2) + '%'}">
+                                                        <span data-bind="text: parseInt(((JewelryBothCubedCount() / AllJewelry.length) * 100),10) + '%'"></span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -262,7 +312,15 @@
                                                     <dd>
                                                         <input type="checkbox" data-bind="checked:nonSeasonalProgressBar" />
                                                     </dd>
-
+                                                </dl>
+                                            </fieldset>
+                                            <fieldset>
+                                                <legend data-bind="text:lang.bothSettingsHeader()"></legend>
+                                                <dl>
+                                                    <dt data-bind="text:lang.showBothProgressBar()"></dt>
+                                                    <dd>
+                                                        <input type="checkbox" data-bind="checked:bothProgressBar" />
+                                                    </dd>
                                                 </dl>
                                             </fieldset>
 
@@ -300,6 +358,22 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="tab-pane" id="panel-search">
+                            <table class="table table-responsive">
+                                <thead>
+                                    <tr>
+                                        <th data-bind="text:lang.name()"></th>
+                                        <th data-bind="text:lang.cubedSeasonal(),visible:(!(hideSeasonalCheckboxes()))"></th>
+                                        <th data-bind="text:lang.cubedNonSeasonal(),visible:(!(hideNonSeasonalCheckboxes()))"></th>
+                                        <th data-bind="text:lang.stashed()"></th>
+                                        <th data-bind="text:lang.affix()"></th>
+                                    </tr>
+                                </thead>
+                                <tbody data-bind="template: {name: 'item-template', foreach:FilteredArray}"></tbody>
+                            </table>
+
+                        </div>
+
                     </div>
                 </div>
             </div>
