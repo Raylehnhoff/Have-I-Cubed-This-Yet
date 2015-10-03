@@ -135,7 +135,16 @@ var Kanai;
                             self.Jewelry = ko.observableArray();
                         }
                     }
-                    ko.mapping.fromJS(vm, { "include": ["hideCubed", "hideCubedNonSeason", "nonSeasonalProgressBar", "seasonalProgressBar", "bothProgressBar"] }, self);
+                    ko.mapping.fromJS(vm, {
+                        "include": ["hideCubed",
+                            "hideCubedNonSeason",
+                            "nonSeasonalProgressBar",
+                            "hideNonSeasonalCheckboxes",
+                            "hideSeasonalCheckboxes",
+                            "seasonalProgressBar",
+                            "bothProgressBar"
+                        ]
+                    }, self);
                     this.checkConsistency();
                     this.saveToLocalStorage();
                     $.each(self.Armor(), function (i, elem) {
@@ -275,7 +284,11 @@ var Kanai;
                 localStorage[self.localStorageString] = null;
                 delete this.Jewelery;
                 localStorage.setItem(self.localStorageString, ko.mapping.toJSON(self, {
-                    "ignore": ["AllWeapons", "AllJewelry", "FilteredArray", "Search", "Export", "AllArmor", "ArmorNonSeasonalCubedCount", "ArmorSeasonalCubedCount", "ArmorStashedCount", "JewelryNonSeasonalCubedCount", "JewelrySeasonalCubedCount", "JewelryStashedCount", "StashedCount", "WeaponNonSeasonalCubedCount", "WeaponSeasonalCubedCount", "WeaponStashedCount", "ArmorBothCubedCount", "WeaponBothCubedCount", "JewelryBothCubedCount"] }));
+                    "ignore": ["AllWeapons", "AllJewelry", "FilteredArray", "Search", "Export", "AllArmor",
+                        "ArmorNonSeasonalCubedCount", "ArmorSeasonalCubedCount", "ArmorStashedCount", "JewelryNonSeasonalCubedCount",
+                        "JewelrySeasonalCubedCount", "JewelryStashedCount", "StashedCount", "WeaponNonSeasonalCubedCount", "WeaponSeasonalCubedCount",
+                        "WeaponStashedCount", "ArmorBothCubedCount", "WeaponBothCubedCount", "JewelryBothCubedCount"]
+                }));
             };
             // This function will return correct spelling of words that I typoed at some time without destroying user data or duplicating records
             Site.prototype.spellcheckCorrect = function (searchName) {
