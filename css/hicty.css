@@ -44,3 +44,9 @@ dd {
     background-color: white;
     width: 100%;
 }
+.sticky-table {
+    position: fixed;   
+    background-color: white;
+    width: 100%;
+    top: 72px;
+}
