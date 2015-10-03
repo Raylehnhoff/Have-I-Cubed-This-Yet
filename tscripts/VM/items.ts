@@ -332,6 +332,8 @@ module Kanai {
 
                 this.hideCubed.subscribe(() => { self.saveToLocalStorage(); });
                 this.hideCubedNonSeason.subscribe(() => { self.saveToLocalStorage(); });
+                this.hideNonSeasonalCheckboxes.subscribe(() => { self.saveToLocalStorage();});
+                this.hideSeasonalCheckboxes.subscribe(() => { self.saveToLocalStorage(); });
                 this.nonSeasonalProgressBar.subscribe(() => { self.saveToLocalStorage(); });
                 this.seasonalProgressBar.subscribe(() => { self.saveToLocalStorage(); });
                 this.bothProgressBar.subscribe(() => { self.saveToLocalStorage(); });

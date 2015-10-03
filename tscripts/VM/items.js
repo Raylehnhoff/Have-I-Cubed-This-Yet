@@ -271,6 +271,8 @@ var Kanai;
                 });
                 this.hideCubed.subscribe(function () { self.saveToLocalStorage(); });
                 this.hideCubedNonSeason.subscribe(function () { self.saveToLocalStorage(); });
+                this.hideNonSeasonalCheckboxes.subscribe(function () { self.saveToLocalStorage(); });
+                this.hideSeasonalCheckboxes.subscribe(function () { self.saveToLocalStorage(); });
                 this.nonSeasonalProgressBar.subscribe(function () { self.saveToLocalStorage(); });
                 this.seasonalProgressBar.subscribe(function () { self.saveToLocalStorage(); });
                 this.bothProgressBar.subscribe(function () { self.saveToLocalStorage(); });
