@@ -1055,7 +1055,6 @@ var lang = {
                     target.push(ko.observable(new Kanai.Equipment("Nilfur's Boast", "Increase the damage of Meteor by 100%. When your Meteor hits 3 or less enemies, the damage is increased by 200%.")));
                     target.push(ko.observable(new Kanai.Equipment("The Crudest Boots", "Mystic Ally summons two Mystic Allies that fight by your side.")));
                     target.push(ko.observable(new Kanai.Equipment("Dread Iron", "Ground Stomp causes an Avalanche.")));
-                    target.push(ko.observable(new Kanai.Equipment('Eiskletterer', 'Ihr erhaltet Immunität gegen Einfrierungs- und Bewegungsunfähigkeitseffekte')));
                     break;
                 }
             case "de-DE":

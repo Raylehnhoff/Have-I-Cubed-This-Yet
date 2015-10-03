@@ -372,6 +372,15 @@ var Kanai;
                 if (item) {
                     self.Weapons.remove(item);
                 }
+                //This item accidently made it to the US item list
+                if (lang.culture() != 'de' || lang.culture() != 'de-DE') {
+                    item = ko.utils.arrayFirst(self.Armor(), function (item) {
+                        return item.itemName() == "Eiskletterer";
+                    });
+                    if (item) {
+                        self.Armor.remove(item);
+                    }
+                }
                 self._checkConsistencyAndSort(self.Jewelry, self.AllJewelry);
                 self.saveToLocalStorage();
             };

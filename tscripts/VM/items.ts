@@ -333,7 +333,7 @@ module Kanai {
                 this.hideCubed.subscribe(() => { self.saveToLocalStorage(); });
                 this.hideCubedNonSeason.subscribe(() => { self.saveToLocalStorage(); });
                 this.hideNonSeasonalCheckboxes.subscribe(() => { self.saveToLocalStorage();});
-                this.hideSeasonalCheckboxes.subscribe(() => { self.saveToLocalStorage(); });
+                this.hideSeasonalCheckboxes.subscribe(() => { self.saveToLocalStorage();});
                 this.nonSeasonalProgressBar.subscribe(() => { self.saveToLocalStorage(); });
                 this.seasonalProgressBar.subscribe(() => { self.saveToLocalStorage(); });
                 this.bothProgressBar.subscribe(() => { self.saveToLocalStorage(); });
@@ -439,6 +439,18 @@ module Kanai {
                 if (item) {
                     self.Weapons.remove(item);
                 }
+
+                //This item accidently made it to the US item list
+                if (lang.culture() != 'de' || lang.culture() != 'de-DE') {
+                    item = ko.utils.arrayFirst(self.Armor(), function(item: any) {
+                        return item.itemName() == "Eiskletterer";
+                    });
+                    if (item) {
+                        self.Armor.remove(item);
+                    }
+                }
+
+
                 self._checkConsistencyAndSort(self.Jewelry, self.AllJewelry);
                 self.saveToLocalStorage();
 
