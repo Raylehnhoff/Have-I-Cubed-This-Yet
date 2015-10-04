@@ -6,7 +6,7 @@ var Kanai;
     var Equipment = (function () {
         function Equipment(itemName, affix) {
             this.itemName = ko.observable(itemName);
-            this.affix = affix;
+            this.affix = ko.observable(affix);
             this.isCubedSeason = ko.observable(false);
             this.isCubedNonSeason = ko.observable(false);
             this.isStashed = ko.observable(false);

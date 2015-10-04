@@ -9,10 +9,10 @@ module Kanai {
         isCubedNonSeason: KnockoutObservable<boolean>;
         isStashed: KnockoutObservable<boolean>;
         slot: Kanai.Enums.Slots;
-        affix: string;
+        affix: KnockoutObservable<string>;
         constructor(itemName:string, affix:string) {
             this.itemName = ko.observable<string>(itemName);
-            this.affix = affix;
+            this.affix = ko.observable<string>(affix);
             this.isCubedSeason = ko.observable(false);
             this.isCubedNonSeason = ko.observable(false);
             this.isStashed = ko.observable(false);

@@ -6,6 +6,17 @@
 /// <reference path="../includes.d.ts"/>
 var Kanai;
 (function (Kanai) {
+    var Models;
+    (function (Models) {
+        var DropdownListOption = (function () {
+            function DropdownListOption(key, value) {
+                this.key = key;
+                this.value = value;
+            }
+            return DropdownListOption;
+        })();
+        Models.DropdownListOption = DropdownListOption;
+    })(Models = Kanai.Models || (Kanai.Models = {}));
     var VM;
     (function (VM) {
         var Site = (function () {
@@ -22,9 +33,9 @@ var Kanai;
                 this.hideSeasonalCheckboxes = ko.observable(false).extend({ notify: 'always' });
                 this.seasonalProgressBar = ko.observable(true).extend({ notify: 'always' });
                 this.bothProgressBar = ko.observable(false).extend({ notify: 'always' });
-                this.AllWeapons = new Array();
-                this.AllJewelry = new Array();
-                this.AllArmor = new Array();
+                this.AllWeapons = ko.observableArray([]);
+                this.AllJewelry = ko.observableArray([]);
+                this.AllArmor = ko.observableArray([]);
                 this.Export = ko.observable();
                 this.Import = ko.observable();
                 this.Search = ko.observable('').extend({ notify: 'always', rateLimit: 200 });
@@ -49,6 +60,24 @@ var Kanai;
                         $(".sticky-table").removeClass('sticky-table');
                     }
                 });
+                this.selectedLanguage = ko.observable('default');
+                this.selectedLanguage.subscribe(function (newLang) {
+                    lang.selectedLang(newLang);
+                });
+                this.hasSeenLanguageAlert = ko.observable(false);
+                this.showLanguageAlert = ko.computed(function () {
+                    switch (lang.culture()) {
+                        case "de-DE":
+                        case "de":
+                            if (self.hasSeenLanguageAlert()) {
+                                return false;
+                            }
+                            return true;
+                        case "default":
+                        default:
+                            return false;
+                    }
+                });
             }
             Site.prototype.searchArray = function (array, searchText, response) {
                 var res = ko.utils.arrayFilter(array(), function (item) {
@@ -63,6 +92,8 @@ var Kanai;
                 this.Weapons([]);
                 this.Jewelry([]);
                 this.Armor([]);
+                this.selectedLanguage('default');
+                this.hasSeenLanguageAlert(false);
             };
             Site.prototype.init = function () {
                 var _this = this;
@@ -72,9 +103,15 @@ var Kanai;
                     this.loadWeapons(self.Weapons);
                     this.loadJewelry(self.Jewelry);
                     this.loadArmor(self.Armor);
-                    self.loadJewelry(self.AllJewelry);
-                    self.loadArmor(self.AllWeapons);
-                    self.loadWeapons(self.AllArmor);
+                    if (self.AllJewelry().length == 0) {
+                        self.loadJewelry(self.AllJewelry());
+                    }
+                    if (self.AllWeapons().length == 0) {
+                        self.loadArmor(self.AllWeapons());
+                    }
+                    if (self.AllArmor().length == 0) {
+                        self.loadWeapons(self.AllArmor());
+                    }
                     this.Weapons.sort(function (left, right) {
                         return left().itemName() == right().itemName() ? 0 : (left().itemName() < right().itemName() ? -1 : 1);
                     });
@@ -142,8 +179,16 @@ var Kanai;
                             "hideNonSeasonalCheckboxes",
                             "hideSeasonalCheckboxes",
                             "seasonalProgressBar",
-                            "bothProgressBar"
-                        ]
+                            "bothProgressBar",
+                            "hasSeenLanguageAlert",
+                            "selectedLanguage"
+                        ],
+                        "selectedLanguage": {
+                            update: function (options) {
+                                lang.selectedLang(options.data);
+                                return options.data;
+                            }
+                        }
                     }, self);
                     this.checkConsistency();
                     this.saveToLocalStorage();
@@ -180,7 +225,7 @@ var Kanai;
                             self.saveToLocalStorage();
                         });
                     });
-                    self.saveToLocalStorage();
+                    this.saveToLocalStorage();
                 }
                 this.ArmorSeasonalCubedCount = ko.computed(function () {
                     if (self.Armor().length > 0) {
@@ -276,6 +321,23 @@ var Kanai;
                 this.nonSeasonalProgressBar.subscribe(function () { self.saveToLocalStorage(); });
                 this.seasonalProgressBar.subscribe(function () { self.saveToLocalStorage(); });
                 this.bothProgressBar.subscribe(function () { self.saveToLocalStorage(); });
+                this.hasSeenLanguageAlert.subscribe(function () { self.saveToLocalStorage(); });
+                if (!self.selectedLanguage() && !self.showLanguageAlert()) {
+                    if (self.hasSeenLanguageAlert()) {
+                        self.selectedLanguage(lang.culture());
+                    }
+                }
+            };
+            Site.prototype.Translate = function () {
+                this.hasSeenLanguageAlert(true);
+                this.selectedLanguage(lang.culture());
+                this.saveToLocalStorage();
+                this.init();
+            };
+            Site.prototype.DontTranslate = function () {
+                this.selectedLanguage('default');
+                this.hasSeenLanguageAlert(true);
+                this.init();
             };
             Site.prototype.fillExport = function () {
                 var self = this;
@@ -286,10 +348,27 @@ var Kanai;
                 localStorage[self.localStorageString] = null;
                 delete this.Jewelery;
                 localStorage.setItem(self.localStorageString, ko.mapping.toJSON(self, {
-                    "ignore": ["AllWeapons", "AllJewelry", "FilteredArray", "Search", "Export", "AllArmor",
-                        "ArmorNonSeasonalCubedCount", "ArmorSeasonalCubedCount", "ArmorStashedCount", "JewelryNonSeasonalCubedCount",
-                        "JewelrySeasonalCubedCount", "JewelryStashedCount", "StashedCount", "WeaponNonSeasonalCubedCount", "WeaponSeasonalCubedCount",
-                        "WeaponStashedCount", "ArmorBothCubedCount", "WeaponBothCubedCount", "JewelryBothCubedCount"]
+                    "ignore": ["AllWeapons",
+                        "AllJewelry",
+                        "FilteredArray",
+                        "Search",
+                        "Export",
+                        "AllArmor",
+                        "ArmorNonSeasonalCubedCount",
+                        "ArmorSeasonalCubedCount",
+                        "ArmorStashedCount",
+                        "JewelryNonSeasonalCubedCount",
+                        "JewelrySeasonalCubedCount",
+                        "JewelryStashedCount",
+                        "StashedCount",
+                        "WeaponNonSeasonalCubedCount",
+                        "WeaponSeasonalCubedCount",
+                        "WeaponStashedCount",
+                        "ArmorBothCubedCount",
+                        "WeaponBothCubedCount",
+                        "JewelryBothCubedCount",
+                        "showLanguageAlert"
+                    ]
                 }));
             };
             // This function will return correct spelling of words that I typoed at some time without destroying user data or duplicating records
@@ -312,8 +391,20 @@ var Kanai;
             };
             Site.prototype._checkConsistencyAndSort = function (searchArray, masterList) {
                 var self = this;
+                for (var i = 0; i < searchArray().length; i++) {
+                    var convert;
+                    if ((lang.culture() == 'de' || lang.culture() == 'de-DE') && (!lang.selectedLang() || lang.selectedLang() == 'default')) {
+                        convert = lang.cultureToEnglish(searchArray()[i]);
+                    }
+                    else {
+                        convert = lang.englishToCulture(searchArray()[i]);
+                    }
+                    searchArray()[i].itemName(convert.itemName());
+                    searchArray()[i].affix(convert.affix());
+                }
                 for (var i = 0; i < masterList.length; i++) {
                     var searchName = masterList[i]().itemName();
+                    // this will go through both arrays and match items up
                     var find = ko.utils.arrayFirst(searchArray(), function (item) {
                         var spellCheck = self.spellcheckCorrect(item.itemName());
                         if (spellCheck && spellCheck.oldName == item.itemName()) {
@@ -322,26 +413,15 @@ var Kanai;
                         return item.itemName() === searchName;
                     });
                     if (find == null) {
-                        var find2 = ko.utils.arrayFirst(searchArray(), function (item) {
-                            var convert = lang.englishToCulture(item);
-                            return convert.itemName() === searchName;
-                        });
-                        if (find2 == null) {
-                            searchArray.push(ko.mapping.fromJS(masterList[i])());
-                        }
-                        else {
-                            var convert = lang.englishToCulture(find2);
-                            find2.itemName(convert.itemName());
-                            find2.affix = convert.affix;
-                        }
+                        searchArray.push(ko.mapping.fromJS(masterList[i])());
                     }
                     else {
-                        find.affix = masterList[i]().affix;
+                        find.affix(masterList[i]().affix());
                     }
-                    searchArray.sort(function (left, right) {
-                        return left.itemName() == right.itemName() ? 0 : (left.itemName() < right.itemName() ? -1 : 1);
-                    });
                 }
+                searchArray.sort(function (left, right) {
+                    return left.itemName() == right.itemName() ? 0 : (left.itemName() < right.itemName() ? -1 : 1);
+                });
             };
             Site.prototype.importValues = function () {
                 var self = this;
@@ -351,27 +431,24 @@ var Kanai;
                         self.Jewelry(importData.Jewelry());
                         self.Armor(importData.Armor());
                         self.Weapons(importData.Weapons());
+                        self.checkConsistency();
                         self.saveToLocalStorage();
                     }
                 }
             };
             Site.prototype.checkConsistency = function () {
                 var self = this;
-                this.AllWeapons.length = 0;
-                this.AllJewelry.length = 0;
-                this.AllArmor.length = 0;
-                this.loadWeapons(this.AllWeapons);
-                this.loadJewelry(this.AllJewelry);
-                this.loadArmor(this.AllArmor);
+                if (this.AllWeapons().length == 0) {
+                    this.loadWeapons(this.AllWeapons);
+                }
+                if (this.AllJewelry().length == 0) {
+                    this.loadJewelry(this.AllJewelry);
+                }
+                if (this.AllArmor().length == 0) {
+                    this.loadArmor(this.AllArmor);
+                }
                 self._checkConsistencyAndSort(self.Armor, self.AllArmor);
                 self._checkConsistencyAndSort(self.Weapons, self.AllWeapons);
-                //This item didn't make it live in 2.3
-                var item = ko.utils.arrayFirst(self.Weapons(), function (item) {
-                    return item.itemName() == "Deadly Rebirth";
-                });
-                if (item) {
-                    self.Weapons.remove(item);
-                }
                 //This item accidently made it to the US item list
                 if (lang.culture() != 'de' || lang.culture() != 'de-DE') {
                     item = ko.utils.arrayFirst(self.Armor(), function (item) {

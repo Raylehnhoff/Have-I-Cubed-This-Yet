@@ -20,6 +20,18 @@
         <div class="row">
             <div class="col-md-12" id="page">
                 <div>
+                    <div data-bind="visible:showLanguageAlert" style="display:none">
+                        <div class="alert alert-info alert-dismissible fade in" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close" data-bind="click:DontTranslate"><span aria-hidden="true">×</span></button>
+                            <p>
+                                It looks like your browser speaks German. Would you like to translate this website to that language?
+                            </p>
+                            <p>
+                                <button type="button" class="btn btn-danger" data-bind="click:Translate">Yes, Translate it</button>
+                                <button type="button" class="btn btn-default" data-bind="click:DontTranslate">No. Keep the site in English.</button>
+                            </p>
+                        </div>
+                    </div>
                     <p data-bind="html:lang.pleaseRead()">
 
                     </p>
@@ -33,19 +45,19 @@
                     <h4 data-bind="text:lang.seasonalProgress()"></h4>
                     <ul>
                         <li>
-                            <span data-bind="text:lang.armor()+': '"> </span><span data-bind="text: ArmorSeasonalCubedCount() + ' (of ' + AllArmor.length +')'"></span>
+                            <span data-bind="text:lang.armor()+': '"> </span><span data-bind="text: ArmorSeasonalCubedCount() + ' (of ' + AllArmor().length +')'"></span>
                         </li>
                         <li>
-                            <span data-bind="text:lang.weapon()+': '"> </span><span data-bind="text: WeaponSeasonalCubedCount() + ' (of ' + AllWeapons.length + ')'"></span>
+                            <span data-bind="text:lang.weapon()+': '"> </span><span data-bind="text: WeaponSeasonalCubedCount() + ' (of ' + AllWeapons().length + ')'"></span>
                         </li>
                         <li>
-                            <span data-bind="text:lang.jewelry()+': '"> </span><span data-bind="text: JewelrySeasonalCubedCount() + ' (of ' + AllJewelry.length + ')'"></span>
+                            <span data-bind="text:lang.jewelry()+': '"> </span><span data-bind="text: JewelrySeasonalCubedCount() + ' (of ' + AllJewelry().length + ')'"></span>
                         </li>
                         <li>
-                            <span data-bind="text:lang.stashedItems()+':'"></span><span data-bind="text: (StashedCount()) + ' (of ' + (AllJewelry.length + AllWeapons.length + AllArmor.length) + ')'"></span>
+                            <span data-bind="text:lang.stashedItems()+':'"></span><span data-bind="text: (StashedCount()) + ' (of ' + (AllJewelry().length + AllWeapons().length + AllArmor().length) + ')'"></span>
                         </li>
-                        <li data-bind="text:lang.totalCubed() +': ' + (JewelrySeasonalCubedCount() + WeaponSeasonalCubedCount() + ArmorSeasonalCubedCount()) + ' (of ' + (AllArmor.length + AllWeapons.length + AllJewelry.length) +')'"></li>
-                        <li data-bind="text:lang.total()+': ' + (JewelrySeasonalCubedCount() + WeaponSeasonalCubedCount() + ArmorSeasonalCubedCount() + StashedCount()) + ' (of ' + (AllArmor.length + AllWeapons.length + AllJewelry.length) +')'"></li>
+                        <li data-bind="text:lang.totalCubed() +': ' + (JewelrySeasonalCubedCount() + WeaponSeasonalCubedCount() + ArmorSeasonalCubedCount()) + ' (of ' + (AllArmor().length + AllWeapons().length + AllJewelry().length) +')'"></li>
+                        <li data-bind="text:lang.total()+': ' + (JewelrySeasonalCubedCount() + WeaponSeasonalCubedCount() + ArmorSeasonalCubedCount() + StashedCount()) + ' (of ' + (AllArmor().length + AllWeapons().length + AllJewelry().length) +')'"></li>
                     </ul>
                 </div>
                 <div class="tabbable" id="nav-tabs">
@@ -81,12 +93,12 @@
                                                 <p data-bind="text:lang.seasonal()"></p>
                                                 <div class="progress">
                                                     <div class="progress-bar" role="ProgressBar" aria-valuemin="0" aria-valuemax="100"
-                                                         data-bind="style: {width: ((ArmorSeasonalCubedCount() / AllArmor.length) * 100).toFixed(2) + '%'}">
-                                                        <span data-bind="text: parseInt(((ArmorSeasonalCubedCount() / AllArmor.length) * 100),10) + '%'"></span>
+                                                         data-bind="style: {width: ((ArmorSeasonalCubedCount() / AllArmor().length) * 100).toFixed(2) + '%'}">
+                                                        <span data-bind="text: parseInt(((ArmorSeasonalCubedCount() / AllArmor().length) * 100),10) + '%'"></span>
                                                     </div>
                                                     <div class="progress-bar progress-bar-warning"
-                                                         data-bind="style: {width: ((ArmorStashedCount() / AllArmor.length) * 100).toFixed(2) + '%'}">
-                                                        <span data-bind="text: parseInt(((ArmorStashedCount() / AllArmor.length) * 100),10) + '%'"></span>
+                                                         data-bind="style: {width: ((ArmorStashedCount() / AllArmor().length) * 100).toFixed(2) + '%'}">
+                                                        <span data-bind="text: parseInt(((ArmorStashedCount() / AllArmor().length) * 100),10) + '%'"></span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -94,12 +106,12 @@
                                                 <p data-bind="text:lang.nonSeasonal()"></p>
                                                 <div class="progress" data-bind="visible:nonSeasonalProgressBar()">
                                                     <div class="progress-bar" role="ProgressBar" aria-valuemin="0" aria-valuemax="100"
-                                                         data-bind="style: {width: ((ArmorNonSeasonalCubedCount() / AllArmor.length) * 100).toFixed(2) + '%'}">
-                                                        <span data-bind="text: parseInt(((ArmorNonSeasonalCubedCount() / AllArmor.length) * 100),10) + '%'"></span>
+                                                         data-bind="style: {width: ((ArmorNonSeasonalCubedCount() / AllArmor().length) * 100).toFixed(2) + '%'}">
+                                                        <span data-bind="text: parseInt(((ArmorNonSeasonalCubedCount() / AllArmor().length) * 100),10) + '%'"></span>
                                                     </div>
                                                     <div class="progress-bar progress-bar-warning"
-                                                         data-bind="style: {width: ((ArmorStashedCount() / AllArmor.length) * 100).toFixed(2) + '%'}">
-                                                        <span data-bind="text: parseInt(((ArmorStashedCount() / AllArmor.length) * 100),10) + '%'"></span>
+                                                         data-bind="style: {width: ((ArmorStashedCount() / AllArmor().length) * 100).toFixed(2) + '%'}">
+                                                        <span data-bind="text: parseInt(((ArmorStashedCount() / AllArmor().length) * 100),10) + '%'"></span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -107,13 +119,13 @@
                                                 <p data-bind="text:lang.bothProgressBarLabel()"></p>
                                                 <div class="progress">
                                                     <div class="progress-bar" role="ProgressBar" aria-valuemin="0" aria-valuemax="100"
-                                                         data-bind="style: {width: ((ArmorBothCubedCount() / AllArmor.length) * 100).toFixed(2) + '%'}">
-                                                        <span data-bind="text: parseInt(((ArmorBothCubedCount() / AllArmor.length) * 100),10) + '%'"></span>
+                                                         data-bind="style: {width: ((ArmorBothCubedCount() / AllArmor().length) * 100).toFixed(2) + '%'}">
+                                                        <span data-bind="text: parseInt(((ArmorBothCubedCount() / AllArmor().length) * 100),10) + '%'"></span>
                                                     </div>
 
                                                     <div class="progress-bar progress-bar-warning"
-                                                         data-bind="style: {width: ((ArmorStashedCount() / AllArmor.length) * 100).toFixed(2) + '%'}">
-                                                        <span data-bind="text: parseInt(((ArmorStashedCount() / AllArmor.length) * 100),10) + '%'"></span>
+                                                         data-bind="style: {width: ((ArmorStashedCount() / AllArmor().length) * 100).toFixed(2) + '%'}">
+                                                        <span data-bind="text: parseInt(((ArmorStashedCount() / AllArmor().length) * 100),10) + '%'"></span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -144,13 +156,13 @@
                                                 <p data-bind="text:lang.seasonal()"></p>
                                                 <div class="progress">
                                                     <div class="progress-bar" role="ProgressBar" aria-valuemin="0" aria-valuemax="100"
-                                                         data-bind="style: {width: ((WeaponSeasonalCubedCount() / AllWeapons.length) * 100).toFixed(2) + '%'}">
-                                                        <span data-bind="text: parseInt(((WeaponSeasonalCubedCount() / AllWeapons.length) * 100),10) + '%'"></span>
+                                                         data-bind="style: {width: ((WeaponSeasonalCubedCount() / AllWeapons().length) * 100).toFixed(2) + '%'}">
+                                                        <span data-bind="text: parseInt(((WeaponSeasonalCubedCount() / AllWeapons().length) * 100),10) + '%'"></span>
                                                     </div>
 
                                                     <div class="progress-bar progress-bar-warning"
-                                                         data-bind="style: {width: ((WeaponStashedCount() / AllWeapons.length) * 100).toFixed(2) + '%'}">
-                                                        <span data-bind="text: parseInt(((WeaponStashedCount() / AllWeapons.length) * 100),10) + '%'"></span>
+                                                         data-bind="style: {width: ((WeaponStashedCount() / AllWeapons().length) * 100).toFixed(2) + '%'}">
+                                                        <span data-bind="text: parseInt(((WeaponStashedCount() / AllWeapons().length) * 100),10) + '%'"></span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -158,13 +170,13 @@
                                                 <p data-bind="text:lang.nonSeasonal()"></p>
                                                 <div class="progress">
                                                     <div class="progress-bar" role="ProgressBar" aria-valuemin="0" aria-valuemax="100"
-                                                         data-bind="style: {width: ((WeaponNonSeasonalCubedCount() / AllWeapons.length) * 100).toFixed(2) + '%'}">
-                                                        <span data-bind="text: parseInt(((WeaponNonSeasonalCubedCount() / AllWeapons.length) * 100),10) + '%'"></span>
+                                                         data-bind="style: {width: ((WeaponNonSeasonalCubedCount() / AllWeapons().length) * 100).toFixed(2) + '%'}">
+                                                        <span data-bind="text: parseInt(((WeaponNonSeasonalCubedCount() / AllWeapons().length) * 100),10) + '%'"></span>
                                                     </div>
 
                                                     <div class="progress-bar progress-bar-warning"
-                                                         data-bind="style: {width: ((WeaponStashedCount() / AllWeapons.length) * 100).toFixed(2) + '%'}">
-                                                        <span data-bind="text: parseInt(((WeaponStashedCount() / AllWeapons.length) * 100),10) + '%'"></span>
+                                                         data-bind="style: {width: ((WeaponStashedCount() / AllWeapons().length) * 100).toFixed(2) + '%'}">
+                                                        <span data-bind="text: parseInt(((WeaponStashedCount() / AllWeapons().length) * 100),10) + '%'"></span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -172,13 +184,13 @@
                                                 <p data-bind="text:lang.bothProgressBarLabel()"></p>
                                                 <div class="progress">
                                                     <div class="progress-bar" role="ProgressBar" aria-valuemin="0" aria-valuemax="100"
-                                                         data-bind="style: {width: ((WeaponBothCubedCount() / AllWeapons.length) * 100).toFixed(2) + '%'}">
-                                                        <span data-bind="text: parseInt(((WeaponBothCubedCount() / AllWeapons.length) * 100),10) + '%'"></span>
+                                                         data-bind="style: {width: ((WeaponBothCubedCount() / AllWeapons().length) * 100).toFixed(2) + '%'}">
+                                                        <span data-bind="text: parseInt(((WeaponBothCubedCount() / AllWeapons().length) * 100),10) + '%'"></span>
                                                     </div>
 
                                                     <div class="progress-bar progress-bar-warning"
-                                                         data-bind="style: {width: ((WeaponBothCubedCount() / AllWeapons.length) * 100).toFixed(2) + '%'}">
-                                                        <span data-bind="text: parseInt(((WeaponBothCubedCount() / AllWeapons.length) * 100),10) + '%'"></span>
+                                                         data-bind="style: {width: ((WeaponBothCubedCount() / AllWeapons().length) * 100).toFixed(2) + '%'}">
+                                                        <span data-bind="text: parseInt(((WeaponBothCubedCount() / AllWeapons().length) * 100),10) + '%'"></span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -209,12 +221,12 @@
                                                 <p data-bind="text:lang.seasonal()"></p>
                                                 <div class="progress">
                                                     <div class="progress-bar" role="ProgressBar" aria-valuemin="0" aria-valuemax="100"
-                                                         data-bind="style: {width: ((JewelrySeasonalCubedCount() / AllJewelry.length) * 100).toFixed(2) + '%'}">
-                                                        <span data-bind="text: parseInt(((JewelrySeasonalCubedCount() / AllJewelry.length) * 100), 10) + '%'"></span>
+                                                         data-bind="style: {width: ((JewelrySeasonalCubedCount() / AllJewelry().length) * 100).toFixed(2) + '%'}">
+                                                        <span data-bind="text: parseInt(((JewelrySeasonalCubedCount() / AllJewelry().length) * 100), 10) + '%'"></span>
                                                     </div>
                                                     <div class="progress-bar progress-bar-warning"
-                                                         data-bind="style: {width: ((JewelryStashedCount() / AllJewelry.length) * 100).toFixed(2) + '%'}">
-                                                        <span data-bind="text: parseInt(((JewelryStashedCount() / AllJewelry.length) * 100),10) + '%'"></span>
+                                                         data-bind="style: {width: ((JewelryStashedCount() / AllJewelry().length) * 100).toFixed(2) + '%'}">
+                                                        <span data-bind="text: parseInt(((JewelryStashedCount() / AllJewelry().length) * 100),10) + '%'"></span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -222,12 +234,12 @@
                                                 <p data-bind="text:lang.nonSeasonal()"></p>
                                                 <div class="progress">
                                                     <div class="progress-bar" role="ProgressBar" aria-valuemin="0" aria-valuemax="100"
-                                                         data-bind="style: {width: ((JewelryNonSeasonalCubedCount() / AllJewelry.length) * 100).toFixed(2) + '%'}">
-                                                        <span data-bind="text: parseInt(((JewelryNonSeasonalCubedCount() / AllJewelry.length) * 100), 10) + '%'"></span>
+                                                         data-bind="style: {width: ((JewelryNonSeasonalCubedCount() / AllJewelry().length) * 100).toFixed(2) + '%'}">
+                                                        <span data-bind="text: parseInt(((JewelryNonSeasonalCubedCount() / AllJewelry().length) * 100), 10) + '%'"></span>
                                                     </div>
                                                     <div class="progress-bar progress-bar-warning"
-                                                         data-bind="style: {width: ((JewelryStashedCount() / AllJewelry.length) * 100).toFixed(2) + '%'}">
-                                                        <span data-bind="text: parseInt(((JewelryStashedCount() / AllJewelry.length) * 100),10) + '%'"></span>
+                                                         data-bind="style: {width: ((JewelryStashedCount() / AllJewelry().length) * 100).toFixed(2) + '%'}">
+                                                        <span data-bind="text: parseInt(((JewelryStashedCount() / AllJewelry().length) * 100),10) + '%'"></span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -235,13 +247,13 @@
                                                 <p data-bind="text:lang.bothProgressBarLabel()"></p>
                                                 <div class="progress">
                                                     <div class="progress-bar" role="ProgressBar" aria-valuemin="0" aria-valuemax="100"
-                                                         data-bind="style: {width: ((JewelryBothCubedCount() / AllJewelry.length) * 100).toFixed(2) + '%'}">
-                                                        <span data-bind="text: parseInt(((JewelryBothCubedCount() / AllJewelry.length) * 100),10) + '%'"></span>
+                                                         data-bind="style: {width: ((JewelryBothCubedCount() / AllJewelry().length) * 100).toFixed(2) + '%'}">
+                                                        <span data-bind="text: parseInt(((JewelryBothCubedCount() / AllJewelry().length) * 100),10) + '%'"></span>
                                                     </div>
 
                                                     <div class="progress-bar progress-bar-warning"
-                                                         data-bind="style: {width: ((JewelryBothCubedCount() / AllJewelry.length) * 100).toFixed(2) + '%'}">
-                                                        <span data-bind="text: parseInt(((JewelryBothCubedCount() / AllJewelry.length) * 100),10) + '%'"></span>
+                                                         data-bind="style: {width: ((JewelryBothCubedCount() / AllJewelry().length) * 100).toFixed(2) + '%'}">
+                                                        <span data-bind="text: parseInt(((JewelryBothCubedCount() / AllJewelry().length) * 100),10) + '%'"></span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -323,7 +335,6 @@
                                                     </dd>
                                                 </dl>
                                             </fieldset>
-
                                         </div>
                                     </div>
                                 </div>
