@@ -530,8 +530,8 @@ module Kanai {
                     this.loadArmor(this.AllArmor);
                 }
 
-                self._checkConsistencyAndSort(self.Armor, self.AllArmor);
-                self._checkConsistencyAndSort(self.Weapons, self.AllWeapons);
+                self._checkConsistencyAndSort(self.Armor, self.AllArmor());
+                self._checkConsistencyAndSort(self.Weapons, self.AllWeapons());
                 
                 //This item accidently made it to the US item list
                 if (lang.culture() != 'de' || lang.culture() != 'de-DE') {
@@ -543,7 +543,7 @@ module Kanai {
                     }
                 }
 
-                self._checkConsistencyAndSort(self.Jewelry, self.AllJewelry);
+                self._checkConsistencyAndSort(self.Jewelry, self.AllJewelry());
                 self.saveToLocalStorage();
 
             }
