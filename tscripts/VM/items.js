@@ -95,6 +95,8 @@ var Kanai;
                 this.selectedLanguage('default');
                 this.hasSeenLanguageAlert(false);
             };
+            Site.prototype.convertGermanItemsToEnglish = function () {
+            };
             Site.prototype.init = function () {
                 var _this = this;
                 var self = this;
@@ -393,7 +395,7 @@ var Kanai;
                 var self = this;
                 for (var i = 0; i < searchArray().length; i++) {
                     var convert;
-                    if ((lang.culture() == 'de' || lang.culture() == 'de-DE') && (!lang.selectedLang() || lang.selectedLang() == 'default')) {
+                    if ((lang.culture() == 'de' || lang.culture() == 'de-DE' || lang.culture() == 'override') && (!lang.selectedLang() || lang.selectedLang() == 'default')) {
                         convert = lang.cultureToEnglish(searchArray()[i]);
                     }
                     else {

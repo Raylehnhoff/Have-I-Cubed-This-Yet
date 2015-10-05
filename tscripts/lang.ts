@@ -1,6 +1,6 @@
 ﻿var lang = {
     //culture: ko.observable("de"),
-    selectedLang: ko.observable(''),
+    selectedLang: ko.observable('default'),
     culture: ko.observable(navigator.userLanguage || navigator.language),
     "bothSettingsHeader": function () {
         switch (this.selectedLang()) {
@@ -395,6 +395,7 @@
             switch (this.culture()) {
                 case "de":
                 case "de-DE":
+                case "override":
                     {
                         switch (ko.unwrap(_item.itemName)) {
                             //Armor
@@ -1170,7 +1171,6 @@
                 case "default":
                 default:
                     return item;
-                case "":
                 case "de-DE":
                 case "de":
                     {
