@@ -395,7 +395,6 @@ var lang = {
             switch (this.culture()) {
                 case "de":
                 case "de-DE":
-                case "override":
                     {
                         switch (ko.unwrap(_item.itemName)) {
                             //Armor
