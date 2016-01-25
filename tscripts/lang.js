@@ -1,5 +1,5 @@
 var lang = {
-    //culture: ko.observable("de"),
+    //    culture: ko.observable("de"),
     selectedLang: ko.observable('default'),
     culture: ko.observable(navigator.userLanguage || navigator.language),
     "bothSettingsHeader": function () {
@@ -12,6 +12,9 @@ var lang = {
             case "de":
                 return "Beide";
         }
+    },
+    "updateNoticeHeader": function () {
+        return "With the update to 2.4, would you like to convert all of your seasonal items to non-seasonal? This action cannot be undone.";
     },
     "showBothProgressBar": function () {
         switch (this.selectedLang()) {
@@ -497,7 +500,7 @@ var lang = {
                             case "Custerische Handgelenkschützer":
                                 return new Kanai.Equipment("Custerian Wristguards", "Picking up gold grants experience.");
                             case "Drakons Lektion":
-                                return new Kanai.Equipment("Drakon's Lesson", "When your Shield Bash hits 3 or less enemies, its damage is increased by 200% and 25% of its Wrath Cost is refunded.");
+                                return new Kanai.Equipment("Drakon's Lesson", "When your Shield Bash hits 3 or less enemies, its damage is increased by 400% and 25% of its Wrath Cost is refunded.");
                             case "Gabriels Unterarmschienen":
                                 return new Kanai.Equipment("Gabriel's Vambraces", "When your Blessed Hammer hits 3 or fewer enemies, 100% of its Wrath Cost is refunded.");
                             case "Jerams Armschienen":
@@ -545,7 +548,7 @@ var lang = {
                             case "Hagelsturm":
                                 return new Kanai.Equipment("Crashing Rain", "Rain of Vengeance also summons a crashing beast that deals 4000% weapon damage.");
                             case "Fazulas unmögliche Kette":
-                                return new Kanai.Equipment("Fazula's Improbable Chain", "You automatically start with 20 Archon stacks when entering Archon form.");
+                                return new Kanai.Equipment("Fazula's Improbable Chain", "You automatically start with 50 Archon stacks when entering Archon form.");
                             case "Goldträger":
                                 return new Kanai.Equipment("Goldwrap", "On gold pickup: Gain armor for 5 seconds equal to the amount picked up.");
                             case "Hüftgurt der Harringtons":
@@ -676,9 +679,9 @@ var lang = {
                             case "Löwenklaue":
                                 return new Kanai.Equipment("Lion's Claw", "Seven-Sided Strike performs an additional 7 strikes.");
                             case "Die Faust von Az'Turrasq":
-                                return new Kanai.Equipment("The Fist of Az'Turrasq", "Exploding Palm's on-death explosion damage is increased by 100%.");
+                                return new Kanai.Equipment("The Fist of Az'Turrasq", "Exploding Palm's on-death explosion damage is increased by 300%.");
                             case "Rachsüchtiger Wind":
-                                return new Kanai.Equipment("Vengeful Wind", "Increases the maximum stack count of Sweeping Wind by 3.");
+                                return new Kanai.Equipment("Vengeful Wind", "Increases the maximum stack count of Sweeping Wind by 7.");
                             case "Dunkellicht":
                                 return new Kanai.Equipment("Darklight", "Fist of the Heavens has a 60% chance to also be cast at your location.");
                             case "Goldgeißel":
@@ -878,7 +881,7 @@ var lang = {
                             case "Der Oculus":
                                 return new Kanai.Equipment("The Oculus", "Taking damage has up to a 20% chance to reset the cooldown on Teleport.");
                             case "Triumvirat":
-                                return new Kanai.Equipment("Triumvirate", "Your Signature Spells increase the damage of Arcane Orb by 100% for 6 seconds, stacking up to 3 times.");
+                                return new Kanai.Equipment("Triumvirate", "Your Signature Spells increase the damage of Arcane Orb by 200% for 6 seconds, stacking up to 3 times.");
                             case "Wintereile":
                                 return new Kanai.Equipment("Winter Flurry", "Enemies killed by Cold damage have a 20% chance to release a Frost Nova.");
                             case "Rucksack des Bombenschützen":
@@ -1096,7 +1099,7 @@ var lang = {
                             case "Custerian Wristguards":
                                 return new Kanai.Equipment('Custerische Handgelenkschützer', 'Das Aufsammeln von Gold gewährt Erfahrung');
                             case "Drakon's Lesson":
-                                return new Kanai.Equipment('Drakons Lektion', "Wenn Euer 'Schildstoß' 3 oder weniger Gegner trifft, wird sein Schaden um 1200% erhöht und 25% seiner Zornkosten werden zurückerstattet.");
+                                return new Kanai.Equipment('Drakons Lektion', "Wenn Euer 'Schildstoß' 3 oder weniger Gegner trifft, wird sein Schaden um 400% erhöht und 25% seiner Zornkosten werden zurückerstattet.");
                             case "Jeram's Bracers":
                                 return new Kanai.Equipment('Jerams Armschienen', "'Todeswall' verursacht 100% mehr Schaden und kann innerhalb von 2 Sek. bis zu dreimal gewirkt werden, bevor die Abklingzeit einsetzt.'");
                             case "Gabriel's Vambraces":
@@ -1146,7 +1149,7 @@ var lang = {
                             case "Harrington Waistguard":
                                 return new Kanai.Equipment('Hüftgurt der Harringtons', 'Wenn Ihr eine Truhe öffnet, wird Euer Schaden 10 Sek. lang um 135% erhöht');
                             case "Fazula's Improbable Chain":
-                                return new Kanai.Equipment('Fazulas unmögliche Kette', "Ihr startet mit 20 'Archon'-Stapeln, wenn Ihr 'Archon' aktiviert.");
+                                return new Kanai.Equipment('Fazulas unmögliche Kette', "Ihr startet mit 50 'Archon'-Stapeln, wenn Ihr 'Archon' aktiviert.");
                             case "Crashing Rain":
                                 return new Kanai.Equipment('Hagelsturm', "'Rachehagel' beschwört zusätzlich eine vom Himmel fallende Bestie, die 4000% Waffenschaden verursacht");
                             case "Haunting Girdle":
@@ -1264,9 +1267,9 @@ var lang = {
                             case "The Spider Queen's Grasp":
                                 return new Kanai.Equipment('Die Umklammerung der Spinnenkönigin', 'Eure Leichenspinnen erzeugen beim Auftreffen ein Netz, das Gegner um 80% verlangsamt');
                             case "The Fist of Az'Turrasq":
-                                return new Kanai.Equipment("Die Faust von Az'Turrasq", "Erhöht den Schaden der Todesexplosion von 'Explodierende Hand' um 100% ");
+                                return new Kanai.Equipment("Die Faust von Az'Turrasq", "Erhöht den Schaden der Todesexplosion von 'Explodierende Hand' um 300% ");
                             case "Vengeful Wind":
-                                return new Kanai.Equipment('Rachsüchtiger Wind', "Erhöht die maximale Stapelanzahl von 'Reißender Wind' um 3");
+                                return new Kanai.Equipment('Rachsüchtiger Wind', "Erhöht die maximale Stapelanzahl von 'Reißender Wind' um 7");
                             case "Darklight":
                                 return new Kanai.Equipment('Dunkellicht', "'Himmelsfaust' hat eine Chance von 60%, zusätzlich an Eurer Position gewirkt zu werden");
                             case "Lion's Claw":
@@ -1456,7 +1459,7 @@ var lang = {
                             case "Winter Flurry":
                                 return new Kanai.Equipment('Wintereile', "Es besteht eine Chance von 20%, dass Gegner, die durch Kälteschaden sterben, 'Frostnova' auslösen");
                             case "Triumvirate":
-                                return new Kanai.Equipment('Triumvirat', "Eure Kernzauber erhöhen den Schaden von 'Arkane Kugel' 6 Sek. lang um 100%. Bis zu 3-mal stapelbar.");
+                                return new Kanai.Equipment('Triumvirat', "Eure Kernzauber erhöhen den Schaden von 'Arkane Kugel' 6 Sek. lang um 200%. Bis zu 3-mal stapelbar.");
                             case "Emimei's Duffel":
                                 return new Kanai.Equipment('Emimeis tiefer Beutel', 'Bolas explodieren jetzt ohne Verzögerung');
                             case "Meticulous Bolts":
@@ -1629,7 +1632,7 @@ var lang = {
                     target.push(ko.observable(new Kanai.Equipment("Bracers of the First Men", "Hammer of the Ancients attacks 50% faster and deals 200% increased damage.")));
                     target.push(ko.observable(new Kanai.Equipment("Coils of the First Spider", "While channeling Firebats, you take 30% reduced damage and gain 80,000 Life per hit.")));
                     target.push(ko.observable(new Kanai.Equipment("Custerian Wristguards", "Picking up gold grants experience.")));
-                    target.push(ko.observable(new Kanai.Equipment("Drakon's Lesson", "When your Shield Bash hits 3 or less enemies, its damage is increased by 200% and 25% of its Wrath Cost is refunded.")));
+                    target.push(ko.observable(new Kanai.Equipment("Drakon's Lesson", "When your Shield Bash hits 3 or less enemies, its damage is increased by 400% and 25% of its Wrath Cost is refunded.")));
                     target.push(ko.observable(new Kanai.Equipment("Gabriel's Vambraces", "When your Blessed Hammer hits 3 or fewer enemies, 100% of its Wrath Cost is refunded.")));
                     target.push(ko.observable(new Kanai.Equipment("Jeram's Bracers", "Wall of Death can be cast up to twice again within 2 seconds before the cooldown begins.")));
                     target.push(ko.observable(new Kanai.Equipment("Krelm's Buff Bracers", "You are immune to Knockback and Stun effects.")));
@@ -1655,7 +1658,7 @@ var lang = {
                     target.push(ko.observable(new Kanai.Equipment("Blessed of Haull", "Justice spawns a Blessed Hammer when it hits an enemy.")));
                     target.push(ko.observable(new Kanai.Equipment("Cord of the Sherma", "Chance on hit to create a chaos field that Blinds and Slows enemies inside for 4 seconds.")));
                     target.push(ko.observable(new Kanai.Equipment("Crashing Rain", "Rain of Vengeance also summons a crashing beast that deals 4000% weapon damage.")));
-                    target.push(ko.observable(new Kanai.Equipment("Fazula's Improbable Chain", "You automatically start with 20 Archon stacks when entering Archon form.")));
+                    target.push(ko.observable(new Kanai.Equipment("Fazula's Improbable Chain", "You automatically start with 50 Archon stacks when entering Archon form.")));
                     target.push(ko.observable(new Kanai.Equipment("Goldwrap", "On gold pickup: Gain armor for 5 seconds equal to the amount picked up.")));
                     target.push(ko.observable(new Kanai.Equipment("Harrington Waistguard", "Opening a chest grants 135% increased damage for 10 seconds.")));
                     target.push(ko.observable(new Kanai.Equipment("Haunting Girdle", "Haunt releases 1 extra spirit.")));
@@ -1688,6 +1691,30 @@ var lang = {
                     target.push(ko.observable(new Kanai.Equipment("Nilfur's Boast", "Increase the damage of Meteor by 100%. When your Meteor hits 3 or less enemies, the damage is increased by 200%.")));
                     target.push(ko.observable(new Kanai.Equipment("The Crudest Boots", "Mystic Ally summons two Mystic Allies that fight by your side.")));
                     target.push(ko.observable(new Kanai.Equipment("Dread Iron", "Ground Stomp causes an Avalanche.")));
+                    //2.4 armor
+                    target.push(ko.observable(new Kanai.Equipment("Mantle of Channeling", "While channeling Whirlwind, Rapid Fire, Strafe, Tempest Rush, Firebats, Arcane Torrent, Disintegrate, or Ray of Frost, you deal 25% increased damage and take 25% reduced damage")));
+                    target.push(ko.observable(new Kanai.Equipment("Aquila Curiass", "While above 90% primary resource, all damage taken is reduced by 50%")));
+                    target.push(ko.observable(new Kanai.Equipment("String of Ears", "Reduces damage from melee attacks by 30%")));
+                    target.push(ko.observable(new Kanai.Equipment("Skular's Salvation", "When your Boulder Toss hits 5 or fewer enemies the damage is increased by 150%")));
+                    target.push(ko.observable(new Kanai.Equipment("Vambracers of Sescheron", "Primary skills heal you for 6% of your missing life")));
+                    target.push(ko.observable(new Kanai.Equipment("Akkhan's Manacles", "Blessed Shield damage is increased by 500% for the first enemy it hits")));
+                    target.push(ko.observable(new Kanai.Equipment("Bracers of Fury", "Heaven's Fury deals 200% increased damage to enemies that are Blinded, Immobilized, or Stunned")));
+                    target.push(ko.observable(new Kanai.Equipment("Warhelm of Kassar", "Reduce the cooldown and increase the damage of Phalanx by 60%")));
+                    target.push(ko.observable(new Kanai.Equipment("Chain of Shadows", "After using Impale, your Vaunt costs no resources for 2 seconds")));
+                    target.push(ko.observable(new Kanai.Equipment("Visage of Gunes", "Vengeance gains the effect of the Dark Heart rune")));
+                    target.push(ko.observable(new Kanai.Equipment("Zoey's Secret", "You take 9% less damage for each Companion you have active")));
+                    target.push(ko.observable(new Kanai.Equipment("Bindings of the Lesser Gods", "Enemies hit by your cyclone strike take 200% more damage from your Mystic Ally for 5 seconds")));
+                    target.push(ko.observable(new Kanai.Equipment("Cesar's Memento", "Enemies take 400% increased damage from your Tempest Rush for 5 seconds after you hit them with a Blind, Freeze, or Stun")));
+                    target.push(ko.observable(new Kanai.Equipment("Kyoshiro's Soul", "Sweeping Wind gains 2 stacks every second it does not deal damage to any enemies")));
+                    target.push(ko.observable(new Kanai.Equipment("Lefebvre's Soliloquy", "Cyclone Strike reduces your damage taken by 50% for 5 seconds")));
+                    target.push(ko.observable(new Kanai.Equipment("Pinto's Pride", "Wave of Light also Slows enemies by 80% for 3 seconds and deals 150% increased damage")));
+                    target.push(ko.observable(new Kanai.Equipment("Rivera Dancers", "Lashing Tail Kick attacks 50% faster and deals 300% increased damage")));
+                    target.push(ko.observable(new Kanai.Equipment("Lakumbra's Ornament", "Reduces all damage taken by 6% for each stack of Soul Harvest you have")));
+                    target.push(ko.observable(new Kanai.Equipment("Ashnagarr's Blood Bracers", "Increase the potency of your shields by 100%")));
+                    target.push(ko.observable(new Kanai.Equipment("Hergbrash's Bindings", "Reduces the Arcane Power cost of Arcane Torrent, Disintegrate, and Ray of Frost by 65%")));
+                    target.push(ko.observable(new Kanai.Equipment("The Shame of Delsere", "Your Signature Spells attack 50% faster and restore 12 Arcane Power")));
+                    target.push(ko.observable(new Kanai.Equipment("Heart of Iron", "Gain Thorns equal to 300% of your Vitality")));
+                    target.push(ko.observable(new Kanai.Equipment("Hammer Jammers", "Enemies take 400% increased damage from your Blessed Hammers for 10 seconds after you hit them with a Blind, Immobilize, or Stun")));
                     break;
                 }
             case "de-DE":
@@ -1743,7 +1770,7 @@ var lang = {
                     target.push(ko.observable(new Kanai.Equipment('Wickel der Obersten Spinne', "Während Ihr 'Feuerfledermäuse' kanalisiert, wird Euer erlittener Schaden um 30% reduziert und Ihr erhaltet 80000 Leben pro Treffer.")));
                     target.push(ko.observable(new Kanai.Equipment('Armschienen der Zerstörung', "Erhöht den Schaden der ersten 5 getroffenen Gegner von 'Seismisches Schmettern' um 400%.")));
                     target.push(ko.observable(new Kanai.Equipment('Custerische Handgelenkschützer', 'Das Aufsammeln von Gold gewährt Erfahrung')));
-                    target.push(ko.observable(new Kanai.Equipment('Drakons Lektion', "Wenn Euer 'Schildstoß' 3 oder weniger Gegner trifft, wird sein Schaden um 1200% erhöht und 25% seiner Zornkosten werden zurückerstattet.")));
+                    target.push(ko.observable(new Kanai.Equipment('Drakons Lektion', "Wenn Euer 'Schildstoß' 3 oder weniger Gegner trifft, wird sein Schaden um 400% erhöht und 25% seiner Zornkosten werden zurückerstattet.")));
                     target.push(ko.observable(new Kanai.Equipment('Jerams Armschienen', "'Todeswall' verursacht 100% mehr Schaden und kann innerhalb von 2 Sek. bis zu dreimal gewirkt werden, bevor die Abklingzeit einsetzt.'")));
                     target.push(ko.observable(new Kanai.Equipment('Gabriels Unterarmschienen', "Wenn 'GesegneterHammer' 3 oder weniger Gegner trifft, werden 100% seiner Zornkosten zurückerstattet.")));
                     target.push(ko.observable(new Kanai.Equipment("Krelms Verstärkungsarmschienen", 'Gewährt Immunität gegen Rückstoß und Betäubungseffekte')));
@@ -1768,7 +1795,7 @@ var lang = {
                     target.push(ko.observable(new Kanai.Equipment('Goldträger', 'Goldsammeln: Eure Rüstung wird für 5 Sek. um einen Wert erhöht, der dem des aufgesammelten Goldes entspricht')));
                     target.push(ko.observable(new Kanai.Equipment('Band von Sherma', 'Chance, bei einem Treffer ein Chaosfeld zu erzeugen, das Gegner für 3-4 Sek. blendet und verlangsamt')));
                     target.push(ko.observable(new Kanai.Equipment('Hüftgurt der Harringtons', 'Wenn Ihr eine Truhe öffnet, wird Euer Schaden 10 Sek. lang um 135% erhöht')));
-                    target.push(ko.observable(new Kanai.Equipment('Fazulas unmögliche Kette', "Ihr startet mit 20 'Archon'-Stapeln, wenn Ihr 'Archon' aktiviert.")));
+                    target.push(ko.observable(new Kanai.Equipment('Fazulas unmögliche Kette', "Ihr startet mit 50 'Archon'-Stapeln, wenn Ihr 'Archon' aktiviert.")));
                     target.push(ko.observable(new Kanai.Equipment('Hagelsturm', "'Rachehagel' beschwört zusätzlich eine vom Himmel fallende Bestie, die 4000% Waffenschaden verursacht")));
                     target.push(ko.observable(new Kanai.Equipment('Spukgürtel', "'Heimsuchung' ruft 1 weitere Geister herbei")));
                     target.push(ko.observable(new Kanai.Equipment('Wickeltuch der Hwoj', "'Heuschreckenplage' verlangsamt Gegner um 80%")));
@@ -1840,8 +1867,8 @@ var lang = {
                 target.push(ko.observable(new Kanai.Equipment("The Spider Queen's Grasp", "Corpse Spiders releases a web on impact that Slows enemies by 80%.")));
                 target.push(ko.observable(new Kanai.Equipment("Jawbreaker", "When Dashing Strike hits an enemy more than 30 yards away, its Charge cost is refunded.")));
                 target.push(ko.observable(new Kanai.Equipment("Lion's Claw", "Seven-Sided Strike performs an additional 7 strikes.")));
-                target.push(ko.observable(new Kanai.Equipment("The Fist of Az'Turrasq", "Exploding Palm's on-death explosion damage is increased by 100%.")));
-                target.push(ko.observable(new Kanai.Equipment("Vengeful Wind", "Increases the maximum stack count of Sweeping Wind by 3.")));
+                target.push(ko.observable(new Kanai.Equipment("The Fist of Az'Turrasq", "Exploding Palm's on-death explosion damage is increased by 300%.")));
+                target.push(ko.observable(new Kanai.Equipment("Vengeful Wind", "Increases the maximum stack count of Sweeping Wind by 7")));
                 target.push(ko.observable(new Kanai.Equipment("Darklight", "Fist of the Heavens has a 60% chance to also be cast at your location.")));
                 target.push(ko.observable(new Kanai.Equipment("Golden Scourge", "Smite now jumps to 3 additional enemies.")));
                 target.push(ko.observable(new Kanai.Equipment("Gyrfalcon's Foote", "Removes the resource cost of Blessed Shield.")));
@@ -1941,7 +1968,7 @@ var lang = {
                 target.push(ko.observable(new Kanai.Equipment("Mirrorball", "Magic Missile fires 2 extra missiles.")));
                 target.push(ko.observable(new Kanai.Equipment("Myken's Ball of Hate", "Electrocute can chain to enemies that have already been hit.")));
                 target.push(ko.observable(new Kanai.Equipment("The Oculus", "Taking damage has up to a 20% chance to reset the cooldown on Teleport.")));
-                target.push(ko.observable(new Kanai.Equipment("Triumvirate", "Your Signature Spells increase the damage of Arcane Orb by 100% for 6 seconds, stacking up to 3 times.")));
+                target.push(ko.observable(new Kanai.Equipment("Triumvirate", "Your Signature Spells increase the damage of Arcane Orb by 200% for 6 seconds, stacking up to 3 times.")));
                 target.push(ko.observable(new Kanai.Equipment("Winter Flurry", "Enemies killed by Cold damage have a 20% chance to release a Frost Nova.")));
                 target.push(ko.observable(new Kanai.Equipment("Bombardier's Rucksack", "You may have 2 additional Sentries.")));
                 target.push(ko.observable(new Kanai.Equipment("Dead Man's Legacy", "Multishot hits enemies below 60% health twice.")));
@@ -1951,6 +1978,39 @@ var lang = {
                 target.push(ko.observable(new Kanai.Equipment("The Ninth Cirri Satchel", "Hungering Arrow has 25% additional chance to pierce.")));
                 target.push(ko.observable(new Kanai.Equipment("SuWong Diviner", "Acid Cloud gains the effect of the Lob Blob Bomb rune.")));
                 target.push(ko.observable(new Kanai.Equipment("Scrimshaw", "Reduces the Mana cost of Zombie Charger by 50%.")));
+                // 2.4 weapons
+                target.push(ko.observable(new Kanai.Equipment("Blade of the Tribes", "War Cry and Threatening Shout cause an Avalanche and Earthquake")));
+                target.push(ko.observable(new Kanai.Equipment("Blade of the Warlord", "Bash consumes up to 40 Fury to deal up to 500% increased damage")));
+                target.push(ko.observable(new Kanai.Equipment("Oathkeeper", "Your primary skills attack 50% faster and deal 200% increased damage")));
+                target.push(ko.observable(new Kanai.Equipment("Akkhan's Addendum", "Akarat's Champion gains the effects of the Prophet and Embodiment of Power runes")));
+                target.push(ko.observable(new Kanai.Equipment("Akkhan's Leniency", "Each enemy hit by your Blessed Shield increases the damage of your Blessed Shield by 20% for 3 seconds")));
+                target.push(ko.observable(new Kanai.Equipment("Shield of Fury", "Each time an enemy takes damage from your Heaven's Fury, it increases the damage they take from your Heaven's Fury by 20%")));
+                target.push(ko.observable(new Kanai.Equipment("Fortress Ballista", "Attacks grant you an absorb shield for 3% of your maximum Life, stacking up to 10 times")));
+                target.push(ko.observable(new Kanai.Equipment("Karlei's Point", "Impale returns 20 Hatred if it hits n enemy that has already been impaled")));
+                target.push(ko.observable(new Kanai.Equipment("Lianna's Wings", "Shadow Power also triggers Smoke Screen")));
+                target.push(ko.observable(new Kanai.Equipment("Lord Greenstone's Fan", "Every second gain 100% increased damage for your next Fan of Knives")));
+                target.push(ko.observable(new Kanai.Equipment("Sword of Ill Will", "Chakram deals 1.4% increased damage for each point of Hatred you have")));
+                target.push(ko.observable(new Kanai.Equipment("Kyoshiro's Blade", "When the initial impact of your Wave of Light hits 3 or fewer enemies, the damage is increased by 250%")));
+                target.push(ko.observable(new Kanai.Equipment("Mordullu's Promise", "Firebomb generates 125 mana")));
+                target.push(ko.observable(new Kanai.Equipment("Staff of Chiroptera", "Firebats attack 100% faster and cost 75% less Mana")));
+                target.push(ko.observable(new Kanai.Equipment("Vile Hive", "Locust Swarm gains the effect of the Pestillence rune and deals 60% increased damage")));
+                target.push(ko.observable(new Kanai.Equipment("Voo's Juicer", "Spirit Barrage gains the effects of the Phlebotomize and The Spirit is Willing runes")));
+                target.push(ko.observable(new Kanai.Equipment("Wilken's Reach", "Grasp of the Dead no longer has a cooldown")));
+                target.push(ko.observable(new Kanai.Equipment("Deathwish", "While channeling Arcane Torrent, Disintegrate, or Ray of Frost, all damage is increased by 35%")));
+                target.push(ko.observable(new Kanai.Equipment("Etched Sigil", "Your Arcane Torrent, Disintegrate, or Ray of Frost also cast your other damaging Arcane Power Spenders every second")));
+                target.push(ko.observable(new Kanai.Equipment("Orb of Infinite Depth", "Each time you hit an enemy with Explosive Blast your damage is increased by 5% and your damage reduction is increased by 15% for 6 seconds. This effect can stack up to 4 times.")));
+                target.push(ko.observable(new Kanai.Equipment("Primordial Soul", "Elemental Exposure's damage bonus per stack is creased to 10%")));
+                target.push(ko.observable(new Kanai.Equipment("The Twisted Sword", "Energy Twister damage is increased by 150% for each Energy Twister you have out")));
+                target.push(ko.observable(new Kanai.Equipment("Unstable Scepter", "Arcane Orb's explosion triggers an additional time")));
+                target.push(ko.observable(new Kanai.Equipment("Standoff", "Furious Charge gains increased damage equal to 250% of your bonus movement speed")));
+                target.push(ko.observable(new Kanai.Equipment("The Three Hundredth Spear", "Increase the damage of Weapon Throw and Ancient Spear by 60%")));
+                target.push(ko.observable(new Kanai.Equipment("Dawn", "Reduces the cooldown of Vengeance by 65%")));
+                target.push(ko.observable(new Kanai.Equipment("Manticore", "Reduces the cost of Cluster Arrow by 100%")));
+                target.push(ko.observable(new Kanai.Equipment("Sin Seekers", "Rapid Fire no longer has a channel cost")));
+                target.push(ko.observable(new Kanai.Equipment("Balance", "When your tempest rush hits 3 or fewer enemies, it gains 100% Critical Hit Chance")));
+                target.push(ko.observable(new Kanai.Equipment("Last Breath", "Reduces cooldown of Mass Confusion by 20 seconds")));
+                target.push(ko.observable(new Kanai.Equipment("Thing of the Deep", "Increases Gold and Health Pickup by 20 yards")));
+                target.push(ko.observable(new Kanai.Equipment("Fragment of Destiny", "Spectral Blade attacks 50% faster and deals 200% increased damage.")));
                 break;
             }
             case "de-DE":
@@ -1987,8 +2047,8 @@ var lang = {
                     target.push(ko.observable(new Kanai.Equipment('Die Umklammerung der Spinnenkönigin', 'Eure Leichenspinnen erzeugen beim Auftreffen ein Netz, das Gegner um 80% verlangsamt')));
                     target.push(ko.observable(new Kanai.Equipment('Kieferbrecher', "Wenn 'Rasender Angriff' einen Gegner in mehr als 35 Metern Entfernung trifft, werden die Aufladungskosten der Fertigkeit erstattet")));
                     target.push(ko.observable(new Kanai.Equipment('Löwenklaue', "'Schlag der Sieben Fäuste' führt 7 zusätzliche Schläge aus.")));
-                    target.push(ko.observable(new Kanai.Equipment("Die Faust von Az'Turrasq", "Erhöht den Schaden der Todesexplosion von 'Explodierende Hand' um 100% ")));
-                    target.push(ko.observable(new Kanai.Equipment('Rachsüchtiger Wind', "Erhöht die maximale Stapelanzahl von 'Reißender Wind' um 3")));
+                    target.push(ko.observable(new Kanai.Equipment("Die Faust von Az'Turrasq", "Erhöht den Schaden der Todesexplosion von 'Explodierende Hand' um 300% ")));
+                    target.push(ko.observable(new Kanai.Equipment('Rachsüchtiger Wind', "Erhöht die maximale Stapelanzahl von 'Reißender Wind' um 7")));
                     target.push(ko.observable(new Kanai.Equipment('Dunkellicht', "'Himmelsfaust' hat eine Chance von 60%, zusätzlich an Eurer Position gewirkt zu werden")));
                     target.push(ko.observable(new Kanai.Equipment("Goldgeißel", "'Niederstrecken' springt jetzt auf 3 weitere Gegner über")));
                     target.push(ko.observable(new Kanai.Equipment('Gerfalkenfuß', "Entfernt die Ressourcenkosten von 'Gesegneter Schild'")));
@@ -2088,7 +2148,7 @@ var lang = {
                     target.push(ko.observable(new Kanai.Equipment('Spiegelkugel', "'Magisches Geschoss' verschießt 2 zusätzliche Geschosse")));
                     target.push(ko.observable(new Kanai.Equipment('Mykens Hasskugel', "'Stromschlag' kann auf Gegner überspringen, die bereits getroffen wurden")));
                     target.push(ko.observable(new Kanai.Equipment('Der Oculus', "Chance von bis zu 20%, die Abklingzeit von 'Teleportation' zurückzusetzen, wenn Ihr Schaden erleidet")));
-                    target.push(ko.observable(new Kanai.Equipment('Triumvirat', "Eure Kernzauber erhöhen den Schaden von 'Arkane Kugel' 6 Sek. lang um 100%. Bis zu 3-mal stapelbar.")));
+                    target.push(ko.observable(new Kanai.Equipment('Triumvirat', "Eure Kernzauber erhöhen den Schaden von 'Arkane Kugel' 6 Sek. lang um 200%. Bis zu 3-mal stapelbar.")));
                     target.push(ko.observable(new Kanai.Equipment('Wintereile', "Es besteht eine Chance von 20%, dass Gegner, die durch Kälteschaden sterben, 'Frostnova' auslösen")));
                     target.push(ko.observable(new Kanai.Equipment('Rucksack des Bombenschützen', 'Ihr könnt 2 zusätzliche Geschütztürme gleichzeitig aktiv haben')));
                     target.push(ko.observable(new Kanai.Equipment('Vermächtnis des toten Mannes', "'Mehrfachschuss' trifft Gegner, die weniger als 60% Leben haben, zweimal")));
@@ -2132,7 +2192,7 @@ var lang = {
                 target.push(ko.observable(new Kanai.Equipment("Krede's Flame", "Taking Fire damage restores your primary resource.")));
                 target.push(ko.observable(new Kanai.Equipment("Nagelring", "Summons a Fallen Lunatic to your side every 10 seconds.")));
                 target.push(ko.observable(new Kanai.Equipment("Obsidian Ring of the Zodiac", "Reduce the remaining cooldown of one of your skills by 1 seconds when you hit with a resource-spending attack.")));
-                target.push(ko.observable(new Kanai.Equipment("Oculus Ring", "Chance to create an area of focused power on killing a monster. Damage is increased by 40% while standing in the area.")));
+                target.push(ko.observable(new Kanai.Equipment("Oculus Ring", "Chance to create an area of focused power on killing a monster. Damage is increased by 85% while standing in the area.")));
                 target.push(ko.observable(new Kanai.Equipment("Pandemonium Loop", "Enemies slain while Feared die in a bloody explosion for 800% weapon damage and cause other nearby enemies to flee in Fear")));
                 target.push(ko.observable(new Kanai.Equipment("Puzzle Ring", "Summon a treasure goblin who picks up normal-quality items for you. After picking up 12 items, he drops a rare item with a chance for a legendary.")));
                 target.push(ko.observable(new Kanai.Equipment("Rechel's Ring of Larceny", "Gain 60% increased movement speed for 4 seconds after Fearing an enemy.")));
@@ -2143,6 +2203,11 @@ var lang = {
                 target.push(ko.observable(new Kanai.Equipment("The Tall Man's Finger", "Zombie Dogs instead summons a single gargantuan dog with more damage and health than all other dogs combined.")));
                 target.push(ko.observable(new Kanai.Equipment("Unity", "All damage taken is split between wearers of this item.")));
                 target.push(ko.observable(new Kanai.Equipment("Wyrdward", "Lightning damage has a 35% chance to Stun for 1.5 seconds.")));
+                // 2.4 Jewelry
+                target.push(ko.observable(new Kanai.Equipment("Justice Lantern", "Gain damage reduction equal to 55% of your Block chance.")));
+                target.push(ko.observable(new Kanai.Equipment("Band of Might", "After using Furious Charge, Ground Stomp, or Leap, gain 60% damage reduction for 8 seconds.")));
+                target.push(ko.observable(new Kanai.Equipment("Elusive Ring", "After using Vault, Shadow Power, or Smoke Screen, take 60% reduced damage for 8 seconds")));
+                target.push(ko.observable(new Kanai.Equipment("Ring of Emptiness", "You deal 100% increased damage to enemies affected by both your Haunt and Locust Swarm")));
                 break;
             case "de-DE":
             case "de":
