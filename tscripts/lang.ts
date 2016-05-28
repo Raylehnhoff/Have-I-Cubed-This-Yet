@@ -524,7 +524,7 @@
                             case "Wickel der Klarheit":
                                 return new Kanai.Equipment("Wraps of Clarity", "Your Hatred Generators reduce your damage taken by 35% for 5 seconds.");
                             case "Frostbrand":
-                                return new Kanai.Equipment("Frostburn", "Your Cold damage has up to a 45% chance to Freeze enemies.");
+                                return new Kanai.Equipment("Frostburn", "Cold skills deal 20% increased damage and have a 50% chance to Freeze enemies.");
                             case "Gladiatorenpanzerhandschuhe":
                                 return new Kanai.Equipment("Gladiator Gauntlets", "After earning a massacre bonus, gold rains from sky.");
                             case "Handschuhe der Huldigung":
@@ -1358,7 +1358,7 @@
                                 return new Kanai.Equipment("Wickel des Trag'Oul", "Heilbrunnen füllen jetzt auch sämtliche Ressourcen wieder auf und reduzieren alle Abklingzeiten um 60 Sek.");
 
                             case "Frostburn":
-                                return new Kanai.Equipment('Frostbrand', 'Eure Kälteeffekte haben eine Chance von bis zu 45%, Ziele einzufrieren');
+                                return new Kanai.Equipment('Frostbrand', 'Kältefertigkeiten verursachen um 20% erhöhten Schaden. Es besteht außerdem eine Chance von 50%, den Gegner bei einem Treffer einzufrieren.');
 
                             case "Warzechian Armguards":
                                 return new Kanai.Equipment('Armschützer der Warzecha', 'Jedes Mal, wenn Ihr ein Objekt zerstört, erhaltet Ihr einen kurzen Geschwindigkeitsschub');
@@ -2091,7 +2091,7 @@
                     target.push(ko.observable(new Kanai.Equipment("Trag'Oul Coils", "Healing wells replenish all resources and reduce all cooldowns by 60 seconds.")));
                     target.push(ko.observable(new Kanai.Equipment("Warzechian Armguards", "Every time you destroy a wreckable object, you gain a short burst of speed.")));
                     target.push(ko.observable(new Kanai.Equipment("Wraps of Clarity", "Your Hatred Generators reduce your damage taken by 35% for 5 seconds.")));
-                    target.push(ko.observable(new Kanai.Equipment("Frostburn", "Your Cold damage has up to a 45% chance to Freeze enemies.")));
+                    target.push(ko.observable(new Kanai.Equipment("Frostburn", "Cold skills deal 20% increased damage and have a 50% chance to Freeze enemies.")));
                     target.push(ko.observable(new Kanai.Equipment("Gladiator Gauntlets", "After earning a massacre bonus, gold rains from sky.")));
                     target.push(ko.observable(new Kanai.Equipment("Gloves of Worship", "Shrine effects last for 10 minutes.")));
                     target.push(ko.observable(new Kanai.Equipment("St. Archew's Gage", "The first time an elite pack damages you, gain an absorb shield equal to 150% of your maximum Life for 10 seconds.")));
@@ -2161,8 +2161,7 @@
                     target.push(ko.observable(new Kanai.Equipment("Heart of Iron", "Gain Thorns equal to 300% of your Vitality")));
                     target.push(ko.observable(new Kanai.Equipment("Hammer Jammers", "Enemies take 400% increased damage from your Blessed Hammers for 10 seconds after you hit them with a Blind, Immobilize, or Stun")));
                     //2.4.1 armor
-                    target.push(ko.observable(new Kanai.Equipment("Frostburn", "Cold skills deal 15-20% increased damage and have a 50% chance to Freeze enemies.")));
-                    target.push(ko.observable(new Kanai.Equipment("Magefist", "Fire skills deal 15-20% increased damage.")));
+                    target.push(ko.observable(new Kanai.Equipment("Magefist", "Fire skills deal 20% increased damage.")));
                     target.push(ko.observable(new Kanai.Equipment("Bakuli Jungle Wraps", "Firebats deals 200% increased damage to enemies affected by Locust Swarm or Piranhas.")));
                     target.push(ko.observable(new Kanai.Equipment("Swamp Land Waders", "Sacrifice deals 400% additional damage against enemies affected by Locust Swarm or Grasp of the Dead.")));
                     break;
