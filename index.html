@@ -13,7 +13,7 @@
     <script type="text/javascript" src="tscripts/models/restrictions.js"></script>
     <script type="text/javascript" src="tscripts/models/slots.js"></script>
     <script type="text/javascript" src="tscripts/lang.js"></script>
-    <script type="text/javascript" src="tscripts/VM/items.js?v=20160124"></script>
+    <script type="text/javascript" src="tscripts/VM/items.js?v=20160521"></script>
 </head>
 <body>
     <div class="container-fluid">
@@ -32,22 +32,20 @@
                             </p>
                         </div>
                     </div>
-					<div data-bind="visible:(!hasSeenUpdateNotice())" style="display:none">
-						<div class="alert alert-info alert-dismissable fade in" role="alert">
-							<button type="button" class="close" data-dismiss="alert" aria-label="Close" data-bind="click:DontUpdateForNewPatch"><span aria-hidden="true">×</span></button>
-							<p>
-								With the release of patch 2.4, would you like to convert your seasonal items to non-seasonal?
-							</p>
-							<button type="button" class="btn btn-default" data-bind="click:UpdateForNewPatch">Yes</button>
-							<button type="button" class="btn btn-default" data-bind="click:DontUpdateForNewPatch">No.</button>
-						</div>
-					</div>
+                    <div data-bind="visible:(!hasSeenUpdateNotice())" style="display:none">
+                        <div class="alert alert-info alert-dismissable fade in" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close" data-bind="click:DontUpdateForNewPatch"><span aria-hidden="true">×</span></button>
+                            <p>
+                                With the release of patch 2.4.1, would you like to convert your seasonal items to non-seasonal?
+                            </p>
+                            <button type="button" class="btn btn-default" data-bind="click:UpdateForNewPatch">Yes</button>
+                            <button type="button" class="btn btn-default" data-bind="click:DontUpdateForNewPatch">No</button>
+                        </div>
+                    </div>
                     <p data-bind="html:lang.pleaseRead()">
-
                     </p>
                     <p data-bind="html:lang.problem()">
                     </p>
-
 
                     <span id="refreshGrid" class="pull-right cursor-finger" data-bind="attr:{'title':lang.refreshFromSite()}"><i class="glyphicon glyphicon-refresh"></i> <span data-bind="text:lang.refreshFromSite()"></span> </span>
                 </div>
@@ -91,7 +89,6 @@
                                 <a href="#panel-search" data-toggle="tab"></a>
                             </div>
                         </li>
-
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane active" id="panel-armor">
@@ -155,7 +152,6 @@
                                 </thead>
                                 <tbody data-bind="template: {name: 'item-template', foreach:Armor}"></tbody>
                             </table>
-
                         </div>
                         <div class="tab-pane" id="panel-weapons">
                             <div class="row">
@@ -220,7 +216,6 @@
                                 </thead>
                                 <tbody data-bind="template: {name: 'item-template', foreach:Weapons}"></tbody>
                             </table>
-
                         </div>
                         <div class="tab-pane" id="panel-Jewelry">
                             <div class="row">
@@ -283,7 +278,6 @@
                                 </thead>
                                 <tbody data-bind="template: {name: 'item-template', foreach:Jewelry}"></tbody>
                             </table>
-
                         </div>
                         <div id="panel-settings" class="tab-pane">
                             <div class="panel-group" id="settings-accordion" role="tablist" aria-multiselectable="true">
@@ -291,7 +285,6 @@
                                     <div class="panel-heading" role="tab" id="exportHeading">
                                         <h4 class="panel-title">
                                             <a data-bind="text:lang.configure()" role="button" data-toggle="collapse" data-parent="#settings-accordion" href="#seasonal-settings" aria-expanded="false" aria-controls="collapseOne">
-
                                             </a>
                                         </h4>
                                     </div>
@@ -365,7 +358,6 @@
                                     <div class="panel-heading" role="tab" id="importHeading">
                                         <h4 class="panel-title">
                                             <a data-bind="text:lang.import()" class="collapsed" role="button" data-toggle="collapse" data-parent="#settings-accordion" href="#import" aria-expanded="false" aria-controls="collapseTwo">
-
                                             </a>
                                         </h4>
                                     </div>
@@ -392,9 +384,7 @@
                                 </thead>
                                 <tbody data-bind="template: {name: 'item-template', foreach:FilteredArray}"></tbody>
                             </table>
-
                         </div>
-
                     </div>
                 </div>
             </div>

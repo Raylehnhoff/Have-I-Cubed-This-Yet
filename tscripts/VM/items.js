@@ -14,7 +14,7 @@ var Kanai;
                 this.value = value;
             }
             return DropdownListOption;
-        })();
+        }());
         Models.DropdownListOption = DropdownListOption;
     })(Models = Kanai.Models || (Kanai.Models = {}));
     var VM;
@@ -23,6 +23,7 @@ var Kanai;
             function Site() {
                 this.localStorageString = "kanai_cube";
                 var self = this;
+                this.CurrentPatchVersion = "2.4.1";
                 this.Weapons = ko.observableArray();
                 this.Jewelry = ko.observableArray();
                 this.Armor = ko.observableArray();
@@ -39,6 +40,7 @@ var Kanai;
                 this.Export = ko.observable();
                 this.Import = ko.observable();
                 this.Search = ko.observable('').extend({ notify: 'always', rateLimit: 200 });
+                this.UserPatchVersion = ko.observable('');
                 this.FilteredArray = ko.observableArray([]);
                 this.Search.subscribe(function (searchText) {
                     if (searchText && searchText.length >= 2) {
@@ -66,6 +68,11 @@ var Kanai;
                 });
                 this.hasSeenLanguageAlert = ko.observable(false);
                 this.hasSeenUpdateNotice = ko.observable(false);
+                this.hasSeenUpdateNotice.subscribe(function (newVal) {
+                    if (newVal === true) {
+                        self.UserPatchVersion(self.CurrentPatchVersion);
+                    }
+                });
                 this.showLanguageAlert = ko.computed(function () {
                     switch (lang.culture()) {
                         case "de-DE":
@@ -82,8 +89,12 @@ var Kanai;
             }
             Site.prototype.searchArray = function (array, searchText, response) {
                 var res = ko.utils.arrayFilter(array(), function (item) {
-                    var lowerItemName = ko.unwrap(item.itemName).toString().toLowerCase();
-                    var lowerAffix = ko.unwrap(item.affix).toString().toLowerCase();
+                    var lowerItemName, lowerAffix;
+                    if (ko.isObservable(item)) {
+                        item = item();
+                    }
+                    lowerItemName = ko.unwrap(item.itemName).toString().toLowerCase();
+                    lowerAffix = ko.unwrap(item.affix).toString().toLowerCase();
                     return (lowerItemName.indexOf(searchText) !== -1) || (lowerAffix.indexOf(searchText) !== -1);
                 });
                 ko.utils.arrayPushAll(response(), res);
@@ -125,7 +136,6 @@ var Kanai;
                     this.Jewelry.sort(function (left, right) {
                         return left().itemName() == right().itemName() ? 0 : (left().itemName() < right().itemName() ? -1 : 1);
                     });
-                    localStorage.setItem(self.localStorageString, ko.mapping.toJSON(this));
                     $.each(self.Armor(), function (i, elem) {
                         elem().isCubedSeason.subscribe(function (newValue) {
                             self.saveToLocalStorage();
@@ -159,8 +169,22 @@ var Kanai;
                             self.saveToLocalStorage();
                         });
                     });
+                    self.UserPatchVersion = ko.observable(self.CurrentPatchVersion);
+                    self.hasSeenUpdateNotice(true);
+                    localStorage.setItem(self.localStorageString, ko.mapping.toJSON(this));
                 }
                 else {
+                    //This means they have a version of item data that pre-dates 2.4.1
+                    if (!vm.UserPatchVersion) {
+                        self.hasSeenUpdateNotice(false);
+                        self.UserPatchVersion = ko.observable("2.4");
+                    }
+                    else if (vm.UserPatchVersion != self.CurrentPatchVersion) {
+                        self.hasSeenUpdateNotice(false);
+                    }
+                    else {
+                        self.hasSeenUpdateNotice(true);
+                    }
                     if (vm.Jewelery) {
                         if (!self.Jewelry) {
                             self.Jewelry = ko.observableArray();
@@ -359,10 +383,12 @@ var Kanai;
             Site.prototype.UpdateForNewPatch = function () {
                 this.hasSeenUpdateNotice(true);
                 this.ConvertSeasonalToNon();
+                this.UserPatchVersion(this.CurrentPatchVersion);
                 this.saveToLocalStorage();
             };
             Site.prototype.DontUpdateForNewPatch = function () {
                 this.hasSeenUpdateNotice(true);
+                this.UserPatchVersion(this.CurrentPatchVersion);
                 this.saveToLocalStorage();
             };
             Site.prototype.Translate = function () {
@@ -442,6 +468,7 @@ var Kanai;
                 for (var i = 0; i < masterList.length; i++) {
                     if (masterList[i]) {
                         var searchName, item;
+                        debugger;
                         if (typeof (masterList[i]) != 'object') {
                             searchName = masterList[i]().itemName();
                             item = masterList[i]();
@@ -478,8 +505,8 @@ var Kanai;
                         self.Jewelry(importData.Jewelry());
                         self.Armor(importData.Armor());
                         self.Weapons(importData.Weapons());
+                        self.hasSeenUpdateNotice(true);
                         self.checkConsistency();
-                        self.hasSeenUpdateNotice(false);
                         self.saveToLocalStorage();
                     }
                 }
@@ -509,16 +536,19 @@ var Kanai;
                 this.Jewelry = vm.Jewelry;
             };
             Site.prototype.loadArmor = function (target) {
+                target([]);
                 lang.getArmor(target);
             };
             Site.prototype.loadWeapons = function (target) {
+                target([]);
                 lang.getWeapons(target);
             };
             Site.prototype.loadJewelry = function (target) {
+                target([]);
                 lang.getJewelry(target);
             };
             return Site;
-        })();
+        }());
         VM.Site = Site;
     })(VM = Kanai.VM || (Kanai.VM = {}));
 })(Kanai || (Kanai = {}));

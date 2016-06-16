@@ -12,6 +12,6 @@ var Kanai;
             this.isStashed = ko.observable(false);
         }
         return Equipment;
-    })();
+    }());
     Kanai.Equipment = Equipment;
 })(Kanai || (Kanai = {}));
