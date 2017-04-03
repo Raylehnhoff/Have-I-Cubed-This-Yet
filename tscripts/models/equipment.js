@@ -15,3 +15,4 @@ var Kanai;
     }());
     Kanai.Equipment = Equipment;
 })(Kanai || (Kanai = {}));
+//# sourceMappingURL=equipment.js.map
