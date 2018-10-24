@@ -62,13 +62,8 @@ var lang = {
     },
     "problem": function () {
         switch (this.selectedLang()) {
-            case "en-US":
-            case "default":
             default:
-                return "If you notice a problem with this site, please reach out to <a href='http://www.reddit.com/message/compose/?to=smdaegan'>/u/smdaegan</a> on reddit";
-            case "de-DE":
-            case "de":
-                return "Falls Ihnen Probleme mit der Seite auffallen, wenden Sie sich bitte an <a href='http://www.reddit.com/message/compose/?to=smdaegan'>/u/smdaegan</a> auf reddit.";
+                return "This project has been abandoned and will not be updated further.";
         }
     },
     "armor": function () {
