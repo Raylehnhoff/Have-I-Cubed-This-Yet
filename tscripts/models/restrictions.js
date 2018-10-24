@@ -2,6 +2,7 @@ var Kanai;
 (function (Kanai) {
     var Enums;
     (function (Enums) {
+        var Restrictions;
         (function (Restrictions) {
             Restrictions[Restrictions["All"] = 0] = "All";
             Restrictions[Restrictions["Barbarian"] = 1] = "Barbarian";
@@ -10,7 +11,7 @@ var Kanai;
             Restrictions[Restrictions["Monk"] = 4] = "Monk";
             Restrictions[Restrictions["WitchDoctor"] = 5] = "WitchDoctor";
             Restrictions[Restrictions["Wizard"] = 6] = "Wizard";
-        })(Enums.Restrictions || (Enums.Restrictions = {}));
-        var Restrictions = Enums.Restrictions;
+        })(Restrictions = Enums.Restrictions || (Enums.Restrictions = {}));
     })(Enums = Kanai.Enums || (Kanai.Enums = {}));
 })(Kanai || (Kanai = {}));
+//# sourceMappingURL=restrictions.js.map

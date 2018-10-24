@@ -169,13 +169,13 @@ module Kanai {
                     this.loadJewelry(self.Jewelry);
                     this.loadArmor(self.Armor);
                     if (self.AllJewelry().length == 0) {
-                        self.loadJewelry(self.AllJewelry());
+                        self.loadJewelry(self.AllJewelry);
                     }
                     if (self.AllWeapons().length == 0) {
-                        self.loadWeapons(self.AllWeapons());
+                        self.loadWeapons(self.AllWeapons);
                     }
                     if (self.AllArmor().length == 0) {
-                        self.loadArmor(self.AllArmor());
+                        self.loadArmor(self.AllArmor);
                     }
                     this.Weapons.sort(function (left, right) {
                         return left().itemName() == right().itemName() ? 0 : (left().itemName() < right().itemName() ? -1 : 1);
